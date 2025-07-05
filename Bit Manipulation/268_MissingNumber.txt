@@ -1,0 +1,5 @@
+The Logic:
+
+Imagine you have two sets of numbers:
+Set A: All numbers from 0 to n (the complete set).
+Set B: The numbers present in your nums array.

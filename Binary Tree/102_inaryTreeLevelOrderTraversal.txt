@@ -1,0 +1,59 @@
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> main_result;
+        if (!root) return main_result; 
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int levelSize = q.size();           
+            vector<int> result;                  
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* current = q.front();   
+                q.pop();                         
+
+                result.push_back(current->val);  
+
+                if (current->left) q.push(current->left);   
+                if (current->right) q.push(current->right); 
+            }
+
+            main_result.push_back(result);      
+        }
+
+        return main_result;
+    }
+};
+
+
+
+
+| Traversal Type                   | Data Structure       |
+| -------------------------------- | -------------------- |
+| Preorder/Inorder/Postorder (DFS) | Stack (or recursion) |
+| Level Order (BFS)                | Queue                |
+
+
+Stack is LIFO → used for depth-first.
+
+Queue is FIFO → used for breadth-first (level order)
+
+
+
+
+ 3. Using queue in C++
+STL: #include <queue>
+
+Main functions:
+
+q.push(x) → add to queue
+
+q.front() → access first element
+
+q.pop() → remove first element
+
+q.empty() → check if queue is empty
+
+q.size() → number of elements (useful to know level size)

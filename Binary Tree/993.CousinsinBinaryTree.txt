@@ -1,0 +1,93 @@
+class Solution {
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        unordered_map<int, pair<TreeNode*, int>> mpp;  
+        queue<pair<TreeNode*, TreeNode*>> q;           
+        q.push({root, nullptr});
+        int depth = 0;
+
+        while (!q.empty()) {
+            int level = q.size();
+            for (int i = 0; i < level; i++) {
+                auto [current, parent] = q.front();
+                q.pop();
+
+                mpp[current->val] = {parent, depth};
+
+                if (current->left)
+                    q.push({current->left, current});
+                if (current->right)
+                    q.push({current->right, current});
+            }
+            depth++;
+        }
+
+        return (mpp[x].second == mpp[y].second) && (mpp[x].first != mpp[y].first);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+      1
+     / \
+    2   3
+   /
+  4
+🧪 Input:
+Check if x = 4 and y = 3 are cousins.
+
+
+
+🔁 First Level (depth = 0):
+Queue: [{1, nullptr}]
+
+Pop: {1, nullptr}
+
+Store: mpp[1] = {nullptr, 0}
+
+Push children:
+
+{2, 1}
+
+{3, 1}
+
+Queue now: [{2, 1}, {3, 1}]
+Increment depth = 1
+
+
+
+🔁 Second Level (depth = 1):
+Queue: [{2, 1}, {3, 1}]
+
+Pop: {2, 1}
+
+Store: mpp[2] = {1, 1}
+
+Push child {4, 2}
+
+Pop: {3, 1}
+
+Store: mpp[3] = {1, 1}
+
+Queue now: [{4, 2}]
+Increment depth = 2
+
+
+🔁 Third Level (depth = 2):
+Queue: [{4, 2}]
+
+Pop: {4, 2}
+
+Store: mpp[4] = {2, 2}
+
+Queue now: empty
+Done with BFS

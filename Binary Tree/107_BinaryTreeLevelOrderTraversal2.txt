@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> main_result;
+        if (!root) return main_result; 
+
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int levelSize = q.size();           
+            vector<int> result;                  
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* current = q.front();   
+                q.pop();                         
+
+                result.push_back(current->val);  
+
+                if (current->left) q.push(current->left);   
+                if (current->right) q.push(current->right); 
+            }
+
+            main_result.push_back(result);      
+        }
+        reverse(main_result.begin(),main_result.end());
+        return main_result;
+    }
+};
+
+
+
+reverse the level order traversal only this is the concept
+
+
+
+return reverse(main_result.begin(), main_result.end());
+
+❌ Problem:
+std::reverse(...) returns void, not a value.
+
+So you're trying to return void from a function that expects vector<vector<int>>.

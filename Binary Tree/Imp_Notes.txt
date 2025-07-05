@@ -1,0 +1,10 @@
+🧠 What You Got Right (And It's Important!):
+“So one thing I get to learn is that there is no need or never we have to convert a tree into array and just solve as it is.”
+
+✅ Yes! That’s the core idea.
+
+In real-world and competitive programming:
+
+We traverse trees directly via pointers, not arrays.
+
+Converting to an array is only used for special cases (like heaps, segment trees, or serialization).

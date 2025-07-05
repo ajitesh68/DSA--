@@ -1,0 +1,17 @@
+Let's trace your [4,1,2,1,2] example:
+
+The operation is 4 ^ 1 ^ 2 ^ 1 ^ 2.
+
+Since the order doesn't matter, you can think of it as grouping the pairs:
+4 ^ (1 ^ 1) ^ (2 ^ 2)
+
+The pairs cancel out to zero:
+
+(1 ^ 1) becomes 0
+
+(2 ^ 2) becomes 0
+
+
+
+((((((wasnt able to do on own not even build the logic but this is perfect example for showing 
+                canceling out property))))))

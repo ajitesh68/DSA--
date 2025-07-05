@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> result;
+        unordered_map<char, int> mpp1;
+        for (char c : p) {
+            mpp1[c]++;
+        }
+
+        int n = s.size(), k = p.size();
+        if (n < k)
+            return result;
+
+        unordered_map<char, int> mpp2;
+        for (int i = 0; i < k; i++) {
+            mpp2[s[i]]++;
+        }
+
+        if (mpp1 == mpp2)
+            result.push_back(0);
+
+        for (int i = k; i < n; i++) {
+            mpp2[s[i]]++;           
+            mpp2[s[i - k]]--;      
+
+            if (mpp2[s[i - k]] == 0)
+                mpp2.erase(s[i - k]);
+
+            if (mpp2 == mpp1)
+                result.push_back(i - k + 1);
+        }
+
+        return result;
+    }
+};

@@ -1,0 +1,56 @@
+Core Bit Manipulation Techniques
+These are essential for solving problems efficiently:
+
+Check Even/Odd:
+n & 1: LSB is 1 (odd) or 0 (even).
+Example: 6 & 1 = 110 & 001 = 0 (even).
+
+
+Get i-th Bit:
+(n >> i) & 1: Shifts i-th bit to LSB, then checks.
+Example: For n = 5 (101), get 2nd bit: (101 >> 2) & 1 = 1 & 1 = 1.
+
+
+Set i-th Bit:
+n | (1 << i): Creates mask with 1 at i-th position, OR to set.
+Example: Set 1st bit of 5 (101): 101 | 010 = 111 = 7.
+
+
+Clear i-th Bit:
+n & ~(1 << i): Mask with 0 at i-th bit, AND to clear.
+Example: Clear 2nd bit of 5 (101): 101 & 011 = 001 = 1.
+
+
+Toggle i-th Bit:
+n ^ (1 << i): XOR flips the bit.
+Example: Toggle 1st bit of 5 (101): 101 ^ 010 = 111 = 7.
+
+
+Count Set Bits (Hamming Weight):
+Naive: Check each bit with n & 1, right shift, repeat.
+
+Optimized (Brian Kernighan’s):
+
+def countBits(n):
+    count = 0
+    while n:
+        n &= n - 1  # Clear rightmost 1
+        count += 1
+    return count
+Example: 5 (101) → 2 set bits.
+
+Check Power of 2:
+n & (n - 1) == 0 and n != 0: Only one bit is set.
+Example: 8 (1000): 1000 & 0111 = 0 (power of 2).
+
+Rightmost Set Bit:
+n & -n: Isolates rightmost 1.
+Example: 12 (1100): 1100 & ...11100 = 100 = 4.
+
+Clear Last i Bits:
+n & (~0 << i): Mask with 0s in last i bits.
+Example: Clear last 2 bits of 7 (111): 111 & 11100 = 100 = 4.
+
+Masking:
+Extract bits: n & mask (e.g., n & 0xFF gets last 8 bits).
+Set bits: n | mask.

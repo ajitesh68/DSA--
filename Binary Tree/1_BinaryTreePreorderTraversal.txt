@@ -1,0 +1,83 @@
+Preorder = Root → Left → Right
+
+
+🔁 Stack Is LIFO (Last-In-First-Out)
+When you use a stack, the last element you push gets processed first.
+So, to process Left before Right, we have to push Right first!
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+
+        stack<TreeNode*> st;
+        st.push(root);
+
+        while (!st.empty()) {
+            TreeNode* current = st.top();  //In next iteration left node will be on top and hence would act as a root node
+            st.pop();
+            result.push_back(current->val);  // Root
+
+            if (current->right) st.push(current->right); // Right
+            if (current->left) st.push(current->left);   // Left
+        }
+
+        return result;
+    }
+};
+
+
+
+
+
+🔄 What Happens in Stack:
+Let’s say we have a node 10 with:
+
+Left child 5
+
+Right child 15
+
+Stack before processing: [10]
+Pop 10 → Visit 10 (Root)
+
+Push:
+
+15 → right child
+
+5 → left child
+
+Stack now: [15, 5]
+
+Next:
+
+Pop 5 → Visit (Left)
+
+Then pop 15 → Visit (Right)
+
+
+
+
+
+
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        preorder(root, result);
+        return result;
+    }
+    
+    void preorder(TreeNode* root, vector<int>& result) {
+        if (root) {
+            result.push_back(root->val); 
+            preorder(root->left, result); 
+            preorder(root->right, result); 
+        }
+    }
+};
+
+
+this is the recursive method where we going to give preorder traversal again
+again for root->left  before   getting root->right 

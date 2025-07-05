@@ -1,0 +1,82 @@
+🔍 What is Sliding Window?
+The Sliding Window technique involves creating a window (usually a subarray or substring) that slides
+ across the main data structure to examine different parts of it. The size of the window can be 
+ fixed or variable depending on the problem.
+
+🧠 When to Use It?
+Use sliding window when you're asked to:
+
+Find subarrays/substrings that satisfy certain conditions
+
+Find max/min/average/sum of subarrays
+
+Find longest or shortest subarray with some constraint
+
+
+
+🔁 How to Think Sliding Window?
+Ask: Can this problem be solved with subarrays/substrings?
+
+Decide: Fixed size or variable size?
+
+Move the window:
+
+Add the next element (expand right side)
+
+Remove the previous one (shrink left side)
+
+Update result: Based on what the problem is asking (min, max, count, etc.)
+
+
+
+
+
+
+📦 Types of Sliding Window
+1. Fixed Size Window
+The window size is known and constant (e.g., window of size k)
+
+Common use case: find max sum of k consecutive elements.
+
+
+
+2. Variable Size Window
+The window grows or shrinks depending on some condition
+
+Common use case: find the smallest subarray with a sum ≥ target.
+
+
+
+
+
+✅ Basic Template (Fixed Window)
+
+int maxSum(vector<int>& nums, int k) {
+    int max_sum = 0, window_sum = 0;
+    for (int i = 0; i < k; i++) {
+        window_sum += nums[i];
+    }
+    max_sum = window_sum;
+
+    for (int i = k; i < nums.size(); i++) {
+        window_sum += nums[i] - nums[i - k];
+        max_sum = max(max_sum, window_sum);
+    }
+    return max_sum;
+}
+✅ Basic Template (Variable Window)
+
+int minLengthSubarray(vector<int>& nums, int target) {
+    int start = 0, sum = 0, min_len = INT_MAX;
+
+    for (int end = 0; end < nums.size(); end++) {
+        sum += nums[end];
+
+        while (sum >= target) {
+            min_len = min(min_len, end - start + 1);
+            sum -= nums[start];
+            start++;
+        }
+    }
+    return min_len == INT_MAX ? 0 : min_len;
+}

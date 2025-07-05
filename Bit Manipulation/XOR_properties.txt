@@ -1,0 +1,19 @@
+We need to solve for a1. How can we do that?
+
+Recall that XOR has some useful properties:
+
+A XOR A = 0
+
+A XOR 0 = A
+
+XOR is associative and commutative.
+
+If A XOR B = C, then A XOR C = B and B XOR C = A.
+
+Given e0 = a0 XOR a1, we can XOR both sides with a0:
+a0 XOR e0 = a0 XOR (a0 XOR a1)
+a0 XOR e0 = (a0 XOR a0) XOR a1 (by associativity)
+a0 XOR e0 = 0 XOR a1
+a0 XOR e0 = a1
+
+So, a1 = a0 XOR e0.
