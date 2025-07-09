@@ -17,3 +17,26 @@ a0 XOR e0 = 0 XOR a1
 a0 XOR e0 = a1
 
 So, a1 = a0 XOR e0.
+
+
+
+
+✅ The 4 Core XOR Properties You Must Know:
+These are like the “laws of physics” for XOR — every XOR problem relies on them.
+
+Property	Meaning
+a ^ a = 0	Any number XOR itself is 0
+a ^ 0 = a	Any number XOR 0 stays the same
+XOR is commutative	a ^ b = b ^ a
+XOR is associative	(a ^ b) ^ c = a ^ (b ^ c)
+
+💡 That’s all the math — the rest is insight and pattern recognition.
+Let me give you a simple breakdown:
+
+🧠 You only need these 4 XOR facts...
+But:
+
+🔍 To solve problems, you have to spot:
+What values are cancelling each other (a ^ a = 0)
+What value is left over (0 ^ x = x)
+How to rearrange XORs (thanks to associativity)

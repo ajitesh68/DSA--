@@ -1,0 +1,14 @@
+✅ Common Fix:
+You must resize the vector before assigning to an index.
+
+
+❌ Wrong:
+
+vector<int> perm;
+perm[0] = 5; // ❌ runtime error: out-of-bounds on empty vector
+
+
+✅ Right:
+
+vector<int> perm(n); // properly allocate size n
+perm[0] = 5; // ✅ safe

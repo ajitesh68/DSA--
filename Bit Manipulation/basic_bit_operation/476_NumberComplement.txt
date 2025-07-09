@@ -1,0 +1,21 @@
+was able to think how to solve and also configure the logic but took some help in clarification
+
+
+
+
+class Solution {
+public:
+    int findComplement(int num) {
+        int back = num;
+        int ind_msb = 0;
+        while(num > 1){
+            num = num >> 1;
+            ind_msb++;
+        }
+        int mask = 0;
+        for(int i = 0; i<=ind_msb; i++){
+            mask = (mask << 1) | 1;
+        }
+        return (back ^ mask);
+    }
+};

@@ -1,0 +1,31 @@
+was able to do this on own but unaware of this MOD fnc 
+but still this is not fine code not working for huge test cases
+
+
+class Solution {
+public:
+    const int MOD = 1e9 + 7;
+
+    int countGoodNumbers(long long n) {
+        long long value = 1;
+        long long even = (n + 1) / 2;
+        long long odd = n / 2;
+        helper_even(even, value);
+        helper_odd(odd, value);
+        return value % MOD;
+    }
+
+    void helper_even(long long even, long long& value) {
+        if (even == 0)
+            return;
+        value = (value * 5) % MOD;
+        helper_even(even - 1, value);
+    }
+
+    void helper_odd(long long odd, long long& value) {
+        if (odd == 0)
+            return;
+        value = (value * 4) % MOD;
+        helper_odd(odd - 1, value);
+    }
+};
