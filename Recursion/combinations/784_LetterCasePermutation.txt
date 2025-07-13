@@ -1,0 +1,41 @@
+A
+ 
+
+Problem 784 (Letter Case):
+Each letter has exactly 2 options: lowercase and uppercase.
+
+So you just make two recursive calls:
+
+recurse_with(tolower(ch));
+recurse_with(toupper(ch));
+👉 No for loop needed — it's always just 2 fixed branches.
+
+
+
+
+class Solution {
+public:
+    vector<string> letterCasePermutation(string s) {
+        vector<string> result;
+        helper(s, result, "", 0);
+        return result;
+    }
+
+    void helper(string s, vector<string>& result, string set, int i) {
+        if (set.size() == s.size()) {
+            result.push_back(set);
+            return;
+        }
+
+        char letter = s[i];
+        if (isalpha(letter)) {
+
+            helper(s, result, set + (char)tolower(letter), i + 1);
+            helper(s, result, set + (char)toupper(letter), i + 1);
+        } else {
+
+            helper(s, result, set + letter, i + 1);
+        }
+    }
+};
+

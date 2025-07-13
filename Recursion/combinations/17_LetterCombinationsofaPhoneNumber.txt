@@ -1,0 +1,28 @@
+A
+
+
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> result;
+        if(digits == "")return {};
+        map<char, string> m = {{'2', "abc"}, {'3', "def"}, {'4', "ghi"},
+                               {'5', "jkl"}, {'6', "mno"}, {'7', "pqrs"},
+                               {'8', "tuv"}, {'9', "wxyz"}};
+
+        helper(digits, 0, result, m, "");
+        return result;
+    }
+    void helper(string digits, int i, vector<string>& result, map<char, string> m,
+           string s) {
+        if (digits.size() == s.size()) {
+            result.push_back(s);
+            return;
+        }
+        char digit = digits[i];
+        string s2 = m[digit];
+        for (char c : s2) {
+            helper(digits, i + 1, result, m, s + c);
+        }
+    }
+};

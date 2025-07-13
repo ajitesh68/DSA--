@@ -1,0 +1,33 @@
+✅ The Correct Way to Check Previous Character:
+Use:
+ans.back()
+This always gives the last added character in the current string ans.
+
+
+
+class Solution {
+public:
+    string getHappyString(int n, int k) {
+        vector<char> c = {'a', 'b', 'c'};
+        vector<string> result;
+        helper(n, result, "", c);
+        if (k - 1 >= result.size())
+            return "";
+        return result[k - 1];
+    }
+    void helper(int n, vector<string>& result, string ans, vector<char> c) {
+        if (ans.size() == n) {
+            result.push_back(ans);
+            return;
+        }
+        for (int i = 0; i < c.size(); i++) {
+            if (ans.size() == 0) {
+                helper(n, result, ans + c[i], c);
+            } else {
+                if (c[i] != ans[ans.size() - 1]) {
+                    helper(n, result, ans + c[i], c);
+                }
+            }
+        }
+    }
+};

@@ -1,0 +1,73 @@
+B
+
+
+These problems ask you to build or explore all possible valid answers from a given set of inputs.
+
+
+🧩  Common Backtracking Template
+
+void backtrack(…) {
+    if (base case condition) {
+        store/return solution
+        return;
+    }
+
+    for (choice in all choices) {
+        make choice
+        backtrack(next state)
+        undo choice (backtrack)
+    }
+}
+
+
+
+🔁 What is Backtracking?
+Backtracking = try a path → explore deeper → backtrack to try another path
+
+Think of it like:
+
+
+DFS tree:
+
+        []
+      / | \
+     1  2  3   ← loop: trying each option
+    |
+   [1]
+   /  \
+  2    3   ← go deeper
+
+You always:
+
+Choose an option
+Go deeper (recursive call)
+Remove the option (backtrack) and try another
+
+
+
+
+
+
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        vector<int> set;
+        helper(n, k, result, set, 1);
+        return result;
+    }
+    void helper(int n, int k, vector<vector<int>>& result, vector<int> set,
+                int start) {
+        if (set.size() == k) {
+            result.push_back(set);
+            return;
+        }
+        for(int i = start; i<=n; i++){
+            set.push_back(i);
+            helper(n, k, result, set, i + 1);
+            set.pop_back();
+        }
+        
+        
+    }
+};
