@@ -1,0 +1,29 @@
+✅ 1. Preorder (Node → Left → Right)
+You use Preorder when:
+You need to do something at the current node first, like:
+Counting nodes
+Adding to a path
+Pushing to a result before recursion
+
+✅ 2. Inorder (Left → Node → Right)
+You use Inorder when:
+You're working with BSTs and want elements in sorted order.
+You want to do something in a linear/ordered way, like:
+Validating BST property
+Getting kth smallest/largest element in BST
+
+✅ 3. Postorder (Left → Right → Node)
+You use Postorder when:
+You need to compute something based on results from both children, such as:
+Height of a tree ✅
+Diameter of a tree
+Evaluating expression trees
+Deleting nodes (clean up from leaves up)
+
+
+
+🔥 Final Pro Tip:
+In tree problems:
+If you’re collecting a path, counting depth during walk → likely Preorder
+If you’re deciding based on child results (like max/min) → use Postorder
+Inorder is mostly for BST-specific or sorted output tasks

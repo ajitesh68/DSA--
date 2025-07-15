@@ -1,0 +1,53 @@
+🎓 Pro Tip to Think Like a Pro:
+When you see a recursive problem, ask:
+
+✅ "Am I trying to build paths or combinations?"
+Use backtracking template.
+✅ "Am I trying to calculate a value (e.g. count, min, max)?"
+Use recursive breakdown or memoization.
+✅ "Do I need to generate all possibilities and check constraints?"
+Use backtracking with pruning.
+
+
+
+
+🪜 First, What is the "Basic Backtracking Template"?
+Here’s the classic recursive + backtracking pattern:
+
+void backtrack(vector<int>& path, int index) {
+    if (base case) {
+        result.push_back(path);
+        return;
+    }
+
+    for (int i = index; i < choices.size(); i++) {
+        // 1. Make a choice
+        path.push_back(choices[i]);
+
+        // 2. Explore
+        backtrack(path, i + 1);  // or i or 0 depending on the problem
+
+        // 3. Undo the choice
+        path.pop_back();
+    }
+}
+
+
+
+
+✅ Category A: Perfect for Backtracking
+These problems are about:
+
+Exploring all possible valid configurations, often with constraints, choices, and the need to undo.
+
+| Problem Type                        | Example Problem                   | Can Use Backtracking? | Key Features                      |
+| ----------------------------------- | --------------------------------- | --------------------- | --------------------------------- |
+| Subsets                             | Generate all subsets of a set     | ✅ YES                 | Include/Exclude logic             |
+| Combinations                        | Choose k numbers from n           | ✅ YES                 | Use index + loop                  |
+| Permutations                        | All orderings of elements         | ✅ YES                 | Try all unused elements           |
+| Palindrome Partitioning             | Partition string into palindromes | ✅ YES                 | Check prefix + recurse            |
+| N-Queens                            | Place N queens on board safely    | ✅ YES                 | Constraints + recursive placement |
+| Sudoku Solver                       | Fill board satisfying rules       | ✅ YES                 | Try all valid digits              |
+| Word Search                         | Search word in grid paths         | ✅ YES                 | DFS + mark visited                |
+| Combination Sum                     | Subsets that sum to target        | ✅ YES                 | Backtrack when sum > target       |
+| Letter Combinations of Phone Number | Map digits to letters             | ✅ YES                 | Explore all char combinations     |

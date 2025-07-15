@@ -1,0 +1,43 @@
+A
+
+
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == NULL)return 0;
+        int cnt;
+        int maxi = 0;
+        helper(root,0,maxi);
+        return maxi + 1;
+    }
+    void helper(TreeNode* root,int cnt,int& maxi){
+        if(!root){ 
+            return;
+        }
+        maxi = max(cnt,maxi);
+        if(root->left)helper(root->left,cnt+1,maxi);
+        if(root->right)helper(root->right,cnt+1,maxi);
+        
+    }
+};
+
+
+Preorder:-(suits best for this)
+
+int maxDepth(TreeNode* root) {
+    if (!root) return 0;
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+    return 1 + max(left, right);
+}
+
+
+
+| Traversal     | Approach                     | Meaningful for Max Depth? | When to Use It                             |
+| ------------- | ---------------------------- | ------------------------- | ------------------------------------------ |
+| **Postorder** | Return value from children   | ✅ Best fit                | When you need result from left/right first |
+| **Preorder**  | Track depth while going down | ✅ Valid                   | When depth tracking / side effects needed  |
+| **Inorder**   | Visit in between left/right  | ❌ Not useful here         | Use mostly for BST or value order          |
+
+

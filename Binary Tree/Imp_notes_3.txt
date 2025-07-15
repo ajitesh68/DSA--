@@ -1,0 +1,40 @@
+🤔 What about “Include/Exclude” method?
+That’s also specific to recursion-based choice problems, like:
+
+void helper(index, currentSum) {
+    // Include current element
+    helper(index + 1, currentSum + arr[index]);
+
+    // Exclude current element
+    helper(index + 1, currentSum);
+}
+But in binary trees, we don’t have a concept of “include/exclude”.
+We just:
+Go left
+Go right
+
+
+
+🔥 Pro Tip to Remember:
+If you're exploring a tree/graph and not undoing steps — it’s just DFS.
+If you're trying all combinations or paths, and need to undo after recursion, it’s backtracking.
+
+
+
+
+✅ Backtracking means:
+You make a choice → go forward → undo that choice → try another choice.
+
+Used in:
+Subsets
+Permutations
+N-Queens
+Combination sum
+Palindromic partitions
+
+🟥 But in your case:
+There’s no undo step.
+You're not excluding or reversing any state.
+No multiple choices to explore.
+So you are NOT doing backtracking.
+

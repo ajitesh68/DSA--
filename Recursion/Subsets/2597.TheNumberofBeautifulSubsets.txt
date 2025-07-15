@@ -1,0 +1,95 @@
+B
+
+
+// class Solution {
+// public:
+//     int beautifulSubsets(vector<int>& nums, int k) {
+//         vector<vector<int>> result;
+//         vector<int> arr;
+//         int index;
+//         sort(nums.begin(),nums.end());
+//         helper(nums, k, result, arr, 0);
+//         return result.size()-1;
+//     }
+//     void helper(vector<int>& nums, int k, vector<vector<int>>& result,
+//                 vector<int>& arr, int index) {
+//         if (index == nums.size()) {
+//             result.push_back(arr);
+//             return;
+//         }
+//         for (int i = index; i < nums.size(); i++) {
+
+//         if (find(arr.begin(), arr.end(), (nums[i] - k)) == arr.end()) {
+//             arr.push_back(nums[i]);
+//             helper(nums, k, result, arr, index + 1);
+//             arr.pop_back();
+//         }
+//         else{
+//             helper(nums, k, result, arr, index + 1);
+//         }
+//      }
+// }
+// };
+
+
+
+class Solution {
+public:
+    int beautifulSubsets(vector<int>& nums, int k) {
+        vector<vector<int>> result;
+        vector<int> arr;
+        sort(nums.begin(), nums.end());
+        helper(nums, k, result, arr, 0);
+        return result.size();
+    }
+
+    void helper(vector<int>& nums, int k, vector<vector<int>>& result,
+                vector<int>& arr, int index) {
+        if (!arr.empty()) {
+            result.push_back(arr);
+        }
+
+        for (int i = index; i < nums.size(); i++) {
+
+            if (find(arr.begin(), arr.end(), nums[i] - k) == arr.end()) {
+
+                arr.push_back(nums[i]);
+                helper(nums, k, result, arr, i + 1);
+                arr.pop_back();
+            } 
+        }
+    }
+};
+
+
+INCLUDE AND EXCLUDE METHOD :-
+
+class Solution {
+public:
+    int beautifulSubsets(vector<int>& nums, int k) {
+        vector<vector<int>> result;
+        vector<int> arr;
+        sort(nums.begin(), nums.end());
+        helper(nums, k, result, arr, 0);
+        return result.size() - 1; // Subtract 1 for empty subset
+    }
+
+    void helper(vector<int>& nums, int k, vector<vector<int>>& result,
+                vector<int>& arr, int index) {
+        if (index == nums.size()) {
+            if(!arr.empty())
+               result.push_back(arr);
+            return;
+        }
+
+        // Exclude current number
+        helper(nums, k, result, arr, index + 1);
+
+        // Include current number if it doesn't violate the k rule
+        if (find(arr.begin(), arr.end(), nums[index] - k) == arr.end()) {
+            arr.push_back(nums[index]);
+            helper(nums, k, result, arr, index + 1);
+            arr.pop_back(); // backtrack
+        }
+    }
+};

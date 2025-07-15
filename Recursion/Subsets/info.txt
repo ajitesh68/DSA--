@@ -1,0 +1,73 @@
+Base Condition Handling
+The most common base case:
+
+if (index == nums.size()) {
+   ans.push_back(subset);
+   return;
+}
+This means: when you’ve decided include/exclude for every element, store your subset.
+ 
+Example:
+If nums = [1, 2, 3], and we reach:
+
+index = 3 (end of array), currentSubset = [1,3]
+That means [1,3] is one valid subset → we save it.
+
+
+
+
+
+For-Loop Based Recursion (to avoid duplicates and for combinations)
+Some subset problems use a loop inside recursion:
+
+for (int i = index; i < nums.size(); i++) {
+    // pick nums[i]
+    // recurse with i+1
+    // undo the choice
+}
+Useful when you want combinations or unique subsets.
+Helps avoid repetition and unnecessary branches.
+
+
+
+
+
+
+Difference Between Subsets, Subarrays, Combinations, Permutations
+Understand:
+
+Subset: Can skip elements, not necessarily contiguous
+Subarray: Must be contiguous
+Combination: Select items, order doesn’t matter
+Permutation: Select + reorder items
+
+
+
+
+
+
+
+Include / Exclude Decision Pattern
+This is the fundamental technique for generating subsets.
+
+At each element in the array, you choose one of two options:
+Include the current element in your subset
+Don’t include it (skip it)
+
+🧠 Code Skeleton:
+void generate(int index, vector<int>& nums, vector<int>& subset) {
+    if (index == nums.size()) {
+        print(subset);  // base case: all decisions made
+        return;
+    }
+    // Include nums[index]
+    subset.push_back(nums[index]);
+    generate(index + 1, nums, subset);
+
+    // Backtrack (undo the include)
+    subset.pop_back();
+
+    // Exclude nums[index]
+    generate(index + 1, nums, subset);
+}
+This include/exclude pattern is what builds the recursive tree you saw above.

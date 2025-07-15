@@ -1,0 +1,24 @@
+✅ 1. Record at the end of recursion (index == nums.size())
+This style waits until recursion finishes exploring all elements, like this:
+
+if (index == nums.size()) {
+    if (arr.size() >= 2) result.push_back(arr); // record valid subset
+    return;
+}
+✅ You use this when:
+You're exploring include/exclude decisions (classic backtracking) — it's a binary tree structure.
+
+
+
+
+
+✅ 2. Record as soon as condition is met (arr.size() >= 2)
+This style records a valid subsequence as soon as it's long enough, and keeps exploring further.
+
+if (arr.size() >= 2) {
+    resultSet.insert(arr); // or result.push_back(arr)
+}
+
+✅ You use this when:
+You're doing a "for loop style" recursion, trying all choices from i = index onward, like:
+for (int i = index; i < nums.size(); i++)
