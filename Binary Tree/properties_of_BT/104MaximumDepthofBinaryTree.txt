@@ -32,6 +32,9 @@ int maxDepth(TreeNode* root) {
     return 1 + max(left, right);
 }
 
+🧠 Think Like This:
+“The depth of the current node is just 1 + max(left subtree depth, right subtree depth).
+
 
 
 | Traversal     | Approach                     | Meaningful for Max Depth? | When to Use It                             |

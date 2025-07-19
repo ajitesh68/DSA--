@@ -1,5 +1,7 @@
 A
 
+Here I missed the condition where if(sum>target) 
+
 this problem tell how to remove duplicates using start variable 
 
 class Solution {

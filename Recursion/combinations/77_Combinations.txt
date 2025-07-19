@@ -1,5 +1,6 @@
 B
 
+first time exploring this type of logic.
 
 These problems ask you to build or explore all possible valid answers from a given set of inputs.
 

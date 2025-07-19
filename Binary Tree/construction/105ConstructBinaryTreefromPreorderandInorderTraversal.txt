@@ -1,0 +1,100 @@
+B
+
+
+🔹 High-Level Approach
+Keep a pointer (or index) in the preorder array (preIndex) to track the current root.
+Use the inorder array to split into left and right subtrees using the root value.
+
+Recursively:
+Build left subtree from left part of inorder
+Build right subtree from right part of inorder
+
+
+
+
+🔹 Dry Run on Sample Input
+preorder = [3, 9, 20, 15, 7]
+inorder  = [9, 3, 15, 20, 7]
+We also build:
+
+inorderMap = {
+  9: 0,
+  3: 1,
+  15: 2,
+  20: 3,
+  7: 4
+}
+
+
+Step-by-step dry run:
+
+1️⃣ preIndex = 0 → preorder[0] = 3
+This is the root
+inorder index of 3 is 1
+Left subtree: inorder[0:0] → [9]
+Right subtree: inorder[2:4] → [15, 20, 7]
+
+2️⃣ Build left of 3:
+preIndex = 1 → preorder[1] = 9
+Root of left subtree
+inorder index of 9 is 0
+Left and Right subtree of 9 are both empty → return node(9)
+
+3️⃣ Build right of 3:
+preIndex = 2 → preorder[2] = 20
+Root of right subtree
+inorder index of 20 is 3
+Left: inorder[2:2] → [15]
+Right: inorder[4:4] → [7]
+
+4️⃣ Left of 20:
+preIndex = 3 → preorder[3] = 15
+inorder index = 2
+No children → return node(15)
+
+5️⃣ Right of 20:
+preIndex = 4 → preorder[4] = 7
+inorder index = 4
+No children → return node(7)
+
+
+
+        3
+       / \
+      9   20
+          / \
+        15   7
+
+
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int, int> inorderMap;
+        for (int i = 0; i < inorder.size(); ++i)
+            inorderMap[inorder[i]] = i;
+
+        int preIndex = 0;
+        return helper(preorder, inorderMap, preIndex, 0, inorder.size() - 1);
+    }
+
+    TreeNode* helper(vector<int>& preorder, unordered_map<int, int>& inorderMap,
+                     int& preIndex, int inStart, int inEnd) {
+        if (inStart > inEnd) return nullptr;
+
+        int rootVal = preorder[preIndex++];
+        TreeNode* root = new TreeNode(rootVal);
+
+        int inIndex = inorderMap[rootVal];
+
+        root->left = helper(preorder, inorderMap, preIndex, inStart, inIndex - 1);
+        root->right = helper(preorder, inorderMap, preIndex, inIndex + 1, inEnd);
+
+        return root;
+    }
+};
+
+
+✅ One-Liner Summary
+“At each step, pick root from preorder, find it in inorder to split into left/right,
+ then repeat the process recursively.”

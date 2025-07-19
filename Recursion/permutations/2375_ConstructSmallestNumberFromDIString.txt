@@ -1,0 +1,82 @@
+B 
+
+
+I was able to all permutations task but in helper function was not able to frame one condition
+if (sub.empty() || 
+               (pattern[sub.size() - 1] == 'I' && i > (sub.back() - '0')) ||
+               (pattern[sub.size() - 1] == 'D' && i < (sub.back() - '0')))
+
+    else my whole code was on the right.
+
+while working with string we should use s.size() or s.back() instead of variabls. 
+
+
+
+
+class Solution {
+public:
+    string smallestNumber(string pattern) {
+        string sub;
+        int mini = INT_MAX;
+        map<int, bool> visited;
+        for (int i = 1; i < pattern.size() + 1; i++) {
+            visited[i] = false;
+        }
+        helper(pattern, mini, "", visited);
+        return to_string(mini);
+    }
+    // void helper(string pattern, int& mini, string sub, map<int, bool>
+    // visited) {
+    //     if (sub.size() == pattern.size() + 1) {
+    //         int num = stoi(sub);
+    //         mini = min(mini, num);
+    //         return;
+    //     }
+
+    //     for (int i = 1; i < pattern.size() + 1; i++) {
+    //         if (pattern[i - 1] == 'I') {
+    //             if (!visited[i] && pattern[i] > pattern[i - 1])
+    //                 sub += (i + '0');
+    //             else
+    //                 continue;
+    //             visited[i] = true;
+    //             helper(pattern, mini, sub, visited);
+    //             sub.pop_back();
+    //             visited[i] = false;
+
+    //         } else {
+
+    //                 if (!visited[i] && pattern[i] > pattern[i - 1])
+    //                     sub += (i + '0');
+    //                 else
+    //                     continue;
+    //                 visited[i] = true;
+    //                 helper(pattern, mini, sub, visited);
+    //                 sub.pop_back();
+    //                 visited[i] = false;
+    //             }
+    //         }
+    //     }
+    void helper(string& pattern, int& mini, string sub, map<int,bool> visited) {
+        if (sub.size() == pattern.size() + 1) {
+            int num = stoi(sub);
+            mini = min(mini, num);
+            return;
+        }
+
+        for (int i = 1; i <= 9; ++i) {
+            if (visited[i]) continue;
+
+            if (sub.empty() || 
+               (pattern[sub.size() - 1] == 'I' && i > (sub.back() - '0')) ||
+               (pattern[sub.size() - 1] == 'D' && i < (sub.back() - '0'))) {
+
+                sub += (i + '0');
+                visited[i] = true;
+                helper(pattern, mini, sub, visited);
+                sub.pop_back();
+                visited[i] = false;
+            }
+        }
+    }
+};

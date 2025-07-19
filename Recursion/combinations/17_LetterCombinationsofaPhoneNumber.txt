@@ -1,5 +1,6 @@
 A
 
+was able do it on own but it take me alot of time to come to that loop part 
 
 class Solution {
 public:

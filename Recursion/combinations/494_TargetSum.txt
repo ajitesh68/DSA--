@@ -1,24 +1,32 @@
 B
 
+
+
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        int cnt;
-        long it;
-        int i;
-        int sum;
-        helper(nums, target, 0, 0, 1, 1);
-        return cnt;
+        int count = 0;
+        // Start the recursion from the first element (index 0) with an initial sum of 0.
+        helper(nums, target, 0, 0, count);
+        return count;
     }
-    void helper(vector<int>& nums, int target,int sum,int cnt,int i,long it) {
-        if (i == nums.size()) {
-            if (target == sum)
-                cnt++;
-            return;
 
+private:
+    // Pass 'count' by reference so its changes are permanent.
+    void helper(vector<int>& nums, int target, int index, long long currentSum, int& count) {
+        // Base case: If we've processed all numbers...
+        if (index == nums.size()) {
+            // ...check if the final sum matches the target.
+            if (currentSum == target) {
+                count++;
+            }
+            return;
         }
-        helper(nums,target,sum+nums[i],cnt, i+1,it+1);
-        helper(nums,target,sum-nums[i],cnt, i+1,it+1);
+
+        // Recursive step 1: Explore the path where we ADD the current number.
+        helper(nums, target, index + 1, currentSum + nums[index], count);
+
+        // Recursive step 2: Explore the path where we SUBTRACT the current number.
+        helper(nums, target, index + 1, currentSum - nums[index], count);
     }
 };
-

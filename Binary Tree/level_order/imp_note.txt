@@ -1,0 +1,15 @@
+No, Level Order Traversal is not done using recursion by default.
+
+
+🧠 Why?
+Level order means visiting nodes level-by-level, from top to bottom.
+This is naturally handled by a queue, which processes elements in the order they were added (FIFO).
+Recursion is inherently depth-first, not level-by-level.
+
+
+🔁 But Can Level Order Be Done Recursively?
+Yes! But it's more complex and not interview-friendly.
+It involves:
+Computing height of the tree
+For each level from 1 to height, calling a recursive function to print that level
+That’s inefficient (O(n²)) and not commonly used.

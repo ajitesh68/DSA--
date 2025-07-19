@@ -1,0 +1,40 @@
+A+
+
+here I have done almost everything on my own but I was missing that loop condition where 
+in permutations we start from 0 but later I identify my mistake and corrected it .
+
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> arr;
+        map<int,bool> visited;
+        int index;
+        for(int i=0;i<nums.size();i++){
+            visited[nums[i]] = false;
+        }
+        helper(nums,result,arr,visited);
+        return result;
+    }
+    void helper(vector<int>& nums,vector<vector<int>>& result,vector<int> arr,map<int,bool> visited){
+        if(arr.size()==nums.size()){
+            result.push_back(arr);
+            return;
+        }
+
+        for(int i=0;i<nums.size();i++){
+            
+            if(!visited[nums[i]])arr.push_back(nums[i]);
+            else continue;
+            visited[nums[i]]=true;
+            helper(nums,result,arr,visited);
+            arr.pop_back();
+            visited[nums[i]]=false;
+            //helper(nums,result,arr,i-1,visited);
+            
+        }
+
+    }
+
+};

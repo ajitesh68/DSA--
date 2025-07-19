@@ -1,0 +1,37 @@
+A+
+
+
+A helper function is a function that performs a specific part of a task for another,
+Its main job is to make the primary function's code simpler, cleaner, and easier to understand.
+
+
+
+The reason we use helper functions isn't about doing something different,
+but about doing it smarter and cleaner, especially as your projects get bigger.
+Think of it as the difference between putting all your 
+clothes in one giant pile on the floor versus organizing them in a dresser with different drawers. 👕👖
+
+
+
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if(!root)return 0;
+        int cnt = 0;
+        helper(root, cnt);
+        return cnt + 1;
+    }
+    void helper(TreeNode* root, int& cnt) {
+        if (root == NULL)
+            return;
+
+        if (root->left){
+            cnt++;
+            helper(root->left, cnt);
+        }
+        if (root->right){
+            cnt++;
+            helper(root->right, cnt);
+        }
+    }
+};

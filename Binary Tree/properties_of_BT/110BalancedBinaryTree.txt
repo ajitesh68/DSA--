@@ -1,0 +1,77 @@
+A
+
+WRONG METHOD:-
+class Solution {
+public:
+bool isBalanced(TreeNode* root) {
+    if (root == NULL) return 0;
+
+    int left_depth = helper(root->left);
+    int right_depth = helper(root->right);
+
+
+    if (abs(left_depth - right_depth) > 1) {
+        return false;
+    }
+
+    return true;
+}
+};
+
+Earlier I was doing this and I know where I was wrong in this(as node changes its track also set to zero) 
+
+
+//Importance of helper function 
+
+
+bool isBalanced(TreeNode* root) {
+    bool flag = true;
+    helper(root, flag);
+    return flag;
+}
+
+int helper(TreeNode* root, bool &flag) {
+    if (root == NULL) return 0;
+
+    int left_depth = helper(root->left, flag);
+    int right_depth = helper(root->right, flag);
+
+    if (abs(left_depth - right_depth) > 1) {
+        flag = false;
+    }
+
+    return max(left_depth, right_depth) + 1;
+}
+
+
+
+
+
+class Solution {
+public:
+void helper(TreeNode* root, int& depth, bool &flag) {
+    if (root == NULL) {
+        depth = 0;
+        return;
+    }
+
+    int left_depth = 0, right_depth = 0;
+
+    helper(root->left, left_depth, flag);
+    
+    helper(root->right, right_depth, flag);
+
+    if (abs(left_depth - right_depth) > 1) {
+        flag = false;
+    }
+
+    depth = max(left_depth, right_depth) + 1;
+}
+
+bool isBalanced(TreeNode* root) {
+    bool flag = true;
+    int depth = 0;
+    helper(root, depth, flag);
+    return flag;
+}
+};
