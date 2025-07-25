@@ -1,0 +1,23 @@
+A+
+
+just a simple binary search problem involve int to char consversion or vice versa
+
+
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        int low = 0;
+        int high = letters.size()-1;
+        int mid;
+        int asta = (int)target;
+        int asch;
+        while(low<=high){
+            mid = (high+low)/2;
+            asch = (int)letters[mid];
+            if(asch > asta) high= high-1;
+            if(asch <= asta) low = mid + 1;
+        }
+        if(mid==letters.size()-1 && asch<=asta)return letters[0]; 
+        else return (char)asch;
+    }
+};

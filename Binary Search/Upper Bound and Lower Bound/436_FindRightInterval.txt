@@ -1,0 +1,42 @@
+A+
+
+
+This was really an achievement as it was not a simple problem requires to think a bit different here 
+but somehow I made an approach and it really worked.
+
+The best part that I wrote the whole code on own and it worked at first go.
+
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        vector<int> result;
+        map<vector<int>, int> mpp;
+        vector<vector<int>> intervals2 = intervals;
+        sort(intervals2.begin(),intervals2.end());
+        for(int i=0; i<intervals.size();i++){
+            mpp[intervals[i]]=i;
+        }
+        for(int i=0;i<intervals.size();i++){
+            int low = 0;
+            int high = intervals.size()-1;
+            int mid;
+            int index;
+            bool flag=false;
+            while(low<=high){
+                mid = low + (high-low)/2;
+                if(intervals2[mid][0]>=intervals[i][1]){
+                    // result.push_back(mpp[intervals2[mid]]);
+                    index = mpp[intervals2[mid]];
+                    flag = true;
+                    high = mid - 1;
+                }
+                else low = mid + 1;
+            }
+            if(flag)result.push_back(index);
+            else result.push_back(-1);
+        }
+        return result;
+    }
+};
+
+

@@ -1,0 +1,56 @@
+A+
+
+
+similar as "Longest Subsequence With Limited Sum" 
+
+uses the prefix sum property 
+
+
+
+
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        vector<long long> prefix;  
+        long long sum = 0;
+        for (int i = 1; i <= 1e5; ++i) {
+            sum += i;
+            prefix.push_back(sum);
+        }
+
+        int low = 0, high = prefix.size() - 1;
+        int ans = 0;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (prefix[mid] <= n) {
+                ans = mid + 1;  
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+OPTIMAL APPROACH(this is not my approach I saw it and just paste it here)
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        
+        long long nn = (long long)n;
+        return (int)((sqrt(8 * nn + 1) - 1) / 2);
+    }
+};

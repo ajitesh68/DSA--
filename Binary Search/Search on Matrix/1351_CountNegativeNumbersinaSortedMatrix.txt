@@ -1,0 +1,68 @@
+A+
+
+This is not optimal but involve binary search.
+
+My code:-
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int total = 0;
+        for (int i = 0; i < grid.size(); i++) {
+            sort(grid[i].begin(), grid[i].end());
+
+            if (grid[i][grid[i].size() - 1] < 0) {
+                total += grid[i].size();
+                continue;
+            }
+            int low = 0;
+            int high = grid[i].size();
+            int index = 0;
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (grid[i][mid] < 0) {
+                    index = mid + 1;
+                    low = mid + 1;
+                }
+                else high = mid-1;
+            }
+            total += index;
+        }
+        return total;
+    }
+};
+
+
+
+Staircase Search or Zig Zag Search (most optimal):
+ This approach has a time complexity of O(N + M), which is significantly better.
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        if (grid.empty() || grid[0].empty()) {
+            return 0;
+        }
+
+        int rows = grid.size();
+        int cols = grid[0].size();
+        int count = 0;
+
+        // Start at the top-right corner
+        int row = 0;
+        int col = cols - 1;
+
+        while (row < rows && col >= 0) {
+            if (grid[row][col] < 0) {
+                // If the current element is negative, all elements below it in this column are also negative.
+                count += (rows - row);
+                // Move left to check the rest of the row.
+                col--;
+            } else {
+                // If the current element is non-negative, move down to the next row to find smaller values.
+                row++;
+            }
+        }
+        return count;
+    }
+};

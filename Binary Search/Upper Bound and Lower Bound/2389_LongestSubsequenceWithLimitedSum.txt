@@ -1,0 +1,42 @@
+A+
+
+
+
+first did the naive approach then found the actual logic of prefix sum on own and it was optimal 
+
+
+class Solution {
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) {
+        sort(nums.begin(), nums.end());
+        vector<int> result;
+        vector<int> sum_vector;
+
+        int ind_sum = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            ind_sum += nums[i];
+            sum_vector.push_back(ind_sum);
+        }
+
+        for (int j = 0; j < queries.size(); j++) {
+            int k = queries[j];
+            int low = 0;
+            int high = sum_vector.size() - 1;
+            int ans = 0;
+
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (sum_vector[mid] <= k) {
+                    ans = mid + 1; 
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+
+            result.push_back(ans);
+        }
+
+        return result;
+    }
+};

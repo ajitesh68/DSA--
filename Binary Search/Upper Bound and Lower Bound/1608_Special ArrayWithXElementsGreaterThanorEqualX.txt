@@ -1,0 +1,7 @@
+A+
+
+
+
+this will inclule a nested loop a lot time wasted on thinking an optimal approach but later on realise it cant be done without that 
+finally worked later on.
+

@@ -1,0 +1,55 @@
+## Foundational Knowledge
+First and foremost, binary search operates on sorted data. 
+
+
+## The Core Algorithm
+The fundamental idea of binary search is to repeatedly divide the search interval in half. Here's a breakdown of the process:
+
+(1) Initialize Pointers: Start with two pointers, low at the beginning of the array and high at the end.
+
+(2) Find the Middle:        mid = low + (high - low)//2. 
+This method of calculating the midpoint is preferred over (low + high) // 2 to prevent potential integer overflow in some languages.
+
+(3) Compare:
+If the element at mid is the target, you've found it.
+If the target is less than the element at mid, it must be in the left half. Move the high pointer to mid - 1.
+If the target is greater than the element at mid, it must be in the right half. Move the low pointer to mid + 1.
+
+(4) Repeat: Continue this process until the low pointer crosses the high pointer (low > high), which means the element is not in the array.
+
+
+
+
+
+## Complexity Analysis
+A key aspect of evaluating any algorithm is understanding its efficiency. For binary search:
+
+Time Complexity:
+Worst and Average Case: O(logn). Since the search space is halved in each step, the number of comparisons grows logarithmically with the size of the array (n). 
+Best Case: O(1). This occurs when the target element is the middle element of the array, found on the first try.
+
+Space Complexity:
+Iterative Implementation: O(1) (constant space), as it only requires a few variables to store pointers.
+Recursive Implementation: O(logn) in the worst case, due to the space used by the call stack for recursive function calls.
+
+
+
+
+
+
+# Common Variations and Problem Patterns
+In DSA problems, you'll often encounter variations of the standard binary search. Be prepared to adapt the algorithm to:
+
+Find the First or Last Occurrence of an Element: If the sorted array contains duplicates, you might need to find the index of the first or last time a target
+                        value appears. This requires slight modifications to the standard algorithm to continue searching even after finding an initial match.
+
+Find the Smallest Element Greater Than or Equal to the Target (Ceiling): This involves adjusting the logic to find the "insertion point" for the target.
+
+Find the Largest Element Less Than or Equal to the Target (Floor): Similar to finding the ceiling, this requires a nuanced approach to pointer updates.
+
+Search in a Rotated Sorted Array: A common problem involves an array that was sorted and then rotated some number of times. You'll need to use binary search
+                                to first find the pivot point (the point of rotation) and then perform another binary search on the appropriate subarray.
+
+Binary Search on the Answer: Some problems don't involve searching through a given array but require you to find an optimal value within a range. If you can 
+                       determine that a potential answer is "valid" or "invalid" and this validity has a monotonic property (e.g., if a value x is a valid answer, 
+                 all values less than x are also valid), you can use binary search on the range of possible answers. A classic example is the "Aggressive Cows" problem.
