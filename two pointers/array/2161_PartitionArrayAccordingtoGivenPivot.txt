@@ -1,0 +1,28 @@
+A+
+
+
+
+I knew that we have to maintain order here so took me 1 hr but did it finally on own
+
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        int i = 0;
+        int j = nums.size()-1;
+        vector<int> arr(nums.size());
+        for(int k=0;k<nums.size();k++){
+            if(nums[k]<pivot){
+                arr[i] = nums[k];
+                i++;
+            }
+            if(nums[nums.size()-k-1]>pivot){
+                arr[j] = nums[nums.size()-k-1];
+                j--;
+            }
+        }
+        for(int k = i;k<=j;k++){
+            arr[k] = pivot;
+        }
+        return arr;
+    }
+};

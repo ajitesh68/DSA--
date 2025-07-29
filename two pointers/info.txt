@@ -1,0 +1,116 @@
+🧠 MASTER LIST: When to Use Two Pointers
+🔁 Category 1: Processing Sorted Arrays / Lists| 
+Situation                                   | Trigger Clue                            | Use Two Pointers to...           |
+| ------------------------------------------- | --------------------------------------- | -------------------------------- |
+| **Finding pairs** with sum / diff / product | "Find two numbers that sum to target"   | Move inward (`low++`, `high--`)  |
+| **Merging two sorted arrays**               | "Combine sorted arrays into one sorted" | Walk both arrays with `i`, `j`   |
+| **Removing duplicates**                     | "Make array elements unique"            | Use slow/fast pointer            |
+| **Intersection / Union** of sorted arrays   | "Find common elements"                  | Parallel pointers on both arrays |
+
+
+✅ Classic Problems:
+
+Two Sum (sorted)
+Merge Sorted Arrays
+Remove Duplicates from Sorted Array
+Intersection of Two Arrays II
+
+
+
+🔁 Category 2: Partitioning or Rearranging Elements In-Place
+
+| Situation                             | Trigger Clue                         | Use Two Pointers to...             |
+| ------------------------------------- | ------------------------------------ | ---------------------------------- |
+| **Separate even/odd, 0/1/2, pos/neg** | "Group elements by type/condition"   | One pointer to place, one to scan  |
+| **SortArrayByParity / SortColors**    | "Place numbers by property"          | Fix wrong elements by swapping     |
+| **Dutch National Flag**               | "Sort an array of 0s, 1s, 2s"        | Three-way two pointer variant      |
+| **Sort by Index Rule**                | "Place even numbers at even indices" | Two pointers at even & odd indices |
+
+
+✅ Classic Problems:
+
+Sort Array by Parity / SortArrayByParityII
+Move Zeroes
+Dutch National Flag
+Wiggle Sort
+
+🔁 Category 3: Sliding Window (Fixed or Variable Size)
+| Situation                            | Trigger Clue                             | Use Two Pointers to...                          |
+| ------------------------------------ | ---------------------------------------- | ----------------------------------------------- |
+| **Subarray with property**           | "Find max/min/first subarray of size X"  | Fixed window (`start`, `end`)                   |
+| **Max subarray sum ≤ target**        | "Smallest/Longest subarray with sum ≤ X" | Variable window (`start`, `end`)                |
+| **Longest substring with condition** | "Unique chars / at most K changes"       | Slide window while maintaining condition        |
+| **Product < K, Sum = K, etc.**       | "Count number of subarrays with..."      | Use frequency map or prefix logic with pointers |
+
+
+✅ Classic Problems:
+
+Maximum Sum Subarray of Size K
+Longest Substring Without Repeating Characters
+Minimum Window Substring
+Subarray Product Less Than K
+
+🔁 Category 4: Backtracking/Simulation with Pairs
+| Situation                                | Trigger Clue                                    | Use Two Pointers to...                   |
+| ---------------------------------------- | ----------------------------------------------- | ---------------------------------------- |
+| **Palindrome check**                     | "Check if string or array is palindrome"        | Left/right pointer from edges            |
+| **Minimize max diff / max subarray sum** | "Find minimum largest partition"                | Often uses binary search + two pointers  |
+| **String comparison**                    | "Compare two strings with deletions/backspaces" | Walk both strings from back (2-pointers) |
+
+
+✅ Classic Problems:
+Valid Palindrome
+Backspace String Compare
+Container With Most Water
+Trapping Rain Water
+
+🔁 Category 5: Binary Search + Two Pointers Hybrid
+| Situation                           | Trigger Clue                          | Use Two Pointers after sorting or with conditions |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| **Find K closest elements**         | "Return K elements closest to target" | Use binary search + window contraction            |
+| **Count pairs with condition**      | "Count pairs with sum < K"            | Two pointers help efficiently count               |
+| **Finding closest pair / min diff** | After sorting                         | Use `i` and `j` to close in on optimal pair       |
+
+
+✅ Classic Problems:
+
+Find K Closest Elements
+Count of Smaller Numbers After Self
+Two Sum II (sorted)
+
+🔁 Category 6: Advanced / Unusual Uses
+| Situation                     | Trigger Clue                         | Use Two Pointers to...               |
+| ----------------------------- | ------------------------------------ | ------------------------------------ |
+| **Compress arrays / strings** | "In-place compression or formatting" | One read, one write pointer          |
+| **Linked List problems**      | "Find middle node / detect cycle"    | Slow and fast pointers               |
+| **Two pointers in 2D**        | "Diagonal or spiral traversal"       | Pair of pointers on matrix rows/cols |
+| **Bitwise problems**          | Sometimes used for sliding masks     | Adjust window with shifting logic    |
+
+
+✅ Classic Problems:
+
+Compress String In-Place
+Middle of Linked List
+Floyd's Cycle Detection Algorithm
+Max Consecutive Ones III
+
+🧭 Key Triggers to Spot in a Problem Statement
+
+| Clue in Problem                       | Think Two Pointers If...           |
+| ------------------------------------- | ---------------------------------- |
+| "Sorted"                              | Often enables 2-pointer efficiency |
+| "Pair of elements"                    | Think of meeting in the middle     |
+| "Partition / Rearrangement"           | Think swapping using two pointers  |
+| "Contiguous subarray"                 | Think sliding window               |
+| "In-place with O(1) space"            | Think pointer manipulation         |
+| "Palindrome / Compare from both ends" | Use left/right pointers            |
+
+
+✅ Summary: When to Use Two Pointers?
+| Use If You See...                                    | Technique                        |
+| ---------------------------------------------------- | -------------------------------- |
+| Sorted array, want pair with condition               | Classic two pointers (low, high) |
+| Want to rearrange elements in-place                  | Swap with two pointers           |
+| Want to process a fixed-size or variable-size window | Sliding window two pointers      |
+| Working with linked list traversal                   | Slow/Fast pointer                |
+| Need one pointer for writing, one for reading        | Read/Write pointer pattern       |

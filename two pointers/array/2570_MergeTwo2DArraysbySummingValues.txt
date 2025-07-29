@@ -1,0 +1,79 @@
+B
+
+
+two pointer approach:-
+class Solution {
+public:
+    vector<vector<int>> mergeArrays(vector<vector<int>>& nums1, vector<vector<int>>& nums2) {
+        vector<vector<int>> ans;
+        int i = 0, j = 0;
+
+        while (i < nums1.size() && j < nums2.size()) {
+            if (nums1[i][0] == nums2[j][0]) {
+                ans.push_back({nums1[i][0], nums1[i][1] + nums2[j][1]});
+                ++i;
+                ++j;
+            } else if (nums1[i][0] < nums2[j][0]) {
+                ans.push_back(nums1[i++]);
+            } else {
+                ans.push_back(nums2[j++]);
+            }
+        }
+
+        // Append remaining elements
+        while (i < nums1.size()) {
+            ans.push_back(nums1[i++]);
+        }
+        while (j < nums2.size()) {
+            ans.push_back(nums2[j++]);
+        }
+
+        return ans;
+    }
+};
+
+
+
+
+Brute force approach:-
+
+class Solution {
+public:
+    vector<vector<int>> mergeArrays(vector<vector<int>>& nums1, vector<vector<int>>& nums2) {
+        vector<vector<int>> combined = nums1;
+
+        // Step 1: Add all elements from nums2 to combined
+        for (auto& v : nums2) {
+            combined.push_back(v);
+        }
+
+        // Step 2: Sort combined array by ID
+        sort(combined.begin(), combined.end());
+
+        // Step 3: Merge duplicates using a for loop
+        vector<vector<int>> result;
+        for (int i = 0; i < combined.size(); ) {
+            int id = combined[i][0];
+            int sum = combined[i][1];
+
+            // Use for loop to iterate through same ID elements
+            int j;
+            for (j = i + 1; j < combined.size(); j++) {
+                if (combined[j][0] == id) {
+                    sum += combined[j][1];
+                } else {
+                    break;
+                }
+            }
+
+            result.push_back({id, sum});
+            i = j;  // Move i to the next new ID
+        }
+
+        return result;
+    }
+};
+
+
+
+

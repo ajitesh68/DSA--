@@ -1,0 +1,32 @@
+🔁 When and How to Think of Two Pointers
+🔍 Recognize the Clue:
+"The arrays are already sorted by ID"
+
+This one line is the trigger that should instantly make you think:
+"If two arrays are sorted, maybe I can walk through them together instead of scanning them again and again."
+
+
+
+📌 General Cases Where Two Pointers Work:
+| Situation                                | Trigger to Use Two Pointers              |
+| ---------------------------------------- | ---------------------------------------- |
+| Two sorted arrays                        | Walk both together like merge sort       |
+| Finding pairs with sum (in sorted array) | One pointer at start, one at end         |
+| Removing duplicates                      | Fast and slow pointer                    |
+| Merging intervals                        | Sort and process overlapping intervals   |
+| Sliding window / subarrays               | Expand & contract window with 2 pointers |
+
+
+
+🎯 Mindset to Ask Yourself in Future
+✅ Are arrays/lists sorted?
+✅ Can I traverse from both ends or in sync?
+✅ Can I process one pass instead of nested loops?
+✅ Am I repeating operations that can be handled on the fly?
+
+
+✅ Summary:
+Sorted inputs → think two pointers
+Merging, comparing, pairing, or removing duplicates in sorted data → strong candidate
+Try brute force first, then ask: “Am I redoing work that sorted order can help with?”
+

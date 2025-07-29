@@ -1,0 +1,22 @@
+✅ 1. map[key] = value — Assignment
+This overwrites the current value of the key with a new one.
+
+If the key is already present, its value is replaced.
+
+If the key does not exist, it's created and assigned value.
+
+🔍 Example:
+map<int, int> mp;
+mp[1] = 5;   // inserts key 1 with value 5
+mp[1] = 10;  // overwrites value → now mp[1] = 10
+
+
+✅ 2. map[key] += value — Increment / Accumulate
+This adds value to the current value at the key.
+
+If the key does not exist, it is automatically initialized to 0, and then value is added.
+
+🔍 Example:
+map<int, int> mp;
+mp[1] += 5;   // key 1 doesn't exist → initialized to 0 → becomes 5
+mp[1] += 10;  // adds 10 → now mp[1] = 15

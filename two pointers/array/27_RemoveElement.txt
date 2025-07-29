@@ -1,0 +1,48 @@
+A
+
+
+❌ Bug:
+You always return nums.size() — but that still contains the original number of elements, not the reduced size.
+
+✅ Fix:
+You should return arr.size() instead, since that represents how many elements are left after removing val.
+
+
+MY CODE:-
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        vector<int> arr;
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] != val) {
+                arr.push_back(nums[i]);
+            }
+        }
+
+        for (int i = 0; i < arr.size(); ++i) {
+            nums[i] = arr[i];
+        }
+
+        // return the new length after removing val
+        return arr.size();
+    }
+};
+
+
+
+OPTIMAL TWO POINTER CODE:-
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int k = 0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=val){
+                nums[k]=nums[i];
+                k++;
+            }
+        }
+        return k;
+    }
+};
