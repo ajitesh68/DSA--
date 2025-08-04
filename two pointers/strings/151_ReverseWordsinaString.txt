@@ -1,0 +1,26 @@
+B
+
+
+
+using namespace std;
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        string rev = "";
+        int h = 0;
+
+        for (int i = 0; i <= s.size(); i++) {
+
+            if (i == s.size() || s[i] == ' ') {
+
+                if (h < i) {
+                    rev = s.substr(h, i - h) + (rev.empty() ? "" : " ") + rev;
+                }
+                h = i + 1;
+            }
+        }
+
+        return rev;
+    }
+};

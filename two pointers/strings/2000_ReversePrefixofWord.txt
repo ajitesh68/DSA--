@@ -1,0 +1,25 @@
+A+
+
+
+class Solution {
+public:
+    string reversePrefix(string word, char ch) {
+        int i;
+        bool flag=false;
+        for(i = 0;i<word.size();i++){
+            if(word[i]==ch){
+                flag = true;
+                break;
+                }
+        }
+        if(!flag)return word;
+        int left = 0;
+        int right = i;
+        while(left<right){
+            swap(word[left],word[right]);
+            left++;
+            right--;
+        }
+        return word;
+    }
+};

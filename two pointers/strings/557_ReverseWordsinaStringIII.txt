@@ -1,0 +1,23 @@
+A+
+
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        int j = 0;
+
+        for (int k = 0; k <= s.size(); k++) {
+            if (k == s.size() || s[k] == ' ') {  
+                int i = k - 1;
+                while (j < i) {
+                    swap(s[j], s[i]);
+                    i--;
+                    j++;
+                }
+                j = k + 1;
+            }
+        }
+
+        return s;
+    }
+};

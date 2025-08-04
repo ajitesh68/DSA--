@@ -1,0 +1,39 @@
+A+
+
+
+did all it once (100%) 
+this is an improvement in 2 pointer
+
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i = 0;
+        int j = height.size() - 1;
+        int max_vol = 0;
+        int vol;
+        while (i < j) {
+            
+            if (height[i] < height[j]) {
+                vol = height[i] * (j - i);
+                max_vol = max(max_vol, vol);
+                i++;
+            } else if (height[j] < height[i]) {
+                vol = height[j] * (j - i);
+                max_vol = max(max_vol, vol);
+                j--;
+            } else {
+                vol = height[i] * (j - i);
+                max_vol = max(max_vol, vol);
+                if (height[i + 1] > height[j - 1]) {
+                    i++;
+                } else if (height[i + 1] < height[j - 1]) {
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+        }
+        return max_vol;
+    }
+};

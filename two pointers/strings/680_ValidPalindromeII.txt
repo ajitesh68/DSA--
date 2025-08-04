@@ -1,0 +1,34 @@
+A
+
+I missed little thing here (like using & in index also wether we will use recursion or not)
+I wrote the whole code on my own after realizing that recursion would be needed.
+
+class Solution {
+public:
+    bool validPalindrome(string s) {
+        int i = 0;
+        int j = s.size() - 1;
+        int incorrect = 0;
+        return helper(s, 0, s.size() - 1, incorrect);
+    }
+    bool helper(string s, int i, int j, int incorrect) {
+        while (i < j) {
+            if ((s[i]) != (s[j])) {
+                incorrect++;
+                if (incorrect == 2)
+                    return false;
+                else {
+                    if((s[i] == s[j - 1]) || (s[i + 1] == s[j]))
+                        return (helper(s,i,j-1,incorrect) || helper(s,i+1,j,incorrect));
+
+                    else
+                        return false;
+                }
+            } else {
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+};
