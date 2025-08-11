@@ -1,6 +1,6 @@
 A
 
-
+memoization:-
 class Solution {
 public:
     int rob(vector<int>& nums) {
@@ -22,3 +22,116 @@ public:
         return dp[index] = max(pick2, pick3);
     }
 };
+
+
+
+tabulation:-
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 0) return 0;
+        if(n == 1) return nums[0];
+        if(n == 2) return max(nums[0], nums[1]);
+
+        vector<int> dp(n + 3, 0); // padding to avoid bounds
+
+        for(int i = n - 1; i >= 0; i--) {
+            dp[i] = nums[i] + max(dp[i+2], dp[i+3]);
+        }
+
+        return max(dp[0], dp[1]); // start from index 0 or 1
+    }
+};
+
+
+
+📌 Your Recurrence:
+
+dp[i] = nums[i] + max(dp[i+2], dp[i+3])
+This means:
+
+To compute dp[i], you need:
+dp[i+2]
+dp[i+3]
+
+So, naturally:
+dp[i+2] and dp[i+3] must be computed before dp[i]
+Thus, we loop from back to front, i.e., i = n - 1 → 0
+
+
+
+
+✅ What is Recursion on Subsequences?
+It means:
+At each index of the array (or string), you make a binary decision:
+
+🔹 Include the element
+🔹 Exclude the element
+
+And recursively repeat this on the next index.
+This generates all possible subsequences of the array/string
+
+
+void solve(int index, vector<int>& nums, vector<int>& temp) {
+    if (index == nums.size()) {
+        // do something with temp (print/store)
+        return;
+    }
+
+    // pick the current element
+    temp.push_back(nums[index]);
+    solve(index + 1, nums, temp);
+
+    // don't pick (backtrack)
+    temp.pop_back(); 
+    solve(index + 1, nums, temp);
+}
+
+
+
+
+DRY RUN memoization:-
+
+🔷 1. Call: helper(0)
+index = 0
+pick2 = nums[0] + helper(2) = 2 + ?
+pick3 = nums[0] + helper(3) = 2 + ?
+
+🔷 1.1 Call: helper(2)
+index = 2
+pick2 = nums[2] + helper(4) = 4 + 0 = 4
+pick3 = nums[2] + helper(5) = 4 + 0 = 4
+→ dp[2] = max(4, 4) = 4
+
+Now:
+helper(2) returns 4
+
+🔷 1.2 Call: helper(3)
+index = 3
+pick2 = nums[3] + helper(5) = 5 + 0 = 5
+pick3 = nums[3] + helper(6) = 5 + 0 = 5
+→ dp[3] = max(5, 5) = 5
+
+Now:
+helper(3) returns 5
+
+🔷 Back to helper(0)
+pick2 = 2 + 4 = 6
+pick3 = 2 + 5 = 7
+→ dp[0] = max(6, 7) = 7
+
+So:
+from1 = 7
+
+🔷 2. Call: helper(1)
+index = 1
+pick2 = nums[1] + helper(3) = 1 + dp[3] = 1 + 5 = 6
+
+pick3 = nums[1] + helper(4) = 1 + 0 = 1
+
+→ dp[1] = max(6, 1) = 6
+
+So:
+from2 = 6

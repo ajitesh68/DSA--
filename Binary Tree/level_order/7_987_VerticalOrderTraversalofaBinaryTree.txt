@@ -1,0 +1,105 @@
+B
+
+
+DFS approach :-
+
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int, vector<pair<int,int>>> grp; // col -> [(row, val)]
+        vector<vector<int>> result;
+
+        helper(root, 0, 0, grp); // col, row
+
+        for (auto &pair : grp) {
+            auto &carry = pair.second;
+            sort(carry.begin(), carry.end(), [](auto &a, auto &b) {
+                if (a.first != b.first) return a.first < b.first; // sort by row
+                return a.second < b.second; // if row same, sort by value
+            });
+
+            vector<int> colVals;
+            for (auto &p : carry) colVals.push_back(p.second);
+            result.push_back(colVals);
+        }
+        return result;
+    }
+
+    void helper(TreeNode* root, int column, int row,
+                map<int, vector<pair<int,int>>>& grp) {
+        if (!root) return;
+
+        grp[column].push_back({row, root->val});
+
+        helper(root->left, column - 1, row + 1, grp);
+        helper(root->right, column + 1, row + 1, grp);
+    }
+};
+
+
+
+
+BFS AND BETTER approach:-
+
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        // col -> vector of (row, value)
+        map<int, vector<pair<int,int>>> nodes;  
+
+        // Queue stores: node, col, row
+        queue<pair<TreeNode*, pair<int,int>>> q;
+        q.push({root, {0, 0}});
+
+        while (!q.empty()) {
+            auto [node, cr] = q.front();
+            q.pop();
+
+            int col = cr.first;
+            int row = cr.second;
+
+            nodes[col].push_back({row, node->val});
+
+            if (node->left)
+                q.push({node->left, {col - 1, row + 1}});
+            if (node->right)
+                q.push({node->right, {col + 1, row + 1}});
+        }
+
+        vector<vector<int>> result;
+        for (auto &p : nodes) {
+            auto &vec = p.second;
+
+            // Sort by row first, then by value
+            sort(vec.begin(), vec.end(), [](auto &a, auto &b) {
+                if (a.first != b.first) return a.first < b.first;
+                return a.second < b.second;
+            });
+
+            vector<int> colVals;
+            for (auto &pr : vec) colVals.push_back(pr.second);
+            result.push_back(colVals);
+        }
+        return result;
+    }
+};
+
+
+
+
+
+
+
+
+If you don't use the & operator in the loop like this:
+
+for (auto pair : myMap) {
+    values.push_back(pair.second);
+}
+
+
+| Using `const auto& pair`      | Using `auto pair`                                     |
+| ----------------------------- | ----------------------------------------------------- |
+| Uses references (no copy)     | Copies each pair                                      |
+| More efficient                | Slightly less efficient                               |
+| Recommended for large objects | OK for small data, but avoid when performance matters |

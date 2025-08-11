@@ -1,0 +1,57 @@
+A+
+
+
+I did the whole problem but not optimised lets see what I did and what was the optimal one 
+
+
+OPTIMAL CODE:-
+
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if (root1 && root2) {
+            TreeNode* root = new TreeNode(root1->val + root2->val);
+            root->left = mergeTrees(root1->left, root2->left);
+            root->right = mergeTrees(root1->right, root2->right); 
+            return root;
+        } else if (root1) {
+            // TreeNode* root = new TreeNode(root1->val);
+            // root->left = mergeTrees(root1->left,nullptr);
+            // root->right = mergeTrees(root1->right, nullptr);
+            return root1;
+        } else if (root2) {
+            // TreeNode* root = new TreeNode(root2->val);
+            // root->left = mergeTrees(nullptr, root2->left);
+            // root->right = mergeTrees(nullptr, root2->right); 
+            return root2;
+        } else
+            return nullptr;
+    }
+};
+
+
+
+WHAT I DID:-
+
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if (root1 && root2) {
+            TreeNode* root = new TreeNode(root1->val + root2->val);
+            root->left = mergeTrees(root1->left, root2->left);
+            root->right = mergeTrees(root1->right, root2->right); 
+            return root;
+        } else if (root1) {
+            TreeNode* root = new TreeNode(root1->val);
+            root->left = mergeTrees(root1->left,nullptr);
+            root->right = mergeTrees(root1->right, nullptr);
+            return root;
+        } else if (root2) {
+            TreeNode* root = new TreeNode(root2->val);
+            root->left = mergeTrees(nullptr, root2->left);
+            root->right = mergeTrees(nullptr, root2->right); 
+            return root;
+        } else
+            return nullptr;
+    }
+};

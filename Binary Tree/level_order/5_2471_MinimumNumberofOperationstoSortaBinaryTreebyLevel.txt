@@ -1,0 +1,59 @@
+A+
+
+
+class Solution {
+public:
+    int minimumOperations(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        int totalswap = 0;
+
+        while (!q.empty()) {
+            int minswap = 0;
+            int levelSize = q.size();
+            vector<int> level;
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* current = q.front();
+                q.pop();
+
+                level.push_back(current->val);
+
+                if (current->left)
+                    q.push(current->left);
+                if (current->right)
+                    q.push(current->right);
+            }
+            minswap = helper(level);
+
+            totalswap += minswap;
+            cout << totalswap << " ";
+        }
+
+        return totalswap;
+    }
+    int helper(vector<int>& level) {
+        int n = level.size();
+        vector<int> sortedlevel = level;
+        sort(sortedlevel.begin(), sortedlevel.end());
+
+        unordered_map<int, int> indexMap;
+        for (int i = 0; i < n; i++) {
+            indexMap[level[i]] = i;
+        }
+
+        int swaps = 0;
+        for (int i = 0; i < n; i++) {
+
+            while (level[i] != sortedlevel[i]) {
+                swaps++;
+                int correctIdx = indexMap[sortedlevel[i]];
+
+                indexMap[level[i]] = correctIdx;
+                indexMap[level[correctIdx]] = i;
+
+                swap(level[i], level[correctIdx]);
+            }
+        }
+        return swaps;
+    }
+};

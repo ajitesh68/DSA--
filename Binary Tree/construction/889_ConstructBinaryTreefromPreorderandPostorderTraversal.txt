@@ -1,0 +1,181 @@
+B
+
+
+⚠️ Important:
+A unique binary tree cannot always be constructed from preorder and postorder alone
+— unless it’s guaranteed to be a full binary tree (i.e., every node has either 0 or 2 children).
+
+So make sure:
+
+Either the problem guarantees it's a full binary tree
+Or you're okay with constructing any valid tree consistent with the traversals
+
+
+
+✅ Your Approach: Explained
+You said:
+
+My approach is to take root->left element from preorder and root->right index from postorder.
+
+Slight refinement:
+Take the left child’s value from preorder[preIndex]
+Use postorderMap[leftVal] to find the last index of the left subtree in postorder.
+That allows you to know how many elements are in the left subtree.
+
+Then, recurse:
+First for the left subtree (between postStart and leftPostIndex)
+Then for the right subtree (between leftPostIndex + 1 and postEnd - 1)
+After left and right are done, postorder[postEnd] must be the current root (which we already used from preorder).
+
+
+
+Code I did:-
+// class Solution {
+// public:
+//     TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+//         unordered_map<int,int> postorderMap;
+//         for(int i=0;i<postorder.size();i++){
+//             postorderMap[postorder[i]]=i;
+//         }
+//         int preIndex = 0;
+//         return helper(preorder,postorder,preIndex,postorderMap,0,preorder.size()-1);
+        
+//     }
+//     TreeNode* helper(vector<int>& preorder, vector<int>& postorder,int& preIndex,unordered_map<int,int>& postorderMap, int postStart, int postEnd){
+
+//         if(postStart<postEnd)return nullptr;
+
+//         int rootval = preorder[preIndex++];
+//         TreeNode* root = new TreeNode(rootval);
+        
+//         int leftVal = preorder[preIndex];
+
+//         int postIndex = postorderMap[rootval];
+
+
+//         root->left = helper(preorder, postorder, preIndex,);
+//         root->right = helper(preorder, postorder, );
+
+//         return root;
+//     }
+// };
+
+
+Correct Code:-
+class Solution {
+public:
+    TreeNode* constructFromPrePost(vector<int>& preorder,
+                                   vector<int>& postorder) {
+        unordered_map<int, int> postorderMap;
+        for (int i = 0; i < postorder.size(); i++) {
+            postorderMap[postorder[i]] = i;
+        }
+        int preIndex = 0;
+        return helper(preorder, postorder, preIndex, postorderMap, 0,
+                      preorder.size() - 1);
+    }
+
+    TreeNode* helper(vector<int>& preorder, vector<int>& postorder,
+                     int& preIndex, unordered_map<int, int>& postorderMap,
+                     int postStart, int postEnd) {
+        
+        
+        if (postStart > postEnd || preIndex >= preorder.size())
+            return nullptr;
+
+        int rootval = preorder[preIndex++];
+        TreeNode* root = new TreeNode(rootval);
+
+        
+        if (postStart == postEnd || preIndex >= preorder.size())
+            return root;
+
+        int leftVal = preorder[preIndex];
+        int leftpostIndex = postorderMap[leftVal];
+
+        root->left = helper(preorder, postorder, preIndex, postorderMap,
+                            postStart, leftpostIndex);
+        root->right = helper(preorder, postorder, preIndex, postorderMap,
+                             leftpostIndex + 1, postEnd - 1);
+
+        return root;
+    }
+};
+
+
+preorder =  [1, 2, 4, 5, 3, 6, 7]
+postorder = [4, 5, 2, 6, 7, 3, 1]
+
+
+🔍 Dry Run Step-by-Step
+We'll keep track of:
+
+preIndex (starts at 0)
+Call stack for helper(...)
+Subarray ranges: postStart, postEnd
+
+🔁 1st call to helper(preIndex=0, postStart=0, postEnd=6)
+rootval = preorder[0] = 1
+
+Increment preIndex → 1
+root = TreeNode(1)
+leftVal = preorder[1] = 2
+leftpostIndex = postorderMap[2] = 2
+
+➡ Recursive calls:
+
+Left: helper(preIndex=1, postStart=0, postEnd=2)
+Right: helper(preIndex=?, postStart=3, postEnd=5) ← wait till left finishes to know preIndex
+
+🔁 2nd call: helper(preIndex=1, postStart=0, postEnd=2)
+rootval = preorder[1] = 2
+Increment preIndex → 2
+root = TreeNode(2)
+leftVal = preorder[2] = 4
+leftpostIndex = postorderMap[4] = 0
+
+➡ Recursive calls:
+
+Left: helper(preIndex=2, postStart=0, postEnd=0)
+Right: helper(preIndex=?, postStart=1, postEnd=1)
+
+🔁 3rd call: helper(preIndex=2, postStart=0, postEnd=0)
+rootval = preorder[2] = 4
+Increment preIndex → 3
+Since postStart == postEnd, it's a leaf
+Returns TreeNode(4)
+
+⬅ Back to 2nd call (building node 2)
+
+🔁 4th call: helper(preIndex=3, postStart=1, postEnd=1)
+rootval = preorder[3] = 5
+Increment preIndex → 4
+Since postStart == postEnd, it's a leaf
+Returns TreeNode(5)
+
+⬅ Back to 2nd call → root = TreeNode(2) with left = 4, right = 5
+⬅ Returns to 1st call (root = 1)
+
+🔁 5th call: helper(preIndex=4, postStart=3, postEnd=5)
+rootval = preorder[4] = 3
+Increment preIndex → 5
+leftVal = preorder[5] = 6
+leftpostIndex = postorderMap[6] = 3
+
+➡ Recursive calls:
+
+Left: helper(preIndex=5, postStart=3, postEnd=3)
+Right: helper(preIndex=?, postStart=4, postEnd=4)
+
+🔁 6th call: helper(preIndex=5, postStart=3, postEnd=3)
+rootval = preorder[5] = 6
+Increment preIndex → 6
+Leaf node → returns TreeNode(6)
+
+🔁 7th call: helper(preIndex=6, postStart=4, postEnd=4)
+rootval = preorder[6] = 7
+Increment preIndex → 7
+Leaf node → returns TreeNode(7)
+
+⬅ Back to 5th call → root = 3, left = 6, right = 7
+⬅ Back to 1st call → root = 1, left = 2, right = 3

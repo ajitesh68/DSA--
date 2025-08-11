@@ -1,0 +1,73 @@
+A
+
+
+main thing how to do recursion 
+adding dp part is not so challenging especially in memoization
+
+MY approach:-
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size() == 1) return nums[0];
+        
+        vector<int> dp1(nums.size(), -1);
+        vector<int> dp2(nums.size(), -1);
+        
+        int from0 = helper0(nums, 0, dp1);             
+        int from1 = helper1(nums, 1, dp2);            
+        
+        return max(from0, from1);
+    }
+
+    int helper0(vector<int>& nums, int index, vector<int>& dp) {
+        if(index >= nums.size() - 1) return 0;
+        if(dp[index] != -1) return dp[index];
+        
+        int pick = nums[index] + helper0(nums, index + 2, dp);
+        int skip = helper0(nums, index + 1, dp);
+        
+        return dp[index] = max(pick, skip);
+    }
+
+    int helper1(vector<int>& nums, int index, vector<int>& dp) {
+        if(index >= nums.size()) return 0;
+        if(dp[index] != -1) return dp[index];
+        
+        int pick = nums[index] + helper1(nums, index + 2, dp);
+        int skip = helper1(nums, index + 1, dp);
+        
+        return dp[index] = max(pick, skip);
+    }
+};
+
+
+memoization:-
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return nums[0];
+
+        vector<int> dp1(n, -1);
+        vector<int> dp2(n, -1);
+
+        int from0 = helper(nums, 0, n - 2, dp1);
+
+        
+        int from1 = helper(nums, 1, n - 1, dp2);
+
+        return max(from0, from1);
+    }
+
+    int helper(vector<int>& nums, int i, int end, vector<int>& dp) {
+        if (i > end) return 0;
+        if (dp[i] != -1) return dp[i];
+
+        int pick = nums[i] + helper(nums, i + 2, end, dp);
+        int skip = helper(nums, i + 1, end, dp);
+
+        return dp[i] = max(pick, skip);
+    }
+};

@@ -1,0 +1,29 @@
+A+
+
+
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<double> result;
+        while (!q.empty()) {
+            double size = q.size();
+            double sum=0;
+            double avg;
+
+            for(int i=0;i<size;i++){
+                TreeNode* node = q.front();
+                q.pop();
+
+                sum += node->val;
+
+                if(node->left != NULL)q.push(node->left);
+                if(node->right != NULL)q.push(node->right);
+            }
+            avg = sum/size;
+            result.push_back(avg);
+        }
+        return result;
+    }
+};

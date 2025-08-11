@@ -1,0 +1,50 @@
+A+
+
+
+
+Using BFS :-(The one I did)
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+    if (!root) return {};
+    vector<int> result;
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            TreeNode* node = q.front();
+            q.pop();
+            if (i == size - 1) {
+                result.push_back(node->val);
+            }
+            if (node->left) q.push(node->left);
+            if (node->right) q.push(node->right);
+        }
+    }
+    return result;
+}
+};
+
+
+
+
+
+Using DFS :- 
+
+void dfs(TreeNode* node, int depth, vector<int>& result) {
+    if (!node) return;
+    if (depth == result.size()) { // first time at this depth
+        result.push_back(node->val);
+    }
+    dfs(node->right, depth + 1, result); // right first
+    dfs(node->left, depth + 1, result);  // then left
+}
+
+vector<int> rightSideView(TreeNode* root) {
+    vector<int> result;
+    dfs(root, 0, result);
+    return result;
+}

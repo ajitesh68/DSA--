@@ -1,0 +1,30 @@
+B
+
+
+class Solution {
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        unordered_map<int, pair<TreeNode*, int>> mpp;  
+        queue<pair<TreeNode*, TreeNode*>> q;           
+        q.push({root, nullptr});
+        int depth = 0;
+
+        while (!q.empty()) {
+            int level = q.size();
+            for (int i = 0; i < level; i++) {
+                auto [current, parent] = q.front();
+                q.pop();
+
+                mpp[current->val] = {parent, depth};
+
+                if (current->left)
+                    q.push({current->left, current});
+                if (current->right)
+                    q.push({current->right, current});
+            }
+            depth++;
+        }
+
+        return (mpp[x].second == mpp[y].second) && (mpp[x].first != mpp[y].first);
+    }
+};

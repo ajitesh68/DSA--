@@ -1,0 +1,21 @@
+Two Tree Validation problems often look like:
+
+bool sameTree(TreeNode* p, TreeNode* q) {
+    if (!p && !q) return true;                # Both nodes are NULL
+    if (!p || !q) return false;               # One node is NULL but the other isn’t
+    return (p->val == q->val) && sameTree(p->left, q->left) && sameTree(p->right, q->right);  #Compare current node values and recurse
+}
+
+
+How It Works (Recursive Thinking)
+Think of it top-down:
+
+Are the current nodes the same?
+If yes, check if the left subtrees match.
+If yes, check if the right subtrees match.
+If at any point something doesn’t match, the whole function returns false
+
+
+
+Instead of recursion, you can also solve “Two Tree Validation” problems
+iteratively by storing nodes in a data structure and processing them in a specific order.

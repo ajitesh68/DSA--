@@ -18,7 +18,7 @@ public:
         maxi = max(cnt,maxi);
         if(root->left)helper(root->left,cnt+1,maxi);
         if(root->right)helper(root->right,cnt+1,maxi);
-        
+
     }
 };
 
@@ -37,8 +37,8 @@ int maxDepth(TreeNode* root) {
 
 
 
-| Traversal     | Approach                     | Meaningful for Max Depth? | When to Use It                             |
-| ------------- | ---------------------------- | ------------------------- | ------------------------------------------ |
+| Traversal     | Approach                     | Meaningful for Max Depth?  | When to Use It                             |
+| ------------- | ---------------------------- | -------------------------  | ------------------------------------------ |
 | **Postorder** | Return value from children   | ✅ Best fit                | When you need result from left/right first |
 | **Preorder**  | Track depth while going down | ✅ Valid                   | When depth tracking / side effects needed  |
 | **Inorder**   | Visit in between left/right  | ❌ Not useful here         | Use mostly for BST or value order          |

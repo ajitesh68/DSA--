@@ -1,0 +1,38 @@
+A+
+
+was able to solve it after understanding const of BT from inorder and preorder traversal 
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        unordered_map<int, int> inordermap;
+        for (int i = 0; i < inorder.size(); i++) {
+            inordermap[inorder[i]] = i;
+        }
+
+        int postIndex = postorder.size() - 1;
+        return helper(inorder, postorder, postIndex, 0, inorder.size() - 1,
+                      inordermap);
+    }
+    TreeNode* helper(vector<int>& inorder, vector<int>& postorder,
+                     int& postIndex, int inStart, int inEnd,
+                     unordered_map<int, int>& inordermap) {
+        if (inStart > inEnd)
+            return nullptr;
+
+        int rootVal = postorder[postIndex];
+        postIndex--;
+        TreeNode* root = new TreeNode(rootVal);
+
+        int inIndex = inordermap[rootVal];
+
+       
+        root->right = helper(inorder, postorder, postIndex, inIndex + 1, inEnd,
+                             inordermap);
+        
+         root->left = helper(inorder, postorder, postIndex, inStart, inIndex - 1,
+                            inordermap);
+                        
+        return root;
+    }
+};
