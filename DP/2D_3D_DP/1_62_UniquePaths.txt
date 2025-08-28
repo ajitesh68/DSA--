@@ -1,0 +1,75 @@
+A
+
+
+Problems in your code
+
+vector<int,int> dp(m,n,-1);
+This is invalid syntax.
+
+If you want a 2D vector for memoization, it should be:
+vector<vector<int>> dp(m, vector<int>(n, -1));
+
+
+
+I was missing a logic of   return 1   here 
+
+
+wrong code:- 
+// class Solution {
+// public:
+//     int uniquePaths(int m, int n) {
+
+//         vector<vector<int>> dp(m, vector<int>(n, -1));
+//         return helper(0, 0, m - 1, n - 1, dp);
+//     }
+//     int helper(int m, int n, int a, int b,
+//                vector<vector<int>>& dp) {
+//         if (m == a && n == b) {
+//             return 0;
+//         }
+
+//         if (dp[m][n] != -1)
+//             return dp[m][n];
+
+//         if (m < a) {
+//           int right = helper(m + 1, n, a, b, dp);
+//         }
+//         if (n < b) {
+//           int down = helper(m, n + 1, a, b, dp);
+//         }
+
+//         return dp[m][n] = down + right;
+//     }
+// };
+
+
+
+
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        return helper(0, 0, m - 1, n - 1, dp);
+    }
+
+    int helper(int i, int j, int a, int b, vector<vector<int>>& dp) {
+        if (i == a && j == b) return 1;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        int down = 0, right = 0;
+
+        
+        if (i < a) {
+            down = helper(i + 1, j, a, b, dp);
+        }
+
+        
+        if (j < b) {
+            right = helper(i, j + 1, a, b, dp);
+        }
+
+        return dp[i][j] = down + right;
+    }
+};

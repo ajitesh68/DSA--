@@ -1,0 +1,36 @@
+////// Key Concepts for Binary Tree Path Problems
+Path problems are usually based on:
+
+Definition of a Path:
+In most problems, a path is a sequence of nodes connected through edges.
+A path can be root-to-leaf, root-to-any node, or any node to any node.
+
+Root-to-Leaf vs. Any Path:
+Root-to-leaf path: starts at the root and ends at a leaf.
+Any path: can start and end anywhere in the tree, but must follow parent-child connections.
+
+Storing Path Information:
+Use an array/vector/list to store current path during DFS.
+Remove the last element (backtrack) when returning from recursion.
+
+Path Sum:
+Keep track of the sum of node values along the path.
+Compare with a target sum or store the max/min sum found.
+
+Global vs. Local Answers:
+Some problems need a global variable to track the answer (like maximum path sum).
+Others can be solved by returning values from recursion.
+
+
+
+///////Mindset for Solving Path Problems
+DFS is your best friend — Most path problems are solved with DFS + recursion.
+
+Think in terms of recursion states: At each node, you can:
+    Include it in the path and go left/right.
+    If a base case is reached (like a leaf), process the path (print, sum, store).
+
+Backtracking:
+Always undo path changes after exploring a child to avoid affecting other branches.
+Global tracking: For problems like Maximum Path Sum, keep a global variable updated at every node.
+
