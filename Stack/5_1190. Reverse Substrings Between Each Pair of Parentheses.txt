@@ -1,0 +1,44 @@
+B
+
+
+I was unable to understand the problem (this happens when you dont read problem carefully) 
+
+my logic:- 
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        vector<char> ans(s.size(), ' '); // ✅ initialize with spaces
+        int cnt = 0;
+        int size = 0;
+        int maxi = 0;
+        stack<char> st;
+
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') {maxi++; cnt++; continue; }
+            if (s[i] == ')') {maxi++; cnt--; continue; }
+
+            if (cnt % 2 == 1) {
+                st.push(s[i]);
+                size++;
+            } else {
+                ans[i-maxi] = s[i];
+                size++;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (ans[i] == ' ') {
+                ans[i] = st.top();
+                st.pop();
+            }
+        }
+
+        string res;
+        for (int i = 0; i < size; i++) res += ans[i];
+        return res;
+    }
+};
+
+
+correct code:-
+

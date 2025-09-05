@@ -1,0 +1,54 @@
+A+
+
+Here I have done this problem using void helper but I want to know how to do it with a return datatype (I sometime get confuse)
+
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        int result = 0;
+        int pathsum;
+        helper(root,0,result);
+        return result;
+    }
+
+    void helper(TreeNode* root,int pathsum, int& result){
+
+        pathsum = pathsum * 10 + root->val;
+
+        if(!root->left && !root->right){
+            result += pathsum;
+            return;
+        }
+
+        if(root->left)helper(root->left,pathsum,result);
+        if(root->right)helper(root->right,pathsum,result);
+        
+    }
+};
+
+
+with return datatype:-
+
+
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return helper(root, 0);
+    }
+
+    int helper(TreeNode* root, int pathsum) {
+        if (!root) return 0; // Base case for null node
+
+        pathsum = pathsum * 10 + root->val;
+
+        // If leaf node, return full path sum
+        if (!root->left && !root->right) {
+            return pathsum;
+        }
+
+        // Sum from left and right
+        return helper(root->left, pathsum) + helper(root->right, pathsum);
+    }
+};

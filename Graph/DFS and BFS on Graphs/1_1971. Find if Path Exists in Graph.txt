@@ -1,0 +1,47 @@
+A (40 min)
+
+
+
+I was doing mistake in many places like in recursion 
+checking base condition incorrectly and not using visited array
+as it was my first problem in graph so it was fine 
+
+you can also do this by bfs
+
+
+class Solution {
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int source,
+                   int destination) {
+        if(source==destination)return true;
+        vector<vector<int>> adj(n);   //Adjacency List
+        vector<bool> visited(n, false);
+
+        for (int i = 0; i < edges.size(); i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        return dfs(source, adj, destination,visited);
+    }
+    bool dfs(int source, vector<vector<int>>& adj, int destination,
+             vector<bool> visited) {
+
+        visited[source] = true;
+
+        for (int v : adj[source]) {
+            if (v == destination) {
+                return true;             //exits the loop and return value to the function 
+            }
+            if (!visited[v]) {
+                if (dfs(v,  adj, destination, visited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};

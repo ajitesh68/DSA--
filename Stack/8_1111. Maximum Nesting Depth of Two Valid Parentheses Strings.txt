@@ -1,0 +1,37 @@
+A+ (35 min)
+
+
+after understanding the problem it was not that tricky was able to do it on own
+
+class Solution {
+public:
+    vector<int> maxDepthAfterSplit(string seq) {
+        stack<char> st;
+        int maxd = 0;
+        for (int i = 0; i < seq.size(); i++) {
+            if (seq[i] == '(')
+                st.push(seq[i]);
+            else
+                st.pop();
+            maxd = max(maxd, (int)st.size());
+        }
+        int mind = ceil(maxd / 2);
+        vector<int> ans;
+        for (int i = 0; i < seq.size(); i++) {
+            if (seq[i] == '(') {
+                st.push(seq[i]);
+                if ((int)st.size() <= mind)
+                    ans.push_back(0);
+                else
+                    ans.push_back(1);
+            } else {
+                st.pop();
+                if ((int)st.size() >= mind)
+                    ans.push_back(1);
+                else
+                    ans.push_back(0);
+            }
+        }
+        return ans;
+    }
+};

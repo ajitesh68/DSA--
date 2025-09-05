@@ -1,0 +1,110 @@
+To solve most DSA problems involving graphs, you need to master these core concepts. 🗺️
+
+1. How to Represent a Graph
+This is the first step before any algorithm. You must know how to store the graph in your code.
+
+Adjacency List: An array of lists, where adj[i] stores a list of all vertices connected to vertex i.
+                This is the most common and efficient method for DSA problems.
+
+Adjacency Matrix: A 2D array where matrix[i][j] = 1 (or the edge weight) if there's an edge from i to j.
+                  It's simpler but uses more memory (V²).
+
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+void addEdge(vector<vector<int>>& adj, int u, int v) {
+    adj[u].push_back(v);
+    adj[v].push_back(u); 
+}
+
+
+The code above is for an undirected graph. For a directed graph, you would remove the second line: adj[v].push_back(u);.
+
+
+
+
+
+2. Graph Traversal Algorithms
+These are the fundamental ways to explore a graph's vertices and edges.
+
+Breadth-First Search (BFS): Explores the graph layer by layer. It's used to find the shortest path in an unweighted graph. It uses a Queue.
+
+
+void bfs(int startNode, int numVertices, const vector<vector<int>>& adj) {
+    vector<bool> visited(numVertices, false);
+    queue<int> q;
+
+    visited[startNode] = true;
+    q.push(startNode);
+
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        cout << u << " ";
+
+        for (int v : adj[u]) {
+            if (!visited[v]) {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+    cout << endl;
+}
+
+
+Depth-First Search (DFS): Explores as far as possible down one path before backtracking. It's used for cycle detection, 
+              topological sorting, and finding connected components. It uses a Stack (often via recursion).
+
+
+void dfsUtil(int u, const vector<vector<int>>& adj, vector<bool>& visited) {
+    visited[u] = true;
+    cout << u << " ";
+
+    for (int v : adj[u]) {
+        if (!visited[v]) {
+            dfsUtil(v, adj, visited);
+        }
+    }
+}
+
+void dfs(int startNode, int numVertices, const vector<vector<int>>& adj) {
+    vector<bool> visited(numVertices, false);
+    dfsUtil(startNode, adj, visited);
+    cout << endl;
+}
+
+
+
+
+
+3. Shortest Path Algorithms
+This is a very common category of graph problems for weighted graphs.
+
+Dijkstra's Algorithm: Finds the shortest path from a single source vertex to all other vertices in a graph with non-negative edge weights. 
+                    It uses a Priority Queue.
+
+Bellman-Ford Algorithm: Similar to Dijkstra's but can also handle negative edge weights. Its main use is to detect negative cycles.
+
+Floyd-Warshall Algorithm: Finds the shortest path between all pairs of vertices.
+
+
+
+
+
+
+4. Other Essential Algorithms & Concepts
+Minimum Spanning Tree (MST): Finds the cheapest set of edges to connect all vertices in a weighted, undirected graph.
+
+Prim's Algorithm
+Kruskal's Algorithm
+
+Topological Sort: A linear ordering of vertices in a Directed Acyclic Graph (DAG) where for every directed edge 
+                from u to v, vertex u comes before v in the ordering. Think of task dependencies or course prerequisites.
+
+Cycle Detection: Determining if a graph contains a cycle, which can be done using DFS. This is critical for problems involving valid paths or ordering.

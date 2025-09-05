@@ -1,0 +1,124 @@
+A(50min)
+
+
+Why it fails
+
+s[index] is a char.
+s[index + 1] is also a char.
+
+When you do s[index] + s[index + 1], C++ promotes both chars to int and adds them (ASCII addition).
+So the result is an int, not a string.
+
+
+Correct ways to fix
+
+If you want sam to be a 2-character string:
+string sam = string(1, s[index]) + s[index + 1];
+
+Explanation:
+string(1, s[index]) → creates a string of length 1 containing s[index].
+Then + s[index + 1] appends the next char.
+
+
+
+Memoization:-
+
+class Solution {
+public:
+    int numDecodings(string s) {
+        vector<int> dp(s.size() + 1, -1);
+        string substring;
+        int index;
+        return helper(s, "", 0, dp);
+    }
+    int helper(string& s, string substring, int index, vector<int>& dp) {
+
+        if (substring == s)
+            return 1;
+
+        if (s[index] == '0')
+            return 0;
+
+        if (dp[index] != -1) return dp[index];
+
+        int codes1 = 0;
+        int codes2 = 0;
+
+        codes1 = helper(s, substring + s[index], index + 1, dp);
+        if (index < s.size() - 1) {
+            string sam = s.substr(index, 2);
+            int num = stoi(sam);
+            if (num >= 10 && num <= 26) {
+                codes2 = helper(s, substring + sam, index + 2, dp);
+            }
+        }
+
+        return dp[index] = codes1 + codes2;
+    }
+};
+
+
+
+Tabulation:-
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.size();
+        vector<int> dp(n+1, 0);
+
+        dp[0] = 1;
+        dp[1] = (s[0] != '0') ? 1 : 0;
+
+        for (int i = 2; i <= n; i++) {
+            // One digit
+            if (s[i-1] != '0')
+                dp[i] += dp[i-1];
+            // Two digits
+            int two = stoi(s.substr(i-2, 2));
+            if (two >= 10 && two <= 26)
+                dp[i] += dp[i-2];
+        }
+        return dp[n];
+    }
+};
+
+
+
+
+Example 1: s = "226"
+
+n = 3
+dp = [0, 0, 0, 0] initially
+
+Initialization:
+dp[0] = 1 → [1, 0, 0, 0]
+dp[1] = 1 (since '2' != '0') → [1, 1, 0, 0]
+
+Loop:
+i = 2 → substring = "22"[0..1]
+One digit = '2' (valid) → dp[2] += dp[1] = 1
+Two digits = "22" = 22 (valid) → dp[2] += dp[0] = 1
+→ dp[2] = 2 → [1, 1, 2, 0]
+
+i = 3 → substring = "226"[0..2]
+One digit = '6' (valid) → dp[3] += dp[2] = 2
+Two digits = "26" = 26 (valid) → dp[3] += dp[1] = 1
+→ dp[3] = 3 → [1, 1, 2, 3]
+
+✅ Return dp[3] = 3.
+All decodings: "2|2|6", "22|6", "2|26".
+
+Example 2: s = "06"
+
+n = 2
+dp = [0, 0, 0]
+dp[0] = 1 → [1, 0, 0]
+dp[1] = 0 (since '0' == '0') → [1, 0, 0]
+
+Loop:
+i = 2 → substring = "06"
+One digit = '6' → valid, but dp[1] = 0, so contribution = 0
+Two digits = "06" = 6 → not valid because it starts with '0'
+→ dp[2] = 0
+
+✅ Return dp[2] = 0. Correct.

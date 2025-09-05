@@ -1,0 +1,22 @@
+A
+
+
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> st;
+        for (char c : s) {
+            if (c == '(') {
+                st.push(c);
+            } else { // c == ')'
+                if (!st.empty() && st.top() == '(') {
+                    st.pop();
+                } else {
+                    st.push(c); // unmatched ')'
+                }
+            }
+        }
+        return st.size(); // total unmatched '(' and ')'
+    }
+};

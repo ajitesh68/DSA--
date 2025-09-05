@@ -1,0 +1,57 @@
+A
+
+
+only by changing position of sum+=root->val in the code 
+whole code starts working
+
+lets dry run this as well it is intresting
+
+MY Code:-
+
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (!root)
+            return false;
+        int sum;
+        bool flag = false;
+        helper(root, targetSum, 0, flag);
+        return flag;
+    }
+
+    void helper(TreeNode* root, int targetSum, int sum, bool& flag) {
+        sum += root->val;
+        if ((sum == targetSum) && (!(root->left) && !(root->right))) {
+            flag = true;
+            return;
+        }
+
+        
+        cout << sum << endl;
+        if (root->left)
+            helper(root->left, targetSum, sum, flag);
+        if (root->right)
+            helper(root->right, targetSum, sum, flag);
+    }
+};
+
+
+
+simpler approach or better approach:-
+
+class Solution 
+{
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) 
+    {
+        if (root == nullptr) return false;//empty tree
+        targetSum -= (root->val);
+        
+        // accept only at a leaf
+        if (root->left == nullptr && root->right == nullptr)
+        {
+            return (targetSum == 0);
+        }
+        return (hasPathSum(root->left, targetSum) || hasPathSum(root->right, targetSum));//split tree
+    }
+};

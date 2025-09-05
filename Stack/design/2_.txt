@@ -1,0 +1,89 @@
+B
+
+
+
+correct code:-
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class FreqStack {
+    unordered_map<int,int> freq;              // stores frequency of elements
+    unordered_map<int, stack<int>> group;     // group[freq] -> stack of elements
+    int maxFreq;                              // current maximum frequency
+    
+public:
+    FreqStack() {
+        maxFreq = 0;
+    }
+    
+    void push(int val) {
+        int f = ++freq[val];          // increase frequency
+        maxFreq = max(maxFreq, f);    // update maxFreq if needed
+        group[f].push(val);           // put element in its frequency group
+    }
+    
+    int pop() {
+        int val = group[maxFreq].top();   // element with highest frequency
+        group[maxFreq].pop();
+        
+        freq[val]--;  // decrease frequency
+        
+        if (group[maxFreq].empty()) {     // if no more at this freq, reduce maxFreq
+            maxFreq--;
+        }
+        
+        return val;
+    }
+};
+
+
+
+
+
+
+
+my approach:-(totally wrong)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class FreqStack {
+public:
+    FreqStack() {}
+
+    void push(int val) {
+        mpp[val]++;
+
+        if (st.empty() || mpp[val] > st.top().second) {
+            st.push({val, mpp[val]});
+        } else if (!qst.empty() && (mpp[val] == st.top().second &&
+                    mpp[val] > qst.top().second)) {
+                        st.push({val,mpp[val]});
+
+        } else if(qst.empty() && mpp[val] == st.top().second){
+            st.push({val,mpp[val]});
+        }
+        else {
+
+            qst.push({val, mpp[val]});
+        }
+    }
+
+    int pop() {
+        if (!qst.empty() && qst.top().second >= st.top().second) {
+            int x = qst.top().first;
+            qst.pop();
+            return x;
+        } else {
+            int x = st.top().first;
+            st.pop();
+            return x;
+        }
+    }
+
+private:
+    stack<pair<int, int>> st;
+    stack<pair<int, int>> qst;
+    unordered_map<int, int> mpp;
+};

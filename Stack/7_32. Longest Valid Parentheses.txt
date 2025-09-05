@@ -1,0 +1,49 @@
+A
+
+got logic from somewhere instead of pushing and poping char , do it with indices 
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack<int> st;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') {
+                st.push(i);
+            } else {
+                if (!st.empty() && s[st.top()] == '(') st.pop();
+else st.push(i);
+            }
+        }
+        if(st.empty())return s.size();
+        int maxi = s.size() - st.top() - 1;
+        while (!st.empty()) {
+            int roof = st.top();
+            st.pop();
+            if (st.empty() && roof == 0)
+                break;
+            else if (st.empty()) {
+                maxi = max(maxi, roof);
+            } else {
+                int floor = st.top();
+                maxi = max(maxi, roof - floor - 1);
+            }
+        }
+        return maxi;
+    }
+};
+
+
+
+
+
+Stack of indices (Longest Valid Parentheses)
+→ This is a technique: using indices in a stack to mark boundaries.
+
+Invalid index gap method
+→ Not a textbook algorithm name, but a well-known pattern. Interviewers expect you to describe it as “use a stack to record unmatched indices, then compute max gaps”.
+
+Stack evaluation (Score of Parentheses)
+→ Again, a technique: similar to how we evaluate arithmetic expressions with a stack.
+
+Two-pass counter method (Longest Valid)
+→ This is also a pattern: scan left-to-right and right-to-left while counting parentheses balance.

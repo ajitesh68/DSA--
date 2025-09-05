@@ -1,0 +1,93 @@
+B
+
+
+somewhat my approach:-(This code works but not the original approach)
+
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<char> st;
+        int n = s.size();
+        vector<int> lvl(n + 1, 0); // lvl[d] holds accumulated score at depth d
+        bool flag = false;        // true if previous char was ')'
+        int score = 0;            // last computed chunk's score
+        int total = 0;
+
+        for (int i = 0; i < n; ++i) {
+            if (s[i] == '(') {
+                st.push('(');
+                flag = false;
+            } else { // ')'
+                st.pop();
+                int depth = st.size(); // depth after popping
+
+                if (!flag) {
+                    // "()" → value 1 at current depth
+                    score = 1;
+                } else {
+                    // previous was ')' → double the whole inner accumulated chunk
+                    score = lvl[depth + 1] * 2;
+                }
+
+                // add current chunk to its parent's level
+                lvl[depth] += score;
+                // clear deeper level since we've folded it up
+                lvl[depth + 1] = 0;
+                flag = true;
+            }
+        }
+
+        total = lvl[0];
+        return total;
+    }
+};
+
+
+
+
+original code:-(Standard Stack-of-Integers Solution)
+
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<int> st;
+        st.push(0); // start with one frame for the outermost expression
+
+        for (char c : s) {
+            if (c == '(') {
+                st.push(0); // new frame
+            } else {
+                int v = st.top(); st.pop();
+                int score = (v == 0) ? 1 : 2 * v;
+                st.top() += score;
+            }
+        }
+        return st.top();
+    }
+};
+
+
+
+
+actual locgic :- 
+
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<int> st;
+        st.push(0); 
+        
+        for (char c : s) {
+            if (c == '(') {
+                st.push(0);  
+            } else {
+                int v = st.top();
+                st.pop();
+                int score = (v == 0) ? 1 : 2 * v;
+                st.top() += score;
+            }
+        }
+        
+        return st.top();
+    }
+};
