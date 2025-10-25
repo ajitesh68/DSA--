@@ -1,0 +1,45 @@
+A
+
+A very nice approach:-
+class Solution {
+public:
+   int missingNumber(vector<int>& nums)
+   {
+   int N=nums.size();
+   int sum= (N*(N+1))/2;
+   int actsum=0;
+   for(int i=0;i<N;i++)
+   {
+     actsum=actsum+nums[i];
+   }
+   return (sum-actsum);
+        
+}
+};
+
+
+
+binary search code :-
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        
+        sort(nums.begin(), nums.end());
+
+        int left = 0, right = nums.size() - 1;
+
+       
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] > mid) {
+                right = mid - 1; 
+            } else {
+                left = mid + 1;  
+            }
+        }
+
+        return left;
+    }
+};

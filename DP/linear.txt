@@ -1,0 +1,32 @@
+1043. Partition Array for Maximum Sum                   B
+          --> WATCH VIDEO
+          somewhat found the logic but code was really tough in this one 
+          This was really simple after getting intuition of "choices we have" (it get really simple)
+          think like standing at any index what choices we have and then str the code 
+          in Tabulation:-
+              The term t[i-j] represents the best possible answer for the part of the array that comes before
+               the last chunk you are currently considering.
+
+
+3041. Maximize Consecutive Elements in an Array After Modification                  A
+        -->WATCH VIDEO
+        I did it by myself the memoization one but only passing 662/668 testcases 
+        But I miss the logic here we have  (The Three Choices at Every Step) 
+        1.Skip nums[index] 
+        2.Take nums[index] as nums[index]
+        3.Take nums[index] as nums[index] + 1
+        Our solve/helper function will calculate the results for all possible valid choices and return the best one.
+        
+
+        For each nums[i]:
+        Try starting a sequence with nums[i]. The length is 1 + solve(i + 1, nums[i]).
+        Try starting a sequence with nums[i] + 1. The length is 1 + solve(i + 1, nums[i] + 1).
+
+
+        Your Inefficient O(N²) Memoization:
+           State: "What's the answer starting at index given the previous value was prev_val?"
+           Result: Too many states to calculate, leading to TLE.
+        
+        The Efficient O(N log N) Tabulation:
+           State: "What's the answer for a sequence that ends at value?"
+           Result: Far fewer states (only O(N) states are needed), leading to a fast solution that passes.

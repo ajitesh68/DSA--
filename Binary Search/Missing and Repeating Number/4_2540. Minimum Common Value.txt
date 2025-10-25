@@ -1,0 +1,74 @@
+A+ (15 min)
+
+
+
+## 1. If the arrays were unsorted, you couldn't use binary search or the two-pointer method.
+ You'd be forced into a much slower solution (like nested for loops) or one that uses more memory (like a hash set).
+
+The lesson: Always ask, "What do I know about the data?" Sorted input, a limited range of numbers, or other constraints are
+ often hints pointing toward the best algorithm.
+
+
+
+## 2. Compare Different Correct Solutions
+For the same problem, there can be multiple correct algorithms, but they are not created equal. We saw two valid approaches:
+
+Loop + Binary Search: A good, intuitive solution. Its time complexity is O(N * log M).
+
+Two-Pointers: A more specialized and clever solution. Its time complexity is O(N + M).
+
+
+
+## 3. Recognize the Two-Pointer Pattern
+The two-pointer technique is not just a one-off trick; it's a fundamental algorithmic pattern. Learning to recognize 
+when to use it is a major step forward.
+
+When to use it: This pattern is extremely useful for problems involving two sorted arrays where you need to 
+find a pair of elements that satisfy a condition (e.g., they are equal, their sum is a target, etc.).
+
+
+
+
+using BS :-
+
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        for (int num : nums1) {
+            if (binary_search(nums2.begin(), nums2.end(), num)) {
+                return num;
+            }
+        }
+        return -1;
+    }
+};
+
+
+
+
+2*:-
+
+class Solution {
+public:
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+        int i = 0; 
+        int j = 0;
+
+        while (i < nums1.size() && j < nums2.size()) {
+            if (nums1[i] == nums2[j]) {
+                return nums1[i];
+            } else if (nums1[i] < nums2[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        return -1;
+    }
+};
+
+

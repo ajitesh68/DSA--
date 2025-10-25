@@ -1,0 +1,37 @@
+ 3. Longest Substring Without Repeating Characters      -       A+(30 min)
+          was a very easy problem but perfect for start in dynamic Programming 
+
+
+424. Longest Repeating Character Replacement            A+(60 min)
+          A window is considered valid if the number of characters you need to replace is less than or equal to k. You can calculate this with a simple formula:
+          (window_length - count_of_most_frequent_char) <= k
+
+
+          I did it by checking every window is valid or not 
+          if is better than while here in terms of complexity (shrink)
+
+          I created the valid fnc and it checks the max freq for every window 
+          but the other problem in which :-(I didnt do that one)
+               max_freq stores the highest frequency of any single character 
+               we've seen in any valid window so far
+               Because we are only interested in finding a substring that is 
+               longer than our current max_len. 
+
+
+1297. Maximum Number of Occurrences of a Substring        B
+          I was able to figure out that maxsize is useless in this case but got confuse under some part 
+          
+
+1004. Max Consecutive Ones III                            A+(12 min)
+          It was very simple really a dynamic sliding window problem
+
+
+3234. Count the Number of Substrings With Dominant Ones         B
+         (WATCH VIDEO)
+
+
+76. Minimum Window Substring                   A(60 min)
+         (WATCH VIDEO)
+         was not able to code by myself but found the approach not optimal one but 
+         my approach is more direct and intuitive
+         have/need method is a clever optimization

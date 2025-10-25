@@ -1,0 +1,103 @@
+518. Coin Change II                      A+(20 MIN)
+       It was a good start with 2D DP array
+
+935. Knight Dialer                       A+ 
+
+
+552. Student Attendance Record II        A   
+      Through recursion it is easy to calculate 
+
+
+
+
+      if (dp[i][a][c] == 0)  
+      it means that state is impossible to reach. For example, 
+      a 2-day record (i=2) cannot have 3 absences (a=3), so the value at that
+       dp cell would be 0.
+
+      If a state at day i is impossible to reach (dp[i][a][c] == 0),
+      it cannot contribute to forming any valid records for day i+1.
+
+
+377. Combination Sum IV                 A+(20 min)
+     both memoization and its tabulation conversion is very easy
+
+
+
+
+
+629. K Inverse Pairs Array
+     inverse pair is a pair of integers [i, j] 
+     where 0 <= i < j < nums.length and nums[i] > nums[j].
+
+INTUITION:- The solution is based on a simple idea: we can build all permutations for n numbers
+      by taking every permutation of n-1 numbers and inserting the new number n into it.
+
+      The key is that since n is the largest number, the number of new inverse pairs we create depends only on 
+      where we place it:
+      Place n at the very end -> adds 0 new pairs.
+
+      Place n one spot from the end -> adds 1 new pair.
+
+      Place n two spots from the end -> adds 2 new pairs.
+     ..and so on, up to adding n-1 new pairs if placed at the beginning.
+
+     So, to find the total ways to get k inverse pairs with n numbers, we just sum up the ways we could
+      have reached our goal from a smaller n-1 permutation.
+
+ALGORITHM(CODE CONVERSION):- 
+      The function helper(n, k) calculates the number of permutations of n elements with exactly k inverse pairs. 
+      The code uses this incremental building logic to form a recurrence relation.
+
+      Started with a permutation of n-1 elements that had k pairs, and added n at the end (adding 0 new pairs).
+      Started with a permutation of n-1 elements that had k-1 pairs, and added n one spot from the end (adding 1 new pair).
+      Started with a permutation of n-1 elements that had k-2 pairs, and added n two spots from the end (adding 2 new pairs).
+      ...
+
+      Started with a permutation of n-1 elements that had k - (n-1) pairs, and added n at the beginning (adding n-1 new pairs).
+
+      The total number of ways is the sum of all these possibilities. This gives us the formula:
+      helper(n, k) = helper(n-1, k) + helper(n-1, k-1) + ... + helper(n-1, k - (n-1))
+
+      // i is the number of new inverse pairs we are creating
+      for (int i = 0; i <= min(k, n - 1); i++) {
+       // We sum up the ways by looking at permutations of n-1 elements
+       // that had k-i pairs.
+      result = (result + helper(n - 1, k - i)) % MOD;
+      }
+
+
+
+
+813. Largest Sum of Averages
+     
+INTUITION :-
+      The core idea is to figure out **where to make the "cut"** to end the current group.
+      Imagine you're at the start of the array and need to make `k` groups. Your first group could be just the first element,
+      or the first two, or the first three, and so on.
+
+     The algorithm's job is to try **every possible length** for the first group. For each choice, it calculates that
+     group's average and then recursively asks, "What's the best I can do with the *rest* of the array and `k-1` groups?"
+
+     The final answer is the maximum score found among all these choices.
+
+ALGORITHM
+    The problem is solved using a recursive function with **memoization** (a type of dynamic programming) to make it efficient.
+
+    1.  **Function Signature:** `solve(index, k)`: This function calculates the largest
+     sum of averages for the subarray starting at `index` using `k` partitions.
+
+    2.  **Base Case:** If `k` is 1, you have no more choices. You must take the rest of
+     the array as a single group. Calculate its average and return it.
+
+    3.  **Core Logic (The Loop):**
+    * Loop through all possible end points `j` for the current group (from `index` to the end).
+    * For each `j`, calculate the average of the group `nums[index...j]`.
+    * Recursively call `solve(j + 1, k - 1)` to get the best score for the remaining part of the array.
+    * The total score for this choice is `current_average + score_from_rest`.
+
+    4.  **Goal:** Keep track of the maximum total score found across all iterations of the loop.
+
+
+
+

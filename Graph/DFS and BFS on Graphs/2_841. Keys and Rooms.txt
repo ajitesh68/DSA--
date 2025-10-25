@@ -1,0 +1,106 @@
+A(38 min)
+
+
+
+Learning 1:-
+#include <algorithm> // Required for std::find
+
+// ...
+
+if (std::find(visited.begin(), visited.end(), false) == visited.end())
+
+
+
+Learning 2:-
+
+When helper(3) sees all rooms visited, it returns true.
+
+BUT in helper(2) you call:
+helper(3, rooms, visited);
+
+and you ignore its return value ❌
+
+So helper(3) returns true, but helper(2) does not use it → it keeps running and finally hits:
+return false;
+
+That false propagates back up → and the final result becomes false, even though you already found success.
+
+
+✅ Fix
+
+You need to propagate the true result upward:
+
+for (int u : rooms[x]) {
+    if (!visited[u]) {
+        if (helper(u, rooms, visited))   // <--- check return value
+            return true;                 // propagate success
+    }
+}
+
+
+Now, when helper(3) returns true, it bubbles all the way back, and the final answer becomes true.
+
+
+
+
+
+DFS approach code:-
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        vector<bool> visited(rooms.size(), false);
+        int x;
+        return helper(0, rooms, visited);
+    }
+    bool helper(int x, vector<vector<int>>& rooms, vector<bool>& visited) {
+
+        visited[x] = true;
+
+        if (find(visited.begin(), visited.end(), false) == visited.end())
+            return true;
+
+        for (int u : rooms[x]) {
+            if (!visited[u]) {
+                if(helper(u, rooms, visited))return true;
+            }
+        }
+
+        return false;
+    }
+};
+
+
+
+bfs approach:- more simpler
+
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector<bool> visited(n, false);
+        queue<int> q;
+
+        // Start with room 0
+        visited[0] = true;
+        q.push(0);
+
+        while (!q.empty()) {
+            int room = q.front();
+            q.pop();
+
+            // Explore all keys in the current room
+            for (int key : rooms[room]) {
+                if (!visited[key]) {
+                    visited[key] = true;
+                    q.push(key);
+                }
+            }
+        }
+
+        // Check if all rooms are visited
+        for (bool v : visited) {
+            if (!v) return false;
+        }
+        return true;
+    }
+};

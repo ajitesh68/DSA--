@@ -1,0 +1,19 @@
+2559. Count Vowel Strings in Ranges            A(60 min)
+          new algorithmic pattern found 
+          a good problem to start with prefix sum 
+
+2483. Minimum Penalty for a Shop               B
+        I got the understanding of whole problem but doing it in O(n) is possible due to prefix sum
+        first we will calculate for the 0th hour and then for every hour we will just check the character
+        before.
+        You have to recognize such type of pattern.
+
+2100. Find Good Days to Rob the Bank           B
+
+       here I also wasnt able to find the solution and approach on my I had to take the hint but they were 
+       equivalent to solution 
+       here we made 2 array before and after which store info about all element before and after at that index 
+       I miss the intuition here .
+       std::iota is a standard C++ function from the <numeric> header that fills a range with a sequence of increasing values.
+
+        

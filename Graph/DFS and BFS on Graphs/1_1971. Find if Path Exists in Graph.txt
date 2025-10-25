@@ -9,6 +9,19 @@ as it was my first problem in graph so it was fine
 you can also do this by bfs
 
 
+Learning:-
+
+## 1. Representing a Graph: Adjacency List
+The first thing the code does is convert the input edges into a more useful format called an adjacency list.
+
+## 2. Exploring the Graph: Depth First Search (DFS)
+
+## 3. Preventing Infinite Loops: The visited Array
+The visited array is critical for any graph traversal.(pass by reference)
+
+
+
+
 class Solution {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int source,

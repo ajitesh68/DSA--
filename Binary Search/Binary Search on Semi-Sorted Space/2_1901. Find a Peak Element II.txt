@@ -1,0 +1,44 @@
+A(60 min)
+
+
+## 3. Combine Linear and Logarithmic Work Correctly
+You correctly identified that the solution involved combining an O(m) part and an O(log n) part. 
+Your final insight about reversing the structure was the key.
+
+
+
+class Solution {
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        int low = 0, high = mat.size() - 1;
+        
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            
+           
+            int i = 0;
+            for (int j = 1; j < mat[mid].size(); ++j) {
+                if (mat[mid][j] > mat[mid][i]) {
+                   i = j;
+                }
+            }
+            
+            
+            bool isPeakAbove = (mid == 0 || mat[mid][i] > mat[mid - 1][i]);
+            bool isPeakBelow = (mid == mat.size() - 1 || mat[mid][i] > mat[mid + 1][i]);
+            
+            if (isPeakAbove && isPeakBelow) {
+               
+                return {mid,i};
+            } else if (!isPeakAbove) {
+                
+                high = mid - 1;
+            } else {
+              
+                low = mid + 1;
+            }
+        }
+        
+        return {-1, -1}; 
+    }
+};

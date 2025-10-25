@@ -1,0 +1,13 @@
+Core Logic 🧠
+Initialize: Set left = 0, right = 0, an answer variable, and a hash map to track the
+ window's state.
+
+Expand 👉: Loop the right pointer from start to end, adding collection[right] to the 
+hash map.
+
+Shrink 👈: Inside the loop, use a while loop to check if the window is invalid. 
+If it is, remove collection[left] from the hash map and increment left until the window 
+is valid again.
+
+Update ✅: After each valid step, calculate the window's current size (right - left + 1) 
+and update your answer if it's better than the previous best.

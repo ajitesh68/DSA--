@@ -1,0 +1,45 @@
+B(45 min)
+
+
+did not read the question properly 
+
+
+class Solution {
+public:
+    int maximumCandies(vector<int>& candies, long long k) {
+        long long sum = 0;
+        for (int c : candies) {
+            sum += c;
+        }
+
+        if (sum < k) {
+            return 0;
+        }
+
+        long long left = 1;
+        long long right = *std::max_element(candies.begin(), candies.end());
+        int ans = 0;
+
+        while (left <= right) {
+            long long mid = left + (right - left) / 2;
+            
+            if (mid == 0) {
+                left = 1;
+                continue;
+            }
+
+            long long children_served = 0;
+            for (int p : candies) {
+                children_served += p / mid;
+            }
+
+            if (children_served >= k) {
+                ans = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};

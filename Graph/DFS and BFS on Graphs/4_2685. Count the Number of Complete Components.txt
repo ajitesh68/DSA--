@@ -1,0 +1,141 @@
+A+( 60 min)
+
+
+
+not optimal O(n2)
+
+
+Learning:-
+isComplete fnc is not called several times but only some times hence complexity would no go to O(n3)
+
+
+#include <vector>
+#include <numeric>
+
+class Solution {
+public:
+    int countCompleteComponents(int n, std::vector<std::vector<int>>& edges) {
+        std::vector<std::vector<int>> adjMatrix(n, std::vector<int>(n, 0));
+        for (const auto& edge : edges) {
+            adjMatrix[edge[0]][edge[1]] = 1;
+            adjMatrix[edge[1]][edge[0]] = 1;
+        }
+
+        std::vector<bool> visited(n, false);
+        int complete_count = 0;
+
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                std::vector<int> componentNodes;
+                dfs(i, adjMatrix, visited, componentNodes);
+                if (isComplete(componentNodes, adjMatrix)) {
+                    complete_count++;
+                }
+            }
+        }
+        return complete_count;
+    }
+
+private:
+    void dfs(int u, const std::vector<std::vector<int>>& adjMatrix, std::vector<bool>& visited, std::vector<int>& componentNodes) {
+        visited[u] = true;
+        componentNodes.push_back(u);
+        for (int v = 0; v < adjMatrix.size(); ++v) {
+            if (adjMatrix[u][v] == 1 && !visited[v]) {
+                dfs(v, adjMatrix, visited, componentNodes);
+            }
+        }
+    }
+
+    bool isComplete(const std::vector<int>& nodes, const std::vector<std::vector<int>>& adjMatrix) {
+        if (nodes.size() <= 1) {
+            return true;
+        }
+        for (size_t i = 0; i < nodes.size(); ++i) {
+            for (size_t j = i + 1; j < nodes.size(); ++j) {
+                if (adjMatrix[nodes[i]][nodes[j]] == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+
+
+
+
+optimal:
+
+
+Yes, exactly. You've hit on a key point. These aren't obscure "tricks" but are fundamental and powerful formulas from **graph theory**, a core part of discrete mathematics. Knowing them is a huge advantage for solving graph-based problems efficiently.
+
+Here's a quick summary of the two concepts:
+
+---
+
+### ## 1. The Handshaking Lemma 🤝
+This is the formal name for the edge-counting formula. It states that the sum of the degrees of all vertices in a graph is equal to twice the number of edges.
+
+* **Formula:** $\sum_{v \in V} \deg(v) = 2|E|$
+
+The intuition is simple: every edge connects **two** vertices, so when you sum the degrees of every vertex, you're counting each edge exactly twice (once from each end). This is why we divide the sum by two to find the actual number of edges.
+
+
+
+---
+
+### ## 2. Edges in a Complete Graph
+A complete graph is one where every vertex is connected to every other vertex. The formula for the number of edges is a classic combinatorics problem.
+
+* **Formula:** $|E| = \frac{V(V-1)}{2}$
+
+This formula calculates the number of ways to choose 2 vertices from a set of `V` vertices (written as $\binom{V}{2}$). Each of the `V` vertices needs to connect to the other `V-1` vertices, and we divide by 2 because the edge from `A` to `B` is the same as the edge from `B` to `A`.
+
+So, you're right. Having these two principles in your toolkit turns a complex-looking problem into a straightforward counting exercise. 👍
+
+
+
+
+
+class Solution {
+public:
+    int countCompleteComponents(int n, std::vector<std::vector<int>>& edges) {
+        std::vector<std::vector<int>> adj(n);
+        for (const auto& edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+
+        std::vector<bool> visited(n, false);
+        int complete_count = 0;
+
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                long long nodes_count = 0;
+                long long edges_count = 0;
+                
+                dfs(i, adj, visited, nodes_count, edges_count);
+                
+                long long actual_edges = edges_count / 2;
+                if (actual_edges == (nodes_count * (nodes_count - 1)) / 2) {
+                    complete_count++;
+                }
+            }
+        }
+        return complete_count;
+    }
+
+private:
+    void dfs(int u, const std::vector<std::vector<int>>& adj, std::vector<bool>& visited, long long& nodes_count, long long& edges_count) {
+        visited[u] = true;
+        nodes_count++;
+        edges_count += adj[u].size();
+        
+        for (int v : adj[u]) {
+            if (!visited[v]) {
+                dfs(v, adj, visited, nodes_count, edges_count);
+            }
+        }
+    }
+};

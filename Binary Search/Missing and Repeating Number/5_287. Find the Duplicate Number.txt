@@ -1,0 +1,29 @@
+B
+
+
+## 1. Constraints Are Hints, Not Just Rules
+The strict constraints (O(1) extra space, no modifying the array) were the most important part of the problem.'
+ They weren't just annoying rules; they were powerful hints that forced you to discard obvious solutions like sorting or 
+ using a hash set.
+
+The Learning: Treat constraints as a guide. They push you away from brute-force methods and toward more creative,
+ non-obvious, and elegant algorithms.
+
+
+
+
+## 2. Think "Outside the Array" (Binary Search on the Answer)
+The first major breakthrough was realizing you didn't have to search the array itself.
+
+The Learning: You can perform a binary search on the range of possible answers ([1, n]) if you can find a way to test a "guess". 
+ Our test (count > mid) allowed us to eliminate half of the possible answers with each step.
+ This is a powerful pattern for many problems where the answer lies within a known, sorted range.
+
+
+
+# 3. Different Algorithms, Same Goal (BS vs. Cycle Detection)
+This problem has at least two brilliant, completely different solutions that both follow all the rules.
+
+Binary Search on the Answer: A solution based on pure logic and counting (the Pigeonhole Principle).
+
+Floyd's Cycle Detection: A solution that creatively re-imagines the array as a linked list and uses a graph theory approach.

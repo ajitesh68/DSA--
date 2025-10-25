@@ -1,0 +1,105 @@
+B(60 min)
+
+
+I was able to find the logic how we will do but not carefully looked at the inputs so cant figure 
+it out 
+
+also didnt read the problem carefully so that was a mistake 
+
+
+
+## The "At Most One Outgoing Edge" Rule
+The problem statement specifies that each node has at most one outgoing edge.
+ This is the most important rule for understanding the structure of this graph.
+ It means edges[i] can only point to a single destination.
+
+
+
+Recursive approach:-
+
+ class Solution {
+public:
+    int longestCycle(std::vector<int>& edges) {
+        int n = edges.size();
+        int longest_cycle = -1;
+        std::vector<bool> visited(n, false);
+
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                std::unordered_map<int, int> path_distances;
+                dfs(i, 0, path_distances, visited, edges, longest_cycle);
+            }
+        }
+        return longest_cycle;
+    }
+
+private:
+    void dfs(int curr_node, int distance,
+             std::unordered_map<int, int>& path_distances,
+             std::vector<bool>& visited, std::vector<int>& edges,
+             int& longest_cycle) {
+        if (curr_node == -1) {
+            return;
+        }
+
+        if (path_distances.count(curr_node)) {
+            int cycle_length = distance - path_distances[curr_node];
+            longest_cycle = std::max(longest_cycle, cycle_length);
+            return;
+        }
+
+        if (visited[curr_node]) {
+            return;
+        }
+
+        visited[curr_node] = true;
+        path_distances[curr_node] = distance;
+
+        dfs(edges[curr_node], distance + 1, path_distances, visited, edges,
+            longest_cycle);
+    }
+};
+
+
+
+I was done iteratively as well 
+
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+class Solution {
+public:
+    int longestCycle(std::vector<int>& edges) {
+        int n = edges.size();
+        int longest_cycle = -1;
+        std::vector<bool> visited(n, false);
+
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                std::unordered_map<int, int> path_distances;
+                int distance = 0;
+                int curr_node = i;
+
+                while (curr_node != -1) {
+                    if (path_distances.count(curr_node)) {
+                        int cycle_length = distance - path_distances[curr_node];
+                        longest_cycle = std::max(longest_cycle, cycle_length);
+                        break;
+                    }
+
+                    if (visited[curr_node]) {
+                        break;
+                    }
+                    
+                    visited[curr_node] = true;
+                    path_distances[curr_node] = distance;
+                    
+                    curr_node = edges[curr_node];
+                    distance++;
+                }
+            }
+        }
+        return longest_cycle;
+    }
+};

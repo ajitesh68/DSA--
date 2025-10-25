@@ -1,0 +1,119 @@
+A(90 min) 
+
+I was able to configure the correct logic(not optimal one) and it works 
+First I wasted my lot of time on figure the correct problem 
+which is mentioned below
+
+
+The problem statement guarantees that the city network forms a tree. 
+A tree has one critical property: it cannot have cycles (loops).
+
+Let's look at the connections in your example:
+You have a road from 0 to 1.
+You have a road from 1 to 3.
+You have a road from 3 to 4.
+You have a road from 4 back to 0.
+This creates a cycle: 0 -> 1 -> 3 -> 4 -> 0.
+
+Because of this cycle, there is more than one way to travel between these cities, 
+which the problem statement says is not possible.
+ The input is invalid because it isn't a tree.
+
+
+ A valid input for this problem might look like this (removing the [3,4] edge to break the cycle):
+[[0,1], [1,3], [2,3], [4,0], [4,5]]
+
+For this valid input, the answer would be 3.
+The problem states the cities and roads form a tree. A tree with n nodes must have exactly n-1 roads and no cycles
+
+
+
+
+My approach:-
+
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        set<pair<int, int>> originalEdges;
+        for (const auto& conn : connections) {
+            originalEdges.insert({conn[0], conn[1]});
+        }
+
+        vector<vector<int>> adj(n);
+        for (const auto& conn : connections) {
+            adj[conn[0]].push_back(conn[1]);
+            adj[conn[1]].push_back(conn[0]);
+        }
+        
+        vector<pair<int, int>> correctEdges;
+        vector<bool> visited(n, false);
+
+        helper(adj, 0, correctEdges, visited);
+
+        int reorderCount = 0;
+        for (const auto& edge : correctEdges) {
+            int child = edge.first;
+            int parent = edge.second;
+
+            if (originalEdges.count({child, parent}) == 0) {
+                reorderCount++;
+            }
+        }
+
+        return reorderCount;
+    }
+
+    void helper(vector<vector<int>>& adj, int x,
+                vector<pair<int, int>>& arr, vector<bool>& visited) {
+        
+        visited[x] = true;
+
+        for (int u : adj[x]) {
+            if (!visited[u]) {
+                arr.push_back({u, x});
+                helper(adj, u, arr, visited);
+            }
+        }
+    }
+};
+
+
+optimal approach:-
+
+//This is not my approach but this works in single go and good for learning 
+//directed graphs problem it has used here 
+//Understand and learn this method for future use 
+class Solution {
+public:
+    int changes = 0;
+
+    void dfs(int city, int parent, std::vector<std::vector<std::pair<int, int>>>& adj) {
+        for (auto& connection : adj[city]) {
+            int neighbor = connection.first;
+            int direction = connection.second;
+
+            if (neighbor == parent) {
+                continue;
+            }
+
+            changes += direction;
+            
+            dfs(neighbor, city, adj);
+        }
+    }
+
+    int minReorder(int n, std::vector<std::vector<int>>& connections) {
+        std::vector<std::vector<std::pair<int, int>>> adj(n);
+
+        for (const auto& conn : connections) {
+            int u = conn[0];
+            int v = conn[1];
+            adj[u].push_back({v, 1});
+            adj[v].push_back({u, 0});
+        }
+
+        dfs(0, -1, adj);
+
+        return changes;
+    }
+};

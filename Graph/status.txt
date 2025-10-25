@@ -1,0 +1,92 @@
+1971. Find if Path Exists in Graph     A (40 min)
+
+       I was doing mistake in many places like in recursion 
+checking base condition incorrectly and not using visited array
+as it was my first problem in graph so it was fine 
+       Also did with BFS approach which was very simple make sure to use visited array 
+
+  
+841. Keys and Rooms    A(38 min)   
+
+        was stuck only in this part where we have to check whether the visited array contains
+        false or not .
+
+        if (find(visited.begin(), visited.end(), false) == visited.end())
+            return true;
+
+
+547. Number of Provinces     A+(30 min)
+
+        This was similar as every problem till now
+        in BFS also we will use an outer loop and inside it we will have while loop
+
+
+2685. Count the Number of Complete Components    A+( 60 min)
+
+        In this prolblem we will create an adj list and also a visited array
+        an outer for loop which will visit every node after checking visited node 
+        dfs would be call if node is false 
+        dfs will all possible visited nodes 
+        and then it will check(A connected component is said to be complete if 
+        there exists an edge between every pair of its vertices.)
+
+        I did in 2 way:- 1st was to check each node with every other node 
+                         2nd was bit complex and I didnt knew that 
+        
+        2nd way:-
+        This was the challenging part when in optimal approach it directly 
+                long long actual_edges = edges_count / 2;
+                if (actual_edges == (nodes_count * (nodes_count - 1)) / 2) {
+                    complete_count++;
+                }
+
+
+2360. Longest Cycle in a Graph              B
+       ----> WATCH VIDEO FOR THIS 
+       read the question carefully many hints are already given in the problem and which will 
+       make the problem easy.
+
+
+909. Snakes and Ladders                     B
+       ----> WATCH VIDEO FOR THIS
+       classic example of finding the shortest path in an unweighted graph
+
+       Your intuition about DP is not wrong! BFS and DP are closely related. 
+       You can think of BFS as a specific type of DP applied to graphs.
+
+       The visited array or a distance map used in a typical BFS 
+       solution serves the same purpose as a DP memoization table.
+
+       ## The Problems with a Pure Recursive (DFS) Approach  1. Extreme Inefficiency 😟    2. Risk of Infinite Loops 🔄
+
+       BFS avoids deep recursion and is specifically designed to find the
+        shortest path from a starting point, which is exactly what the question asks for.
+
+
+       **they use visited array becoz if we vist any square later which can be visited earlier then it is generally taking more 
+       steps so it is better to not count that possiblilty
+
+752. Open the Lock                         A
+       
+      It is similar as the above problem 
+      classic example of finding the shortest path in an unweighted graph
+      I forgot to add visited array 
+      string conversion is a challeng here 
+
+
+      For each combination, it generates all 8 neighbors by turning each of the 4 wheels up and down by one slot.
+      It uses sets to instantly check for and ignore any combinations that are deadends or have already been visited.
+      The search continues until the target is found, returning the number of steps taken, or -1 if it's impossible.
+
+
+127. Word Ladder                           A+(60 min)
+             This problem is a classic example of finding the shortest path in a graph
+              one character away
+              comparing character by character to find all valid "neighbors" that differ by a single letter.
+              It uses a queue to explore words level by level and a map to track visited words to avoid cycles
+
+3015. Count the Number of Houses at a Certain Distance I                   B
+              ------>WATCH VIDEO
+              we can think of Floyd Wrshall , BFS and Dijikstra
+              For many problems, a simple brute-force approach with nested loops is a perfectly valid and 
+              efficient solution, especially when constraints are small.
