@@ -1,0 +1,105 @@
+Directed Graph Cycle                          B
+INTUITION:-You start exploring, adding each new tunnel to both lists. If you find a tunnel that is 
+already on your recStack list, you've found a cycle because you've arrived at a place you're already in during
+this same trip. If you find a tunnel that's only on visited (but not recStack), it's fine; you just visited it 
+on a previous, separate trip that already finished. When you hit a dead end and turn back (backtrack), you erase
+that tunnel from the recStack list, as it's no longer on your active path.
+
+
+Undirected Graph Cycle                      A(25 min)
+INTUITION:-To find a cycle in an undirected graph, we use DFS to explore paths. The key is to find an edge that leads to an already 
+visited node. However, in an undirected graph, going from node A to B means B can also go back to A. This isn't a cycle, it's just 
+the path we just came from. To solve this, we pass a parent variable in our DFS. When we explore a node, we mark it as visited. Then, 
+for all its neighbors, if a neighbor is visited and it is not our immediate parent, we have found a true cycle (a back-edge). If the 
+neighbor is not visited, we continue the DFS from there, passing the current node as the new parent.
+
+
+1559. Detect Cycles in 2D Grid                    B(60 min)
+INTUITION:-To find a cycle in the grid, we think of it as an undirected graph where cells are nodes and adjacent, 
+matching characters are edges. We use Depth-First Search (DFS) to explore paths. The key challenge is to distinguish a true cycle from 
+just moving back to the cell we just came from. To solve this, our DFS must remember its parent's coordinates (px, py). When we move 
+from (px, py) to (x, y), we mark (x, y) as visited. Then, we check its neighbors: if a neighbor (nx, ny) has the same character and is 
+already visited, we've found a cycle, unless (nx, ny) is just our parent (px, py).
+
+ALGORITHM:-We run a DFS from every unvisited cell. The DFS explores neighbors with the same character, marking each cell (x, y) as 
+visited. To avoid just going backward, it remembers its parent cell (px, py). If the DFS finds a neighbor that has the same character 
+and is already visited (but is not its parent), a cycle has been found.
+
+
+
+2608. Shortest Cycle in a Graph                   B
+INTUITION:-
+It dives too deep. DFS runs down long paths immediately, often ignoring short shortcuts right next to the start.
+
+It takes the long way. It might travel 100 steps to reach a neighbor that was actually just 1 step away.
+
+First does not mean best. The first cycle DFS finds is usually a long, messy loop, not the tightest one.
+
+The math breaks. DFS only knows how far it walked on a specific path, not the true distance between two points, so the calculation 
+gives the wrong answer.
+
+### Thought Process
+
+The logic relies on the **2-Coloring principle** using Depth First Search (DFS). You maintain a `color` array (stores 0 or 1) and iterate through every node to handle disconnected components. For each node, you immediately assign all its neighbors the **opposite color**. If you encounter a neighbor that already shares the **same color** as the current node, you detect a conflict and return `false`. While your DFS recurses on the first unvisited path and returns early, your main outer loop acts as a safety net, ensuring any nodes skipped by the recursion are eventually visited and checked for conflicts.
+
+* **Concept:** Graph Coloring (0 vs 1).
+* **Traversal:** DFS (Depth First Search).
+* **Validation:** Neighbor cannot have `color[u] == color[a]`.
+
+Would you like me to convert this logic into the iterative (BFS) approach, which is often safer for very deep graphs?It is too slow. To actually find the shortest cycle with DFS, you would have to force it to check every single path combination,
+which takes forever.
+
+
+BFS approach:-To code this, I start by looping through every node to launch a fresh BFS, treating each one as the root of a
+potential cycle. Inside the BFS, I use a queue to explore layer-by-layer and a dist array to track how many steps I am from the start. 
+The core logic happens when I look at a neighbor: if it is already visited (and isn't the immediate parent I just came from), it means 
+two different paths have circled back and collided. I immediately calculate the cycle length by adding the distance of the current node
+and the neighbor plus the connecting edge (dist[u] + dist[v] + 1) and store the minimum result.
+
+
+
+
+785. Is Graph Bipartite?                         A+(40 min)
+INTUITION:-### Thought Process
+
+The logic relies on the **2-Coloring principle** using Depth First Search (DFS). You maintain a `color` array (stores 0 or 1) and 
+iterate through every node to handle disconnected components. For each node, you immediately assign all its neighbors the **opposite 
+color**. If you encounter a neighbor that already shares the **same color** as the current node, you detect a conflict and return
+ `false`. While your DFS recurses on the first unvisited path and returns early, your main outer loop acts as a safety net, ensuring
+  any nodes skipped by the recursion are eventually visited and checked for conflicts.
+
+* **Concept:** Graph Coloring (0 vs 1).
+* **Traversal:** DFS (Depth First Search).
+* **Validation:** Neighbor
+ cannot have `color[u] == color[a]`.
+
+BFS approach:-
+
+
+
+886. Possible Bipartition                           A+(18 min)
+INTUITION:- Same as Bipartite
+(note try to do with BFS)
+
+1042. Flower Planting With No Adjacent                  B
+
+DFS Algorithm Flow
+Build Graph:
+Convert paths into an Adjacency List (adj) for fast neighbor lookup.
+Initialize a type array of size n with 0 (representing uncolored).
+Handle Disconnected Components:
+Loop from node 0 to n-1.
+If type[i] is 0 (unvisited), call dfs(i).
+Inside DFS Function (Current Node):
+Check Constraints: Create a boolean array used (size 5). Iterate through the current node's neighbors. If a neighbor has a color, mark that color as true in used.
+Assign Color: Iterate 1 to 4. Pick the first color that is not marked used. Assign this to type[node].
+Recurse: Iterate through the neighbors again. If a neighbor is still uncolored (type == 0), call dfs on that neighbor.
+
+Key Difference from Bipartite: In Bipartite, you force a specific color on the neighbor. Here, you determine your own color based 
+on neighbors, then move on.
+
+
+
+
+Divide Nodes Into the Maximum Number of Groups                        B
+-------> WATCH VIDEO

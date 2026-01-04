@@ -1,0 +1,45 @@
+62. Unique Paths            A+
+INTUITION:-The Dynamic Programming intuition builds the solution by solving for each cell.
+        There is only **one** way to reach any cell in the top row (all "right" moves) and **one** way to
+        reach any cell in the first column (all "down" moves). For any other cell, the robot *must* have arrived 
+        from either the cell directly **above** it or the cell directly to its **left**. Therefore, the total 
+        number of unique paths to reach any cell is the **sum** of the paths to the cell above it and the paths 
+        to the cell to its left. By calculating this sum for every cell, the value in the bottom-right corner 
+        will be the final answer.
+
+63. Unique Paths II          A+
+INTUITION:- This problem uses the same Dynamic Programming intuition as the first "Unique Paths" problem, with one 
+        simple twist. You still calculate paths to a cell `(i, j)` by adding the paths from the cell **above** (`dp[i-1][j]`)
+        and the cell to the **left** (`dp[i][j-1]`). However, if a cell `(i, j)` contains an **obstacle** (`grid[i][j] == 1`),
+        you set its path count `dp[i][j]` to **zero**. This $0$ value then correctly propagates, as any path that would have 
+        used this obstacle cell is now nullified. This rule also applies to the first row and column: if an obstacle is hit, 
+        all cells after it in that line become $0$ because the single path to them is blocked.
+
+64. Minimum Path Sum        A
+INTUITION:- This problem is solved using Dynamic Programming by finding the minimum path sum to reach *each* cell. 
+            The minimum sum to reach the start cell `(0, 0)` is just its own value. For any cell in the first row, the minimum sum
+            is a running total from the left, and for the first column, it's a running total from above. For any other cell `(i, j)`,
+            the minimum path to get there *must* come from either the cell **above** `(i-1, j)` or the cell to the **left** `(i, j-1)`.
+            Therefore, the minimum sum to reach `(i, j)` is its own value `grid[i][j]` **plus** the **minimum** of the path sums from 
+            those two preceding cells. By filling the grid this way, the value in the bottom-right corner will be the overall minimum path sum.
+
+1594. Maximum Non Negative Product in a Matrix           A
+INTUITION:-A negative number flips the sign, meaning a path with the minimum product (a large negative number) could suddenly become the maximum product
+        if it's multiplied by another negative.
+        
+        Therefore, for each cell, you can't just track the max product. You must track both the maximum product (dp_max) and the minimum 
+        product (dp_min) to reach that cell.
+
+        you have to take the max and min from both right and left for each cell then come to conclusion
+
+3148. Maximum Difference Score in a Grid                  A 
+INTUITION:- 
+
+2684. Maximum Number of Moves in a Grid                  A+(50 min)memoization      
+INTUITION(memoization):-
+
+1706. Where Will the Ball Fall                       A+(50 min)memoization      
+INTUITION(memoization):-
+
+174. Dungeon Game                                   B      
+INTUITION(memoization):-

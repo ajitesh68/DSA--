@@ -35,3 +35,67 @@
          was not able to code by myself but found the approach not optimal one but 
          my approach is more direct and intuitive
          have/need method is a clever optimization
+
+
+
+30. Substring with Concatenation of All Words                 A(90 min)
+
+INTUITION(MY Approach):-The intuition for this code is to brute-force every possible starting position. 
+First, it calculates the total length of a valid substring (e.g., 3 words * 3 chars/word = 9 chars). 
+Then, it iterates through the main string s, one character at a time. At each starting index i, it extracts a substring of 
+that exact total length. This substring is passed to a check function, which acts as a verifier. The check function breaks the substring
+into word-sized chunks and uses a frequency map to ensure it contains exactly the right words in the right amounts, returning true only
+if it's a perfect permutation.
+
+INTUITION(optimal approach witout TLE):-   The core thought process is to move from a "brute-force" check to an efficient "sliding window."
+We first realize that checking every possible substring from scratch (the check function) is too slow, especially for large inputs, 
+as it leads to a Time Limit Exceeded error. The key insight is that since all words are the same length (wordLen), we don't need to 
+re-evaluate everything when we move one character. Instead, we can "slide" a window, one wordLen at a time. However, a valid match might
+not start at index 0 (e.g., it could start at 1, 2, etc.). To solve this, we run the sliding window algorithm wordLen times, one for 
+each possible starting offset (0, 1, ..., wordLen - 1). For each offset, we use two frequency maps: one (wordCount) to store the target
+counts of all words we need, and another (seenWords) to count words in our current window. As we slide the window by adding a new word
+on the right, we check: 
+1) If the new word is invalid, we reset the window. 
+2) If the new word makes our window invalid (e.g., too many "foo"s), we shrink the window from the left until it's valid again. 
+3) If the window size is correct (it contains numWords), we've found a match, record the start index (left), and slide the window forward
+   to find the next one.
+
+209. Minimum Size Subarray Sum                              A+(15 min)
+INTUITION(thought process):- The right pointer expands the window by moving forward and adding elements to a running sum.
+         As soon as the sum is greater than or equal to the target, a valid window is found. The code records this window's length 
+         (right - left + 1) and updates the overall mini length. It then shrinks the window from the left, subtracting nums[left] 
+         and moving left forward, continuously checking if the new, smaller window is still valid (sum >= target) and updating mini until 
+         the window is no longer valid. This "expand and shrink" process guarantees that every possible valid subarray is checked 
+         efficiently in a single pass
+
+
+1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit               A(35 min)
+INTUITION:-The first code (with multiset) is the optimal O(N log N) approach. Its thought process is: "How can I find the min and 
+max of the window without re-scanning it?" It uses a multiset to keep the window's elements sorted. This way, getting the min 
+(*window.begin()) and max (*window.rbegin()) is extremely fast. If max - min > limit, it shrinks the window by removing nums[left] 
+from the set and incrementing left.
+
+The second code (with nested loops) is an inefficient O(N²) approach. Its thought process is more direct: "For every possible window 
+[left, right], I will re-calculate the min and max from scratch."
+
+
+INTUITION:-O(N)This code uses a sliding window with two deques (double-ended queues) for maximum efficiency. The thought process is: 
+"How can I get the window's min and max in O(1) time?" It uses one deque (maxD) to keep track of potential maximums in decreasing order,
+ so maxD.front() is always the window's max. It uses another deque (minD) to track potential minimums in increasing order, so minD.front() 
+ is the window's min. As the right pointer expands, it adds the new element, cleaning the deques by removing smaller (for maxD) or larger 
+ (for minD) elements from the back. If maxD.front() - minD.front() exceeds the limit, the left pointer shrinks the window, removing elements
+  from the front of the deques if they were the min or max.
+
+
+904. Fruit Into Baskets                 A+(67 min)
+
+INTUITION:-This code attempts a sliding window approach. The thought process is to first find and "lock in" the first two distinct fruit 
+types in the array, calling them t1 and t2. Then, it starts the main window (left, right). As long as the right pointer sees t1 or t2, 
+it expands the window, adds the fruit to a freq map, and updates max_size. The moment a third, new fruit type is found, it triggers a 
+shrink. It shrinks the window from the left (using a while loop) until one of the original types (t1 or t2) is completely removed from
+ the window (its frequency becomes 0). It then replaces that old, "zeroed-out" type with the new, third fruit type and continues.
+
+713. Subarray Product Less Than K             A+(15 min)
+ -> very simple problem 
+
+

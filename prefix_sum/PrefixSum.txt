@@ -16,4 +16,73 @@
        I miss the intuition here .
        std::iota is a standard C++ function from the <numeric> header that fills a range with a sequence of increasing values.
 
-        
+2559. Count Vowel Strings in Ranges           A+
+INTUITION:-The thought process starts by recognizing that we need to answer many **range queries**. 
+        Looping through the `words` array for every single query would be very slow ((N \times Q)). This 
+        inefficiency signals the need for pre-computation. The problem asks for a count within a range, which 
+        is a classic use case for a Prefix Sum array. The idea is to first build a `prefix_sum` array in one pass
+       O(N), where `prefix_sum[i]` stores the total count of vowel strings from the start (index 0) up to index
+       `i`. Once this array is built, any query for a range `[first, last]` can be answered instantly O(1) by subtracting the total
+        count *before* the range (prefix_sum[first - 1]) from the total count *at the end* of the range (prefix_sum[last]).
+
+2483. Minimum Penalty for a Shop                  A+
+INTUITION:-The thought process is to find an $O(n)$ solution instead of the $O(n^2)$ brute-force check of every hour.
+         We can do this with a single pass. First, calculate the initial penalty for closing at hour $0$, which is just the total count 
+         of 'Y's (since the shop is never open). This is our initial min_penalty at best_hour = 0. Now, iterate through the customers 
+         string from left to right, simulating the change in penalty as we move the closing hour j one step at a time. If we move from 
+         hour j to j+1, the character at customers[j] moves from the "closed" part to the "open" part. If this character is 'Y', our 
+         penalty decreases by $1$. If it's 'N', our penalty increases by $1$. We update this current_penalty at each step and check 
+          it's strictly less than our min_penalty. If it is, we update min_penalty and set best_hour to the new closing time j+1.
+
+1594. Maximum Non Negative Product in a Matrix            B
+INTUITION:- The thought process for this solution is to avoid a slow, brute-force check for every single day. A naive solution would, 
+        for each day i, loop time days back and time days forward, which is very inefficient. The key insight is to pre-calculate the
+        required information in just two passes. First, a left-to-right pass builds a non_increasing_prefix array, where prefix[i] 
+        stores the length of the non-increasing subarray ending at index i. Second, a right-to-left pass builds a non_decreasing_suffix
+        array, where suffix[i] stores the length of the non-decreasing subarray starting at index i. With these two arrays, you can 
+        make a final, single pass: a day i is "good" if and only if non_increasing_prefix[i] >= time (covering the days before) and
+        non_decreasing_suffix[i] >= time (covering the days after).
+
+1685. Sum of Absolute Differences in a Sorted Array          A (70 min)
+INTUITION:-The thought process is to avoid a slow $O(n^2)$ solution by using pre-computation. The key insight comes from math: 
+        since the nums array is sorted, the absolute difference |nums[i] - nums[j]| can be split. For all elements to the left (j < i),
+        the difference is nums[i] - nums[j]. For all elements to the right (j > i), the difference is nums[j] - nums[i]. By regrouping 
+        these sums, the formula for result[i] simplifies to (nums[i] * count_left - sum_left) + (sum_right - nums[i] * count_right). 
+        This reveals the need for the sum of elements to the left and right of i. The code efficiently pre-calculates these by building
+        a prefixsum array (for sum_left) and a suffixsum array (for sum_right) in two $O(n)$ passes. A final $O(n)$ pass then assembles 
+        the answer for each result[i] using this formula, correctly handling the edge cases (when i=0 or i=n-1) and using long long to
+        prevent integer overflow.
+
+238. Product of Array Except Self                        A+(28 min)
+INTUITION:-The core idea is to compute the final product for each index `i` by multiplying the **product of all elements to its left**
+        by the **product of all elements to its right**. This is done in two $O(n)$ passes. First, we iterate left-to-right, filling the 
+        `answer` array such that `answer[i]` contains the product of all elements *before* `nums[i]`. Second, we iterate right-to-left,
+        maintaining a running `rightProduct` variable. In this pass, we multiply the existing `answer[i]` (which holds the left product)
+        by the current `rightProduct` to get the final result, and then update `rightProduct` for the next element.
+
+
+1352. Product of the Last K Numbers                      B
+INTUITION:-The core idea is to maintain a list of **prefix products** (the cumulative product) of the numbers added *since the last zero*.
+        When `getProduct(k)` is called, we can find the product of the last $k$ numbers in $O(1)$ time by dividing the last prefix product 
+        (`list.back()`) by the prefix product from $k$ steps ago (`list[size - 1 - k]`). If a **zero** is added, it invalidates all 
+        previous products, so we simply **reset** the prefix product list to `[1]`. If `getProduct(k)` is called and $k$ is larger 
+        than the current list size, it means the range must include the last zero, so we return 0.
+
+
+2171. Removing Minimum Number of Magic Beans             A+(45 MIN)
+INTUITION:- The core strategy is to test each bean value as the potential "final" value for all non-empty bags. First, sort the `beans` 
+        array in **decreasing** order and calculate the `totalSum`. Then, iterate through this sorted array from the largest element to 
+        the smallest, maintaining a running `prefixSum` (the sum of all elements from the start up to the current index `i`). 
+        For any given `beans[i]`, the total removal cost is the sum of two parts: the cost to remove all smaller beans 
+        (those to the right), which is `totalSum - prefixSum`, and the cost to reduce all larger beans (those to the left) down
+        to the current `beans[i]`, which is calculated by `prefixSum - beans[i] * (i + 1)`. The minimum of these costs found across 
+        all `i` is the final answer.
+
+
+2420. Find All Good Indices                              A+(45 min)
+INTUITION:-This solution uses dynamic programming to avoid a slow, repetitive check for each day. It precomputes two arrays in $O(n)$ time:
+        non_increasing_prefix[i] stores the length of the non-increasing streak ending at day i, and non_decreasing_suffix[i] stores the length
+        of the non-decreasing streak starting at day i. After building these two arrays, it makes a final pass over the valid range of days 
+        (from time to n - time). For each day i, it simply checks if non_increasing_prefix[i] >= time and non_decreasing_suffix[i] >= time. 
+        If both are true, the day is valid.
+

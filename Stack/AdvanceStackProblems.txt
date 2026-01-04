@@ -1,0 +1,57 @@
+56. Merge Intervals                     A+(30 min)
+
+INTUITION:-Sort the intervals by their start time.
+Use a stack to store the merged intervals.
+Loop through each interval:
+If the stack is empty or the current interval doesn't overlap with st.top() (i.e., current[0] > st.top()[1]), push it onto the stack.
+If it does overlap, pop the top, update its end to max(top[1], current[1]), and push the merged interval back.
+Pop everything from the stack into a result vector and reverse it.
+
+
+
+57. Insert Interval                      A(70 min)
+INTUITION:-This optimal approach iterates through the intervals just once. It uses a new result vector and cleanly 
+separates the logic into three parts: First, it adds all intervals that end before the newInterval starts (no overlap).
+ Second, it loops through all intervals that do overlap, and instead of adding them, it just updates the newInterval
+ itself to be the min of the starts and max of the ends, effectively "merging" them all into the newInterval variable.
+ Finally, once the overlaps stop, it adds the (now fully merged) newInterval to the result, and then adds all the
+ remaining intervals that start after the newInterval ends.
+
+
+
+735. Asteroid Collision                  A+(20 min)
+
+INTUITION:- When we see a positive asteroid (moving right), we always push it onto the stack, 
+as it can't collide with anything behind it.
+When we see a negative asteroid (moving left), it can only collide with positive ones on the stack's top. We enter a 
+"fight" loop:
+
+If the stack.top() is smaller, it's destroyed, so we pop it and the fight continues.
+If the stack.top() is larger, the new negative asteroid is destroyed, so we break the loop.
+If they are equal, both are destroyed, so we pop and break.
+
+If the negative asteroid survives this loop (it wasn't destroyed), we then push it onto the stack. Finally,
+we convert the stack (which is in reverse order) into the final result vector.
+
+
+
+150. Evaluate Reverse Polish Notation                A+(20 min)
+
+INTUITION:-This code uses a stack because in Reverse Polish Notation (RPN), operators always follow their operands. 
+The algorithm iterates through the tokens:
+
+If a token is a number, it's pushed onto the stack to be used later.
+If a token is an operator (like +), it means the last two numbers encountered are its operands. The code pops the top two numbers (a and b), performs the operation (b + a), and pushes the single result back onto the stack.
+
+After processing all tokens, the stack will contain only one number, which is the final result of the expression.
+
+
+
+71. Simplify Path                                  A(70 min)
+--> WATCH VIDEO
+INTUITION:-This code uses a stack to build path components (like `"/a"`) character by character. When it sees a 
+letter, it appends it to the string on `st.top()`. When it sees a `/`, it treats this as a "commit" signal, checks
+the component just built (e.g., `"/."` or `"/.."`), and performs the required action (pop to ignore, or pop twice 
+to go up). It includes a final check for paths that don't end with a `/` and then rebuilds the final string from 
+the stack's contents.
+

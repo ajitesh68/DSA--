@@ -1,0 +1,28 @@
+110. Balanced Binary Tree                          
+The code structures a bottom-up recursion where we dive to the leaf nodes first and pass height information back up to the 
+parent. As the recursion unwinds, each node calculates its own height using its children's data while simultaneously checking 
+if the difference between the left and right sides exceeds 1. If an imbalance is detected at any level, a failure signal is 
+immediately returned up the chain, ensuring we validate the tree and calculate depth in a single, efficient pass.
+
+104. Maximum Depth of Binary Tree                          A+
+The code operates on a bottom-up principle, meaning it dives straight to the deepest leaf nodes (where it returns 0) before 
+doing any calculations. As the recursion unwinds back up to the root, every node adds 1 to the results returned by its left and 
+right children to count itself, compares the two sides, and returns the larger value to its parent.
+
+
+543. Diameter of Binary Tree                              A+
+The code structures a **bottom-up recursion** where the `helper` function performs two distinct tasks simultaneously. 
+It returns the **height** of the current subtree (longest branch + 1) to the parent to allow upward path extension, while 
+concurrently calculating the **diameter** at the current node (left height + right height) to update the reference variable 
+`maxi`. This separation ensures the recursion efficiently calculates depth for navigation while the reference variable captures 
+the longest path found across the entire tree.
+
+
+958. Check Completeness of a Binary Tree                   A+
+The code executes a Level-Order Traversal (BFS) where every node's children (including nullptr) are pushed into the queue.
+The first loop processes valid nodes until it hits the very first nullptr at the front of the queue, which marks the potential 
+end of the tree. The second loop then discards all subsequent nullptrs; if the queue is completely empty afterward,
+it confirms that no actual nodes existed after the first gap (valid), whereas if any node remains, it means the tree had 
+a gap and is incomplete.
+
+

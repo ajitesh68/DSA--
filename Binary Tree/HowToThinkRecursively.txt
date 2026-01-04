@@ -1,8 +1,0 @@
-🧠 How to Think Recursively
-✅ Step 1: Identify the Problem in Terms of Smaller Subproblems
-Ask yourself:
-
-“Can I solve this by solving a smaller version of the same problem?”
-
-Example:
-Factorial of n → n * factorial(n - 1)

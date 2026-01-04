@@ -1,0 +1,22 @@
+617. Merge Two Binary Trees         A+
+The code recursively merges two trees by creating a new node with the combined sum whenever both
+root1 and root2 are present, then calling itself to process their left and right children. Crucially,
+if one of the nodes is missing, it efficiently stops recursion and immediately returns the pointer to 
+the existing non-null subtree, effectively grafting that entire branch onto the result. This logic
+handles both the summation of overlapping nodes and the preservation of unique branches in a single 
+pass.
+
+572. Subtree of Another Tree          A+
+The code implements a dual-recursion strategy where the main function isSubtree acts as a search 
+agent, traversing every node of the larger tree to find a potential starting point that matches the 
+subRoot. When a matching value is found, it triggers the helper function isSame, which performs a 
+strict, node-by-node verification to confirm that the trees are identical from that point downwards; 
+if the check fails, the search simply continues recursively into the left and right children until a 
+match is confirmed or the tree is fully explored.
+
+872. Leaf-Similar Trees                  A+
+The solution utilizes a Depth-First Search (DFS) helper function to traverse each tree and collect leaf nodes (nodes with no 
+children) into a vector. The main function invokes this helper independently for both root1 and root2 to generate two separate 
+sequences of leaf values, then directly compares these vectors to determine if the trees are leaf-similar.
+
+

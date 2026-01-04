@@ -1,0 +1,18 @@
+1249. Minimum Remove to Make Valid Parentheses                  A+(20 min)
+INTUITION:-This code uses a stack to find and remove invalid parentheses and brackets by tracking their indices. The algorithm iterates
+  through the string character by character. When it sees an opening bracket ((, [, or {), it pushes its index onto the stack. When it
+  sees a closing bracket (e.g., )), it checks the stack: if the stack is not empty and the top item is the matching opening bracket 
+  (e.g., (), it pops the stack, confirming a valid pair. If the closing bracket doesn't match the stack's top, or if the stack is empty, 
+  that closing bracket is invalid, and its index is also pushed onto the stack. After the loop finishes, any indices left on the stack 
+  represent invalid characters (either unmatched openers or unmatched closers). The code then removes all characters at these "invalid" 
+  indices from the string, working backward from the end, to produce the final valid string.
+
+
+856. Score of Parentheses                    B
+INTUITION:-This code calculates the score by treating the stack as a way to hold the score for the current depth or layer of parentheses. 
+The core idea is to build the score from the inside out. When an opening ( is seen, it pushes a 0 onto the stack, starting a "new score" 
+for this deeper level. When a closing ) is seen, it means a level is complete. It pops that level's score (v). If v is 0, it means the 
+pair was just (), which scores 1. If v is greater than 0, it means the pair was (A) (where A had a score of v), so its score is 2 * v.
+This calculated score is then added to the new top of the stack, which represents the score of the outer level. The final result is the 
+single number left on the stack, which is the total score for the base level.
+

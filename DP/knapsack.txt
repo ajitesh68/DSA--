@@ -1,0 +1,36 @@
+494. Target Sum                                   A 
+NOTE:-
+During recursion, current_sum can become negative (e.g., $0 - nums[0] - nums[1]$).
+C++ vectors/arrays cannot have negative indices (e.g., memo[i][-5] causes a crash).
+
+At each element in nums, we have two choices: add it to the current sum or subtract it. 
+This creates a binary decision tree. We explore both paths recursively until we process all numbers.
+If the final sum equals the target, we return 1 (a valid path), otherwise 0
+
+We used a map because current_sum can become negative (e.g., 0 - 5 = -5). Standard vectors only 
+support positive indices ($0, 1, 2...$), so accessing vector[-5] would crash the program. 
+A map allows negative keys naturally, avoiding the need for extra math (index offsets) to shift 
+negative sums into positive array indices.
+
+
+650. 2 Keys Keyboard                             A
+This is a really imp problem in many cases . It can also be solve by Dynamic Programming and greedy both
+look at the problem and ---> WATCH VIDEO AS WELL
+
+
+1626. Best Team With No Conflicts                A
+By sorting the players by age first, we ensure that we always consider players from youngest to
+ oldest, which simplifies the "age conflict" rule. This effectively transforms the problem into 
+ finding the Maximum Sum Increasing Subsequence based on scores. The code iterates through each 
+ player and looks back at all previous players; if a previous player has a lower or equal score, 
+ we extend that team by adding the current player's score to the best total found so far.
+
+
+638. Shopping Offers                             A
+The code finds the minimum cost by exploring two options at every step: buying the current needs
+ individually or applying a special offer. First, it calculates the cost of buying the current needs 
+ directly to set a baseline min_cost. Then, it loops through every special offer; if an offer fits 
+ the requirements, it creates a new state by subtracting those items and recursively finds the 
+ cheapest way to buy the remainder. It compares the direct cost against this "offer price + 
+ remaining cost" and returns the minimum, using a map (memo) to store results so identical states 
+ aren't calculated twice

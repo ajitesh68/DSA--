@@ -90,3 +90,39 @@ as it was my first problem in graph so it was fine
               we can think of Floyd Wrshall , BFS and Dijikstra
               For many problems, a simple brute-force approach with nested loops is a perfectly valid and 
               efficient solution, especially when constraints are small.
+
+1162. As Far from Land as Possible                                 B
+INTUITION:-The core thought process for solving this grid problem efficiently is recognizing it as a shortest path
+        problem on an unweighted graph, which immediately suggests using Breadth-First Search (BFS). We reverse the perspective and employ a 
+        Multi-Source BFS. This means initializing the queue with all land cells simultaneously, allowing the search
+        wae to expand outwards into the water. Since BFS calculates the shortest path layer by layer, the number of layers traversed
+        is the shortest distance (Manhattan distance) to the nearest land. We track the number of layers (or BFS iterations) completed,
+        and the last layer reached represents the farthest water cell
+
+ALGORITHM:- Queue Land Cells: Initialize the queue with all land cells (1s); if the grid is all land or all water, return -1.
+            BFS Layers: Use a while loop to process the queue layer by layer, tracking the distance with an initial value of text{distance} = -1.
+            Expand to Water: For each cell, check the four unvisited neighbors (water/0s); mark them as visited and enqueue them.
+            Return Max Distance: After processing all cells at the current layer, increment the distance; the final value of $\text{distance}$ is the result.
+
+
+2059. Minimum Operations to Convert Number                             A+(30 min){forgot about visited array(very imp part)}
+INTUITION:-The problem is a shortest path query on an implicit graph where nodes are numbers (0 to 1000) and edges are the allowed 
+           operations. We use Breadth-First Search (BFS) because it guarantees finding the minimum number of operations (shortest path) 
+           to transform start into goal. To prevent cycles and a Memory Limit Exceeded error, we must use a visited set to ensure each 
+           valid intermediate number is processed only once, controlling the search space.
+
+ALGORITHM:-Initialize: Add start to a queue and a visited set; set operation = 1.
+       BFS Layers: Loop while the queue is not empty, tracking distance by incrementing operation after processing a full layer.
+       Explore States: For each number popped, calculate the three new states (+, -, ^) using every number in nums.
+       Validate & Enqueue: If a new state is the goal (return operation), or if it is within the 0 to 1000 range and unvisited, push it to the queue and add it to the visited set.
+       Return: If the queue empties without reaching goal, return -1.
+
+2492. Minimum Score of a Path Between Two Cities                        
+INTUITION:-(DFS)The task simplifies to: "Find the minimum edge weight in the component containing city 1." DFS is a natural choice to 
+       explore this component. We build an adjacency list to represent the graph's bidirectional, weighted edges. We then start the 
+       traversal from city 1, using a visited array only to prevent the algorithm from getting stuck in infinite loops. As the DFS 
+       explores, we use a global min_score variable (initialized to infinity) and update it with min(min_score, current_edge_distance) 
+       for every single edge we traverse. After the DFS completes, this variable will hold the minimum edge weight found anywhere in the 
+       component, which is the final answer.
+
+       YOU JUST HAVE TO TRAVERSE WHOLE GRAPH(USING BFS OR DFS) AND MARK THE MINIMUM Distance 

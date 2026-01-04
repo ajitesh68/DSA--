@@ -1,0 +1,27 @@
+55. Jump Game              A+
+The thought process is to iterate through each position, and if the current index i is reachable, 
+"unlock" all subsequent indices that fall within the jump range (nums[i]) by marking them true. 
+If the loop encounters an index that was never unlocked, it returns false; otherwise, it returns 
+true as soon as the last index is marked reachable.
+
+
+45. Jump Game II           A+   (45 min)
+Think of the problem not as jumping from index to index, but as pushing a "window" of reachability
+forward. As you iterate through the current window (defined by current_end), you constantly calculate 
+the max potential reach (farthest) for the next window. You delay incrementing the jumps counter as 
+long as possible—only when you hit the end of your current window (i == current_end) do you 
+acknowledge that a new jump is strictly necessary to proceed, at which point you update your 
+window to the farthest point you found
+
+
+376. Wiggle Subsequence           A+(1 hr  15 min)
+Think of this as hiking across a mountain range where you want to plant a flag at every **Peak** (top) and **Valley** (bottom).
+
+* **Climbing Up:** If you are going up and find a point higher than where you are, you don't stop. 
+You move to that higher point (`update new_peak`) because being higher makes the drop deeper later.
+
+* **Planting the Flag:** You only count a step (`seq_size++`) when the path **changes direction** 
+(e.g., you were going up, but now you must go down).
+
+We greedily chase the most extreme values to maximize our chances of wiggling back the other way.
+

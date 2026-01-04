@@ -1,0 +1,15 @@
+106. Construct Binary Tree from Inorder and Postorder Traversal                     
+Logic Explanation
+The code works backward from the end of postorder because the last element is always the Root. We maintain a
+postIndex to pick nodes one by one. After picking a root, we find its position in inorder to define the boundaries of its left
+and right subtrees. We must build the Right subtree first because traversing postorder backwards follows the order: Root
+$\to$ Right $\to$ Left.
+
+889. Construct Binary Tree from Preorder and Postorder Traversal
+The code utilizes a Divide and Conquer strategy where the current preorder element always creates the root, and the 
+immediately following element identifies the root of the left subtree. By locating this left child's index in the postorder 
+array (using a hash map for $O(1)$ access), the code establishes a "split point": everything in postorder up to this index
+constitutes the left subtree, while the remaining range (excluding the current root at the very end) forms the right subtree. 
+The function then recursively builds these partitions, effectively using preorder to dictate what to create next and postorder
+to determine where the subtrees end.
+
