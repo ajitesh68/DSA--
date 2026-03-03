@@ -1,0 +1,193 @@
+
+1207. Unique Number of Occurrences              A+(10 min)
+
+INTUITION:-Hash Map (unordered_map): We use this to count. The key is the number from the array (like 1, 2, 3), 
+and the value is how many times we've seen that number (its frequency).
+
+Hash Set (unordered_set): We use this to find duplicates. It only stores unique items. We put the frequencies (the counts from the map)
+ into this set. If we try to add a frequency (like 3) and it's already in the set, we know we have a duplicate count, so we return false
+
+
+
+1512. Number of Good Pairs                       A+(20 min)
+INTUITION:-The core idea is to count pairs and frequencies at the same time. We use a hash map to store the count of each number seen so 
+far. As we loop through the array, when we find a number num, we first check how many times we've already seen it (let's say k times, 
+which is mpp[num]). This new num forms k new pairs (one with each previous instance). So, we add k to our total_pairs and then increment
+the count in the map (mpp[num]++) to include the one we just saw.
+
+
+
+3146. Permutation Difference between Two Strings                   A(20min)
+INTUITION:-My goal is to sum abs(s_index - t_index) for every character. To do this, I need to pair up the indices for each character. 
+Instead of using three loops (one for s, one for t, one for the map), I can do it in two. First, I'll create a "lookup" table 
+(an array or map) that stores just the s indices, like {'a': 0, 'b': 1, 'c': 2}. Then, I'll loop through t just once. In this second
+ loop, I already have the t_index (it's the loop variable i), and I can instantly find the s_index from my lookup table. This lets me 
+ calculate the difference and add it to the total sum in a single pass.
+
+Array used for **speed**.
+1.  **Direct Access (O(1)):** A `char` (like `'a'`) is internally just a number (its ASCII value). Using `pos[t[i]]` lets the code use
+ that number as a direct index to "jump" instantly to the correct slot.
+2.  **Faster than a Map:** A `map` has to do a search (O(log N)), and an `unordered_map` has to compute a hash. The array is the fastest 
+possible way to create this "character-to-index" lookup table.
+
+1832. Check if the Sentence Is Pangram                            A+(10 min)
+Here are the one-line explanations for each:
+1.  **Hash Set:** Adds every character to a set (which only stores uniques) and returns `true` if the final set size is 26.
+2.  **Vector (Faster):** Uses a 26-item vector as a counter for 'a' through 'z', then loops through the vector to see if any count is zero.
+3.  **Hash Map:** Adds every character to a map (counting occurrences) and returns `true` if the map's final size is 26.
+
+
+2325. Decode the Message                                          A+(15 min)
+INTUITION:-The entire problem hinges on decoupling the key's loop index (which doesn't matter) from the alphabet's index 
+(which is what we need to build). The key has spaces and duplicate letters. The char_index variable is the critical piece that solves
+ this. It's a separate counter that only increments when we find a new, unseen character, ensuring the first unique letter maps to 'a' 
+ ('a' + 0), the second unique letter maps to 'b' ('a' + 1), and so on, which is the exact logic of the substitution.
+
+
+
+
+2295. Replace Elements in an Array                                 A()
+The core thought process is to optimize the "search and replace" operation from linear time $O(N)$ to constant time $O(1)$ using a hash map.
+
+* **Index Mapping:** First, it iterates through the array to build a map (`val_to_index`) that stores the current position of every number (`value -> index`).
+* **Direct Access:** Instead of scanning the array to find the `old` value for every operation, it uses the map to instantly retrieve the index.
+* **Synchronized Updates:** It updates the actual array at that index and simultaneously updates the map (removing the `old` value and adding the `new` value) to ensure future lookups remain accurate.
+
+
+
+3121. Count the Number of Special Characters II                    A+()
+The thought process focuses on validating the strict order requirement: "all lowercase instances must appear before any uppercase instances."
+
+To check this efficiently, the code identifies two critical boundary indices for each character:
+1.  **Last Lowercase Position:** It scans forward to store the *last* index where a lowercase letter appears.
+2.  **First Uppercase Position:** It scans backward to store the *first* index where an uppercase letter appears.
+
+Finally, it compares these two indices. If the **last** lowercase position is strictly less than the **first** uppercase position,
+ the condition holds true for that character, and the count is incremented.
+
+
+423. Reconstruct Original Digits from English                     A+(but not optimal)
+Both approaches rely on the "Identification by Elimination" strategy. The core thought process is to count character frequencies and 
+identify digits in a specific hierarchical order: first, you find digits with unique unique identifiers (like 'z' for 0, 'w' for 2), and 
+then you use those known counts to mathematically "subtract" overlap and reveal the remaining digits (e.g., finding 3 using 'r' after 
+knowing 0 and 4). The optimization difference lies only in the data structure: your code uses a Hash Map, which adds overhead for hashing
+and collision handling, while the optimized version uses a Frequency Array (size 26), which allows for instant, direct memory access 
+($O(1)$) and avoids that overhead entirely.
+
+
+451. Sort Characters By Frequency                                    B 
+Frequency Count: Uses a fixed array counts for immediate lookup.
+Buckets: The index of buckets represents the frequency.buckets[3] holds characters that appear 3 times.
+Assembly: Iterates backwards from the highest possible frequency ($N$) to build the result string.
+                               
+
+
+2405. Optimal Partition of String                                      A+
+### Thought Process: Your Approach (Vector/Bool Array)
+
+Think of this as filling a physical box with letters. As you iterate through the string, you check if the current letter is already inside the box (using the index of 
+the vector). If it is, that partition is "full." You increment your counter, empty the entire box (reset the vector/array), and place the current letter into the 
+now-empty box to start the next partition. It is a direct simulation of the problem statement.
+
+### Thought Process: Bit Manipulation                                  B
+This logic replaces the physical box with a row of light switches (bits in a single integer). Each letter corresponds to a specific switch. Before flipping a switch, you
+check if it is already ON (using the AND operator). If it is, you have a duplicate. The key advantage here is the reset: instead of manually emptying a box, you simply 
+cut the power (set the integer to 0), which instantly turns off all switches at once, making it significantly faster for the computer to process.
+
+
+
+
+
+1160. Find Words That Can Be Formed by Characters                      A+
+The solution relies on **frequency arrays** to compare character "supply" versus "demand." First, we map the counts of each letter in `chars` to establish the available 
+inventory. Then, for each word, we calculate its own letter counts and verify if the `chars` inventory is sufficient (i.e., `word_count[i] <= chars_count[i]` for all 
+letters). If valid, the word's length is added to the total.
+
+MORE OPTIMAL:-                                                         B
+* **Core Concept (Frequency Counting):** Basic idea yeh check karna hai ki kya given word ke paas available `chars` ki "inventory" se zyada letters toh nahi hain.
+* **Master Inventory:** Sabse pehle `chars` string mein har alphabet ki frequency nikal kar save kar lo. Yeh tumhari available limit set kar deta hai.
+* **Requirement Check:** Phir array ke har `word` ke liye ek fresh frequency count nikal kar uski requirement dekho.
+* **Comparison & Decision:** Agar kisi word ko koi letter tumhari master inventory se zyada baar chahiye, toh woh reject ho jayega. Agar saari requirement limit ke andar hai, toh word ban sakta hai aur uski length answer mein add kar do.
+
+
+
+
+
+3158. Find the XOR of Numbers Which Appear Twice                                  
+**Hash Map Approach (Frequency Counting)**                                 A+
+This method relies on explicit counting to track "how many times" a number appears. We iterate through the array and store each number in a hash map. The moment a number’s
+count hits exactly 2, we identify it as a duplicate and immediately XOR it into our result. This is intuitive and works for any number range, but it consumes  
+extra memory to store the counts.
+
+**Bit Manipulation Approach (Bitwise Flags)**                               B
+
+This method optimizes space by treating a single 64-bit integer as a compact array of boolean flags (0 or 1). Instead of storing counts, we use the  bit to represent the
+ number . For each number, we check its specific bit: if it is already `1`, we know we have seen it before (duplicate found, XOR it). If it is `0`, we flip it to `1`
+using the `OR` operation to mark it as seen. This reduces space complexity to  but is limited to numbers smaller than 64.
+
+
+
+
+
+2363. Merge Similar Items                                                                            
+**Hash Map Approach (`unordered_map` + Sort)**                               A
+This method prioritizes fast  lookups for merging. We first map the second list to allow instant access, then iterate through the first list to add weights for 
+overlapping items, removing them from the map as we go to mark them as "processed." Finally, we append any remaining unique items from the map to our list and explicitly
+**sort** the entire vector to meet the ascending order requirement, since hash maps do not maintain order.
+
+**Ordered Map Approach (`std::map`)**                                        B
+This method leverages the intrinsic properties of a Red-Black Tree (the underlying structure of `std::map`) to handle both aggregation and sorting simultaneously. 
+We iterate through both input lists and add their weights to the map; the map automatically handles key existence (adding to an existing sum or creating a new entry). 
+Because the map keeps keys sorted at all times, we simply traverse it once to transfer the final data into a vector, eliminating the need for a separate sorting step.
+
+
+
+2418. Sort the People                                                       A+
+**Intuition (Thought Process):**
+* Heights aur names alag arrays mein hain, isliye sorting ke waqt inka connection na toote, iske liye inko ek `pair` mein bind karna zaroori 
+ hai.
+* Pair mein pehla element `height` rakhte hain kyunki C++ by default pehle element ke hisaab se hi array ko sort karta hai.
+* Default sorting chote se bade (ascending) mein hoti hai, isliye tallest logo ko aage laane ke liye array ko `reverse()` karte hain aur 
+aakhir mein sirf sorted names ko wapas extract kar lete hain.
+
+**Yeh Baakiyon Se Optimal Kyun Hai:**
+* Yeh approach continuous memory (`vector`) use karti hai, jisse CPU cache performace bohot fast rehti hai (cache-friendly).
+* Agar `map` use karte toh har element insert karne par naya memory node banta aur tree balance hota, jisme constant memory overhead aur 
+ time lagta hai.
+* Isme use hone wala `sort()` function sidha $O(N \log N)$ time aur minimal auxiliary space mein array ko in-place sort kar deta hai, bina
+ koi extra data structure banaye.
+
+
+
+
+
+2605. Form Smallest Number From Two Digit Arrays                            A+
+Is problem ka main intuition do simple rules par based hai:
+* **Single-digit hamesha 2-digit se chota hota hai:** Isliye sabse pehle frequency array (boolean pairs) ka use karke dono arrays ka sabse
+ chota **common digit** dhoondna best hai. Agar common digit mil gaya, toh wahi sabse chota answer hoga.
+* **Agar common nahi hai:** Toh humein dono arrays se ek-ek digit utha kar 2-digit number banana padega. Sabse chota number banane ke liye
+ hum dono arrays ke **minimum digits** nikalte hain. Unme se jo chota hai usey 'tens' place (`* 10`) par aur bade wale ko 'ones' place par
+ rakh dete hain.
+
+
+
+
+
+1370. Increasing Decreasing String                                              A+ 
+
+* **Core Concept (Pendulum Sweep):** Problem ki demand hai characters ko pehle increasing aur phir decreasing order mein pick karna. 
+  Isliye characters ko sort karne ke bajaye, unhe ek 26-size ke frequency array (buckets) mein store karna sabse sahi direction hai.
+* **Forward Movement:** Pehle array ko `0` se `25` ('a' to 'z') 
+* **Backward Movement:** Turant baad array ko `25` se `0` ('z' to 'a').
+* **Continuous Cycle:** Yeh left-to-right aur right-to-left sweep bilkul ek pendulum ki tarah lagataar chalega, jab tak total available 
+   letters (`size`) khatam hoke 0 na ho jayein.
+
+
+
+1636. Sort Array by Increasing Frequency                                     B 
+Is approach ka core idea hai sabse pehle elements ko unki frequency ke saath `map` mein group karna aur phir unhe ek `vector of pairs` `
+(number, frequency)` mein extract kar lena. Humne array ko direct sort karne ke bajaye yeh pairs isliye banaye kyunki *bina lambda 
+function ke* ek alag se banaye gaye comparator function ko map ka data pass karna mushkil hota hai. Ek baar data pairs mein aa gaya, toh 
+use external function se frequency (ascending) aur tie hone par value (descending) ke hisaab se sort kar liya. End mein bas in sorted 
+pairs par loop chala kar, har number ko uski frequency ke barabar naye array mein daal kar final answer bana liya.
+

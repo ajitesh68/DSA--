@@ -1,0 +1,35 @@
+108. Convert Sorted Array to Binary Search Tree                      B  
+
+
+109. Convert Sorted List to Binary Search Tree                       A
+
+
+
+538. Convert BST to Greater Tree                                     A 
+The code uses a reverse in-order traversal (Right $\rightarrow$ Root $\rightarrow$ Left) to visit nodes in strictly descending order. 
+A class-level `totalsum` variable maintains the running total of all visited nodes. By exploring the right subtree first, we encounter 
+the largest values, add the current node's value to the `totalsum`, update the node in-place, and then carry this accumulated sum into 
+the left subtree to correctly update the smaller values.
+
+
+
+
+
+669. Trim a Binary Search Tree                                      B 
+The code uses the fundamental property of a Binary Search Tree. If a node's value is greater than `high`, every node in its right subtree
+is also strictly greater than `high`, meaning we can entirely discard the node and its right subtree by simply returning the result of 
+trimming its left subtree. Conversely, if a node's value is less than `low`, we discard it and its left subtree by returning the trimmed
+right subtree. If the node is within bounds, we keep it and recursively trim both of its children.
+
+### Why Your Deletion Logic Failed
+
+* **Wrong Goal:** You were trying to delete a single specific node. Trimming requires deleting entire mathematical ranges (whole subtrees
+ at once).
+* **Overcomplication:** Finding an inorder successor is completely unnecessary when the problem guarantees that one entire side of the out
+-of-bounds node is garbage.
+
+
+
+
+449. Serialize and Deserialize BST                       B 
+---> SEE IT PROPERLY ESPECIALLY THAT DECODE PART (IT IS BIT DIFFICULT TO UNDERSTAND)

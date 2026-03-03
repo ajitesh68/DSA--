@@ -1,0 +1,66 @@
+622. Design Circular Queue                                                      B  
+To implement a circular queue using a fixed-size array, the core logic relies on **modular arithmetic** to wrap the `rear` and `front` pointers back to the start of the 
+array once they reach the end. This allows the reuse of vacated space after deletions, solving the limitation of a standard linear queue where space is "lost" as the 
+front moves forward.
+
+### Key Logic Breakdown
+
+* **Initialization:** Start both `front` and `rear` at `-1` to signify an empty state.
+* **Modulo Operation:** Use `(index + 1) % size` to ensure pointers cycle within the bounds .
+* **Insertion (`enQueue`):** * Check `isFull()` first: the queue is full if `(rear + 1) % size == front`.
+* If empty, set both pointers to `0`.
+* Otherwise, move only `rear` forward circularly and insert the value.
+
+
+* **Deletion (`deQueue`):**
+* Check `isEmpty()` first.
+* If there is only one element (`front == rear`), reset both to `-1`.
+* Otherwise, increment `front` circularly to "remove" the element.
+
+
+* **Accessors:** `Front()` and `Rear()` simply return the values at the respective indices unless the queue is empty.
+
+
+
+
+1670. Design Front Middle Back Queue                          A   
+To solve this, we treat the vector like a dynamic array where elements must be physically moved to maintain order.
+
+* **Shifting Strategy:** For **insertions** (Front/Middle), we iterate backwards to shift elements **right**, creating a gap for the new value. For **deletions** 
+(Front/Middle), we iterate forwards to shift elements **left**, overwriting the removed value.
+
+* **Middle Index Logic:** The critical distinction is in the math: `pushMiddle` uses `size / 2` to insert at the split, while `popMiddle` uses `(size - 1) / 2` to ensure 
+we target the **left-leaning** (frontmost) middle element when the size is even.
+
+* **Back Operations:** `pushBack` and `popBack` are simple  operations as they touch only the end of the array without shifting.
+
+
+
+
+Queue using two Stacks                                           A  
+To implement a Queue (FIFO) using Stacks (LIFO), treat s1 as an input buffer and s2 as an output buffer. Always push new elements into s1. When a pop is requested, 
+check if s2 is empty; if it is, transfer all elements from s1 to s2. This transfer reverses the order, placing the "oldest" element at the top of s2 so it can be popped 
+first. Crucially, you do not move elements back to s1; you leave them in s2 to be popped in subsequent operations, only reloading from s1 when s2 is completely empty 
+again.
+
+
+
+
+
+Queue using Linked List                                                B 
+
+To implement a queue using a linked list efficiently, we maintain two pointers, **`front`** and **`rear`**, to allow  access to both ends.
+
+* **Node Structure:** Each node holds `data` and a `next` pointer to link the chain.
+
+* **Enqueue ():** We create a new node and attach it to the `rear`. If the queue was empty, we point `front` to it as well; otherwise, we link the old `rear` to the new 
+node and update the `rear` pointer.
+
+* **Dequeue ():** We remove the node at `front` by advancing `front` to `front->next`. Crucially, if the queue becomes empty (`front` becomes `NULL`), we must also reset
+`rear` to `NULL` to avoid dangling pointers.
+
+* **Size Tracking ():** Instead of traversing the list (), we maintain a `currSize` counter that increments on enqueue and decrements on dequeue for instant access.
+
+
+ 
+

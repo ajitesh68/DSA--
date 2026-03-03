@@ -126,3 +126,106 @@ INTUITION:-(DFS)The task simplifies to: "Find the minimum edge weight in the com
        component, which is the final answer.
 
        YOU JUST HAVE TO TRAVERSE WHOLE GRAPH(USING BFS OR DFS) AND MARK THE MINIMUM Distance 
+
+1129. Shortest Path with Alternating Colors               B
+The problem requires finding the shortest path in an unweighted graph, which implies **BFS**, but the "alternating" constraint means we 
+must distinguish how we arrived at a node. Therefore, the BFS state is **`{node, last_color}`**, treating "Node X via Red" and "Node X 
+via Blue" as separate entries in our distance matrix `dist[node][color]`. The code splits edges into two adjacency lists (`adjRed`, 
+`adjBlue`) and initializes the queue with node 0 for *both* colors. In the loop, we toggle the color (0  1, 1  0), look for neighbors 
+only in that specific color's list, and if unvisited for that specific state, update the distance and push to the queue. The final answer 
+for any node is the minimum of its red-ending and blue-ending path lengths.
+
+
+2998. Minimum Number of Operations to Make X and Y Equal             A(67 min)
+We view this problem as finding the shortest path in a graph where numbers are nodes and the four operations 
+($/11, /5, +1, -1$) are edges. BFS is chosen because it explores layer-by-layer, guaranteeing that the first time we reach the 
+target $y$, we have found the minimum number of operations. To prevent infinite loops and Time Limit Exceeded errors, we use 
+a visited array to track numbers we've already seen, marking them immediately when pushing to the queue, while strictly 
+keeping our search within safe array bounds (0 to 10011).
+
+
+847. Shortest Path Visiting All Nodes                                B 
+Here is the thought process behind this code:
+
+This solution solves the "Shortest Path Visiting All Nodes" problem using **Breadth-First Search (BFS)** because it asks for 
+the shortest path in an unweighted graph. Since we can revisit nodes, a simple `visited[node]` array isn't enough; the state 
+must include **both the current node and the set of visited nodes so far**. We use a bitmask (integer) to represent the set of 
+visited nodes (e.g., `101` means nodes 0 and 2 are visited). The BFS starts simultaneously from *all* nodes (adding them to the 
+queue with their individual masks) to find the fastest route regardless of the starting point. We process the queue 
+level-by-level, updating the mask as we move to neighbors (`currMask | (1 << neighbor)`), and return the path length as soon as 
+any state reaches the `all` mask (where all bits are 1).
+
+**Visualizing the State Space:**
+Instead of just visiting nodes 0, 1, 2... imagine we are visiting states like `(Node 1, Visited {1})`, then moving to `(Node 2, Visited {1, 2})`.
+
+
+1306. Jump Game III                                           A
+You start at the given index and recursively explore every possible path, 
+checking if you land on a room with a 0. The critical part is using a visited array to mark every room you enter; without this, 
+if you jump from index A to B and B sends you back to A, your code will loop infinitely and crash. So, at every step, you 
+check three things: are you out of bounds, have you been here before (cycle detection), or is this the target 0? If you hit 0, 
+you return true; otherwise, you mark the spot as visited and continue the search.
+
+133. Clone Graph                                              B
+The thought process follows a standard DFS approach with memoization. First, you handle the edge case where the graph is empty 
+(`NULL`). Then, you check your `visited` map to see if this node has already been cloned; if yes, you immediately return the 
+stored copy to prevent infinite loops in cycles. If not, you create a brand new node with the same value and save it in the map 
+(`old_ptr -> new_ptr`). Finally, you iterate through the original node's neighbors, recursively cloning each one and pushing 
+the results into the new node's `neighbors` list, ensuring the entire structure is deeply copied before returning the new node.
+
+Function Build(original_node):
+    1. Base Case: If original_node is null, return null.
+    
+    2. Check Memory: If original_node is in Map, return Map[original_node].
+    
+    3. Create: Make new_node (copy of original_node's value).
+    
+    4. Save: Map[original_node] = new_node.
+    
+    5. Populate Children:
+       For each child in original_node:
+           new_node.child = Build(child)
+           
+    6. Return new_node.
+
+
+
+
+1970. Last Day Where You Can Still Cross                           B 
+
+We treat this as a search for the threshold day using Binary Search because of the problem's monotonic nature (if crossing is 
+possible on day $X$, it is guaranteed for all prior days). For each "middle" day we check, we simulate the grid state by 
+marking water cells and run a standard DFS to verify if a path exists from the top row to the bottom. If the DFS succeeds, 
+we store that day as a potential answer and try a later date; if it fails, we search earlier days
+
+
+
+773. Sliding Puzzle                                                B
+We treat each board configuration as a unique string (e.g., "123450") and use BFS because it guarantees finding the shortest 
+path (minimum moves). We start with the initial string in a queue and explore level-by-level, generating new states by swapping 
+'0' with its valid neighbors. A visited set ensures we never process the same configuration twice, preventing infinite loops, 
+and we stop immediately once the target sorted string is reached.
+
+
+1298. Maximum Candies You Can Get from Boxes                       A+
+Your solution uses DFS with explicit Backtracking. You treat opening boxes as a recursive exploration: when you enter a box, you collect 
+candies and "unlock" any keys found inside. The clever part of your logic handles the dependency order: if you find a key for a box you 
+already visited (but was locked), you manually reset its state (setting visited.first = false) and immediately recurse back into it, 
+effectively "time-travelling" to fix the missed opportunity.
+
+
+864. Shortest Path to Get All Keys                               B
+-----> WATCH VIDEO
+We use **BFS** to find the shortest path, but standard BFS fails here because we often need to revisit a location after finding a key 
+(to open a previously locked door). To solve this, we expand our state to **`{row, col, key_mask}`**, effectively creating a "3D grid" 
+where finding a new key transports you to a fresh layer where you haven't visited the cells yet. We use **bitmasking** (an integer like 
+`101`) to efficiently track collected keys, allowing us to move through locks only if we have the correct key bit, and we stop as soon as 
+our mask matches the target.
+
+
+1345. Jump Game IV                                                A 
+We use BFS to find the shortest path in a graph where indices are nodes connected by adjacent positions ($i\pm1$) and identical values. 
+We pre-process these value-based connections into an unordered_map (instead of a vector) to handle sparse, negative, or large values 
+efficiently. The critical optimization is calling graph.erase(val) immediately after processing a value's group; while visited prevents 
+re-queueing nodes, erase eliminates the massive overhead of iterating through thousands of already-visited edges, reducing the time 
+complexity from $O(N^2)$ to $O(N)$.

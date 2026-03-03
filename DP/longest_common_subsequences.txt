@@ -1,0 +1,80 @@
+1143. Longest Common Subsequence                     A+ 
+memoization:-
+* We start comparing characters from the beginning of both strings.
+* If they match, we add 1 to our sequence, advance both indices, and save this result.
+* If they mismatch, we branch into two paths (advancing only the first index OR only the second index), take the maximum score of those 
+  paths, and save it.
+* By storing these outcomes in `memo`, we instantly return the answer if those same indices meet again, turning an exponential time limit 
+  into a fast lookup.
+
+tabulation                                              B 
+* We build a 2D grid where each cell `dp[i][j]` holds the maximum sequence length for the prefixes of `text1` (up to index `i`) and `text2`
+ (up to index `j`).
+* An initial row and column of zeros are used as the base case, representing comparisons against an empty string.
+* We fill the table row by row. If the current characters match, we add 1 to the sequence length found before both characters were included
+ (the diagonal cell `dp[i-1][j-1]`).
+* If the characters mismatch, we carry forward the longest sequence found so far by taking the maximum value from either excluding the 
+ current character of `text1` (the cell above) or `text2` (the cell to the left).
+* By solving these smaller overlapping prefix problems first, the absolute maximum length naturally accumulates in the bottom-right cell.
+
+
+
+5. Longest Palindromic Substring                      B
+Is approach ka main intuition yeh hai ki hum **har possible substring** `(i, j)` ki boundary set karke usey validate karte hain. 
+Palindrome ka core rule simple hai: agar extreme ends (`left` aur `right` characters) match karte hain, toh bas yeh confirm karna hota 
+hai ki unke theek andar wala hissa (`left+1` se `right-1`) palindrome hai ya nahi, jo recursion handle kar leta hai. Memoization 
+(`memo` grid) yahan isliye lagayi gayi hai kyunki badi substrings ko check karte waqt recursion baar-baar same choti substrings par aata 
+hai; DP table un overlapping subproblems ka result yaad rakhti hai taaki hum same substring ko dubara shrink aur validate karne ka 
+duplicate kaam na karein.
+
+
+583. Delete Operation for Two Strings              A+
+memoization 
+This approach uses top-down dynamic programming with memoization to find the minimum number of deletions required to make both strings 
+identical. It compares characters using two indices: if the characters match, it safely advances both without adding any cost. If they 
+mismatch, it branches to try deleting the current character from either word1 or word2, adds 1 to the operation count, and memoizes the 
+minimum cost of those two paths. The base cases handle the end of a string by simply returning the remaining length of the other string, 
+representing the mandatory deletions left to finish the job.
+
+
+tabulation                                         A 
+The DP table `dp[i][j]` tracks the minimum deletions needed to match the first `i` characters of `word1` with the first `j` characters of
+`word2`. The base cases (`dp[i][0] = i` and `dp[0][j] = j`) handle comparisons against an empty string; to match an empty string, you must
+delete every character, meaning the deletion cost exactly equals the string's current length. When filling the rest of the table, if the 
+current characters match, no new deletion is required, so we carry forward the optimal cost from before those characters were added 
+(the top-left diagonal cell). If they mismatch, we are forced to delete a character from either `word1` (taking the value from the cell 
+directly above) or `word2` (the cell directly to the left); we choose the minimum of these two options and add `1` to account for the new 
+deletion cost.
+
+
+
+718. Maximum Length of Repeated Subarray                     A+
+* **Memoization Approach:** We split the problem into two recursive functions to handle the "continuous" constraint. The first function 
+searches for all possible starting pairs across both arrays, while the second strictly counts the continuous matches. We must use two 
+separate memo tables so the global search maximums do not overwrite the strict contiguous chain counts.
+
+* **Tabulation Approach:** We flatten this logic into a single 2D grid. If elements match, we extend the continuous chain by taking the 
+top-left diagonal value and adding 1. If they mismatch, we write a 0 to instantly break the chain. Because the longest sequence can end at
+any index, we update a single global variable during the grid traversal to capture the absolute highest value.
+
+
+
+
+72. Edit Distance                                             B 
+**Memoization (Top-Down Approach):**
+We compare strings character by character using two pointers. The base case triggers when either string is exhausted: if `word1` ends 
+first, the only option is to **insert** the remaining `word2` characters; if `word2` ends, we must **delete** the leftover `word1` 
+characters. When characters match, we advance both pointers at zero cost. On a mismatch, we branch into three recursive paths, add 1 to 
+the cost, and cache the minimum: **Insert** (advance only `word2` pointer), **Delete** (advance only `word1` pointer), or **Replace** 
+(advance both pointers).
+
+**Tabulation (Bottom-Up Approach):**                          A
+We build a 2D grid where `dp[i][j]` tracks the cost to match string prefixes. The base cases (the 0th row and 0th column) represent 
+matching against an empty string; the cost is exactly the index itself, reflecting the number of forced **insertions** or **deletions**. 
+As we fill the grid, if the current characters match, we pull the optimal cost from before both characters were added (the **diagonal** 
+cell). On a mismatch, we take 1 plus the minimum of three adjacent prior states: **Insert** (the **left** cell), **Delete** (the **top**
+cell), or **Replace** (the **diagonal** cell).
+
+
+
+

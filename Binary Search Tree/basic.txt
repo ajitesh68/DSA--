@@ -1,0 +1,24 @@
+700. Search in a Binary Search Tree                       A
+
+
+
+
+701. Insert into a Binary Search Tree                     A
+The Crash: You cannot set a value on a node that doesn't exist yet. You are writing to NULL.
+Never move the root pointer if you need to return it later. Instead, create a copy (a temporary pointer) to do the walking.
+
+We start traversal from the root using a temporary pointer to ensure the original head of the tree remains intact for the final 
+return. Following standard BST logic, we compare the new value with the current node, moving left if it is smaller or right if it 
+is larger. We continue this path until we encounter a `nullptr` (an empty spot), where we immediately create the new node, link it 
+to the current parent, and break the loop.
+
+
+
+450. Delete Node in a BST                                 B
+To fix this iteratively, you would need to track a parent variable everywhere. However, the industry-standard way to solve 
+"connecting the whole tree" is Recursion. It handles the parent connection automatically.
+
+We approach the problem recursively by searching for the target node: if the key is smaller, we go left; if larger, we go right. 
+Once found, we handle the structure based on its children: if the node has zero or one child, we simply return that child to be 
+linked to the parent. If it has two children, we preserve the BST order by overwriting the current node's value with its 
+**in-order successor** (the smallest value in the right subtree) and then recursively deleting that successor node.

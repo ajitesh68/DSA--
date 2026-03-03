@@ -1,0 +1,53 @@
+1186. Maximum Subarray Sum with One Deletion                       B  -> A
+
+Thought Process: Parallel Timelines
+Imagine you are walking through the array in two parallel timelines simultaneously:
+
+Timeline A (no_del): You play by standard rules (Kadane's). You never delete anything.
+
+Timeline B (one_del): You have already used your "delete" power. At every new number, Timeline B updates by making a choice: "Do I extend my current path
+(keep the old deletion), or do I jump over from Timeline A by deleting this specific number?" You simply track the maximum of these two timelines at every step.
+
+
+This pattern is called State Machine DP or DP with States.
+
+This can also be done by recursion + memoization
+
+
+
+
+
+978. Longest Turbulent Subarray                                   B 
+### Thought Process (State Machine DP)
+
+The core insight is **State Dependency**. Since a turbulent subarray requires alternating directions (), the validity of the *current* step depends entirely on the 
+*previous* step's direction. We cannot use a single counter; we must simultaneously track two independent timelines:
+
+1. **`up`**: The length of a valid run ending with an increase.
+2. **`down`**: The length of a valid run ending with a decrease.
+
+At each step, an "increase" extends an existing "decrease" chain, and vice versa.
+
+### What You Were Missing (Gap Analysis)
+
+* **Equality Handling:** Your logic treated `arr[i] == arr[i-1]` as a "break" but failed to explicitly reset the counters to 1.
+* **Sequential Logic Flaw:** You used sequential `if` statements (`if(up==down)... if(up>down)`). This caused a "double update" where one state changed, and the very 
+next line incorrectly processed that *new* state immediately.
+* **Directional Reset:** You missed that if you have two drops in a row (), the second drop isn't just a "fail"; it is actually the **start** of a new valid sequence 
+(length 2), not a full reset to 1.
+
+
+
+
+
+
+
+1191. K-Concatenation Maximum Sum                                  B 
+### Key Logic
+
+* **Case :** Standard Kadane’s on a single array.
+* **Case :** The maximum subarray can either stay within one array, span across the boundary of two arrays, or include the entire middle  arrays.
+* **Total Sum Impact:** If the sum of the single array is positive, every additional full copy of the array increases the potential maximum sum.
+* **Two-Pass Kadane:** Running Kadane on two concatenated copies () captures the maximum possible sum that wraps around the boundary. If  and the total sum is positive, 
+we simply add the remaining  full array sums to this result.
+

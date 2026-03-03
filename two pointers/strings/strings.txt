@@ -1,0 +1,66 @@
+2697. Lexicographically Smallest Palindrome                     A+(10 min)
+To solve this, we rely on the property that a palindrome is symmetric. We use Two Pointers starting from 
+the ends and moving inward to check corresponding pairs of characters. Since we want the lexicographically
+smallest result, whenever we find a mismatch (e.g., 'a' vs 'z'), we apply a Greedy strategy: we force both 
+characters to become the smaller of the two (changing 'z' to 'a'). This guarantees the palindrome property 
+with the minimum number of changes while prioritizing earlier alphabet letters.
+
+
+
+1768. Merge Strings Alternately                                A 
+Instead of writing separate loops for the overlapping part and the leftovers, we use Two Independent 
+Pointers (i for word1, j for word2). We create a single loop that runs as long as either pointer has 
+characters left to process. Inside the loop, we first check if i is valid to add its character, then 
+check if j is valid to add its character. This logic naturally alternates them and, once the shorter 
+string runs out, simply continues appending the rest of the longer string without needing any extra 
+code branches.
+
+1754. Largest Merge Of Two Strings                             B
+To build the largest possible string, we use a **Greedy strategy**: at every step, we want to pick the 
+character that contributes to the lexicographically largest remaining sequence. The critical logic 
+happens when we face a tie (e.g., both current characters are 'a'); we cannot choose randomly. Instead, 
+we compare the **entire remaining suffixes** of both strings (`word1.substr(i)` vs `word2.substr(j)`). 
+This effectively "looks ahead" past the tie to determine which string will eventually offer a larger 
+character sooner. We pick the current character from the "winning" suffix and advance that pointer, 
+ensuring we always prioritize the stronger future path.
+
+821. Shortest Distance to a Character                         A
+To solve this efficiently in $O(N)$, we recognize that the closest 'c' for any index is either to its 
+left or to its right. Since we cannot see both directions at once, we split the problem into two linear 
+scans. First, we iterate left-to-right to calculate the distance to the previous 'c'. Then, we iterate 
+right-to-left to find the distance to the next 'c'. By updating each index with the minimum of these 
+two values, we combine the results to find the global shortest distance.
+
+942. DI String Match                                         A+(15 min)
+To construct the valid permutation, we use a Greedy Strategy with two pointers tracking the available
+range of numbers [0, n]. The logic relies on preserving future possibilities: when we see 'I' 
+(increase), we pick the smallest available number (low) because this guarantees that any number chosen 
+next will be larger. Conversely, when we see 'D' (decrease), we pick the largest available number (high) 
+to ensure the next number will be smaller. We repeat this process, narrowing the range from both ends 
+until the sequence is complete.
+
+2825. Make String a Subsequence Using Cyclic Increments        A(38 min)
+To solve this, we use a **Two Pointer** technique to scan both strings simultaneously. For every character 
+in the source string (`str1`), we check if it matches the current required character in the target string 
+(`str2`), either exactly or by incrementing it (specifically handling the 'z' to 'a' wrap-around case). 
+If it's a valid match, we **greedily** consume it and move to the next target character; if not, we skip 
+the source character and try the next one. If we successfully match all characters in `str2` before `str1` 
+runs out, the result is true.
+
+
+
+696. Count Binary Substrings                                  A+
+**Your Code (Dynamic Sliding Window):**
+Your approach treats the problem like a **balancing act combined with a sliding window**. You maintain a "balance" variable (`zero`) 
+where `0`s add weight and `1`s subtract it. The thought process is: "As I move `i` forward, I try to 'spend' my previous surplus 
+characters to form pairs. If I run out of surplus (e.g., I have too many `1`s and not enough `0`s), I must move my left anchor `j` 
+forward to discard old, unusable characters until the window is valid again." It is a mechanical, index-by-index simulation of trying 
+to pair characters while manually adjusting the window size to keep the counts balanced.
+
+**Standard Optimal Code (Group Comparison):**
+The standard approach changes the perspective from **individual characters** to **blocks of characters**. The insight is that a binary 
+string is just alternating groups, like "000" (size 3) followed by "11" (size 2). The thought process is: "I don't need to match indices 
+manually. If I have a group of three `0`s followed by two `1`s, I strictly know I can form exactly 2 valid substrings (`01` and `0011`).
+" Instead of managing a window, it simply remembers the *length* of the previous group and compares it to the *length* of the current 
+group; every time the current group grows, if it's still smaller than or equal to the previous group, you automatically have a new valid 
+substring.

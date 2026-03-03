@@ -1,0 +1,43 @@
+Reverse first K of a Queue                    A  
+* **Reverse with Stack:** Extract the first  elements from the original queue and push them into a stack, which naturally reverses their 
+ order due to its Last-In-First-Out property.
+* **Build Result Queue:** Pop those elements from the stack and enqueue them into a newly created result queue.
+* **Append Remaining:** Dequeue all the remaining elements from the original queue and append them to the result queue to maintain their 
+ original relative sequence.
+
+you can do in O(K) approach (optimal without extra queue)
+
+
+
+
+Stream First Non-repeating                    B 
+* **Track Frequencies:** Use a 26-element array to instantly update and check how many times a character has appeared.
+* **Maintain Order:** Use a queue to record the exact chronological sequence of incoming characters.
+* **Filter the Front:** After pushing a new character, repeatedly pop the front of the queue if its tracked frequency is ; this guarantees
+ the front always reveals the earliest unique character.
+                           
+
+
+
+First negative in every window of size k           B 
+This code uses a Sliding Window approach with two pointers, i (start) and j (end), and a queue to track negative numbers. As j expands the
+window, we push any negative number found into the queue. Once the window size hits k, we record the queue's front() (the first negative) 
+as the result (or 0 if empty). Before sliding the window forward (i++, j++), we check if the element leaving the window (arr[i]) matches 
+the front of the queue; if it does, we pop() it to keep the queue valid for the next window.
+
+
+
+1823. Find the Winner of the Circular Game             B 
+Gemini said
+The "Strike Your Head" Intuition (The Merry-Go-Round): Picture a queue as a straight line that you artificially bend into a circle. 
+To count around this circle, take a person from the front and immediately push them to the very back. Do this "front-to-back" pass exactly
+k−1 times to let those people survive. When the k-th person reaches the front, they are eliminated—just pop() them out and do not put 
+them back. You simply keep spinning this loop and throwing away every k-th person until only the final winner remains!
+
+The more optimal approach:-(Recursive)
+* **The "Strike Your Head" Intuition (Work Backwards):** Instead of simulating the eliminations, just track the survivor's seat! If the
+game only had 1 person, the winner is safely sitting at index `0`. As the circle grows to 2 people, then 3, all the way up to  people, the
+winner's original safe seat simply shifts to the right by exactly  positions each round. Because the friends are sitting in a circle, you
+just use modulo (`% current_size`) to wrap that shifted index around. You are essentially building the safe position from the bottom up!
+
+

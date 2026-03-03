@@ -1,0 +1,46 @@
+1329. Sort the Matrix Diagonally                 A+
+You recognized that every diagonal originates from the matrix boundaries, specifically the left column or the top row. To capture all of 
+them, you used two loops: one traversing down the first column and another across the first row. For each starting cell found, you 
+followed the diagonal path to collect the values into a list, sorted them, and then overwrote the original path with the sorted numbers, 
+ensuring every diagonal was processed independently.
+
+Better approach and more calculative 
+Think of every diagonal as having a unique "ID number" calculated by row - col. Negative IDs belong to diagonals starting on the top row,
+while positive IDs belong to those on the left column. Instead of writing two separate loops to check the top and left edges, we simply 
+loop through every possible ID number from the lowest (top-right) to the highest (bottom-left). For each ID, we calculate the starting 
+cell, collect all the numbers in that diagonal, sort them, and put them back in order. This merges two distinct tasks into one efficient 
+process.
+
+
+
+
+3071. Minimum Operations to Write the Letter Y on a Grid                                A+
+The core intuition relies on partitioning the grid into two distinct sets: cells belonging to the "Y" pattern and cells belonging to the 
+background. Since we only need to change values to make the "Y" uniform and the background uniform (but different), we don't need to 
+simulate the changes cell-by-cell. Instead, we count the frequency of 0s, 1s, and 2s in both regions separately. The minimum operations 
+are found by checking all six valid permutations where the "Y" value is different from the background value (e.g., Y becomes 0, 
+Background becomes 1) and calculating the cost as "Total Cells in Region - Count of Target Value".
+
+
+2946. Matrix Similarity After Cyclic Shifts                           A+
+The intuition is to verify if the matrix remains invariant under the shift without actually modifying it. Since a cyclic shift moves 
+every element k steps, the matrix only looks the same if every element mat[i][j] is identical to the element located k positions away 
+in the direction of the shift. For even rows, we compare the current element with the one k steps to the right (circularly), and for 
+odd rows, we compare with k steps to the left. If all corresponding elements match, the shift effectively replaces every value with an 
+identical one, returning true.
+    
+
+48. Rotate Image                                                       A+
+The intuition is based on breaking down the movement of the "top row" to the "right column."
+
+First, performing a Transpose swaps rows and columns, turning the top row into the leftmost column. However, we want it to be 
+the rightmost column. To fix this, we Reverse every row, which horizontally flips the matrix, moving that leftmost column to 
+the right side and completing the 90-degree clockwise rotation.
+
+
+1861. Rotating the Box                                                  A+
+Your code decouples the problem into two distinct steps: Horizontal Gravity and Matrix Rotation. Since a 90° clockwise turn 
+makes "right" become "down," you first simulate gravity by using a two-pointer technique to shift stones (#) to the far right 
+of each row, treating obstacles (*) as reset points for your "empty slot" pointer (k). Once stones are settled, you simply copy 
+the grid into a new matrix using the standard rotation formula (newGrid[j][m-1-i] = boxGrid[i][j]) to flip the rows into 
+columns.

@@ -25,3 +25,178 @@ You move to that higher point (`update new_peak`) because being higher makes the
 
 We greedily chase the most extreme values to maximize our chances of wiggling back the other way.
 
+
+
+1974. Minimum Time to Type Word Using Special Typewriter             A+(30 min)
+Think of the typewriter as a clock with 26 markings. For every character, you are currently at a "pointer" 
+position and need to reach a target character. The key insight is that since the alphabet is circular, the 
+distance between any two letters is never more than 13 steps (half of 26). You calculate the direct distance 
+(absolute difference); if this distance is greater than 13, it implies that moving in the reverse direction 
+(wrapping around) is faster. You take the minimum of these two paths for each letter, update your pointer, 
+and finally add one second per character for the actual "typing" action.
+
+
+455. Assign Cookies                  A+
+The core idea is greedy efficiency. You want to satisfy the "easiest" children (smallest greed) first using 
+the "smallest sufficient" cookies. By sorting both arrays, you align the smallest demands with the smallest 
+supplies. When you encounter a cookie that is big enough for the current child (s[j] >= g[i]), you assign it 
+because using a larger cookie later would be wasteful, and using a smaller one is impossible. You then move 
+to the next child. If the cookie is too small, you discard it and try the next larger one, knowing it won't 
+satisfy any subsequent (greedier) children either.
+
+
+1386. Cinema Seat Allocation                  A+
+The approach relies on sorting the reservations first so that we can process the cinema row by row. For each row with reservations, 
+we use three boolean flags to check if specific 4-seat sections are blocked: Left (2-5), Middle (4-7), and Right (6-9). We greedily 
+add to our answer: if both Left and Right are clear, we add 2 groups; otherwise, if any of the three sections (including Middle) is 
+clear, we add 1 group. Finally, for any rows that had no reservations at all (calculated by n - processedRows), we simply add 2 groups 
+each since they are completely empty.
+
+
+870. Advantage Shuffle                         A
+The goal is to win as many matchups as possible using a greedy strategy. By sorting both arrays, we can make informed decisions: we check 
+the "toughest opponent" currently remaining in `nums2` (its largest value). If our strongest card (`nums1[right]`) is greater, we use it 
+to secure a victory; otherwise, we minimize our loss by sacrificing our weakest card (`nums1[left]`) against their strongest, saving 
+better cards for easier opponents. We use a `vector<pair<int, int>>` for `nums2` to store `{value, original_index}` because we must 
+return the answer in the original order of `nums2`. A simple `map` is not used here because it handles duplicate values poorly 
+(overwriting keys), whereas the vector of pairs preserves duplicate values (e.g., `[10, 10]`) with their distinct indices.
+
+
+2567. Minimum Score by Changing Two Elements                            B
+The problem simplifies to minimizing the range (Max - Min) because the "low score" can always be made 0 by changing the two chosen 
+elements to duplicate existing numbers. In a sorted array, the range is determined by the outliers at the ends. With exactly two 
+modifications allowed, we have three greedy options to shrink this range: remove the two smallest elements, remove the two largest, or 
+remove one from each end. We calculate the resulting difference for all three scenarios (nums[n-1]-nums[2], nums[n-3]-nums[0], and 
+nums[n-2]-nums[1]) and return the minimum.
+
+2541. Minimum Operations to Make Array Equal II                    A+
+
+
+
+
+2611. Mice and Cheese                            B 
+The code uses a greedy strategy to maximize the score by prioritizing the "relative gain" of Mouse 1 over Mouse 2. It calculates the 
+difference (reward1[i] - reward2[i]) for every cheese to identify where Mouse 1 offers the biggest advantage compared to Mouse 2. 
+By sorting these differences, it assigns the k cheeses with the highest relative profit to Mouse 1 and leaves the rest for Mouse 2.
+
+
+
+
+2279. Maximum Bags With Full Capacity of Rocks                        A+ 
+Greedy Logic & Space Optimization: To maximize the number of full bags, we must prioritize filling bags that need the fewest rocks first 
+(Greedy approach), which requires sorting the differences. Instead of creating a separate O(N) vector to store capacity[i] - rocks[i], 
+we simply reuse the input capacity vector to store these values in-place. This reduces space complexity to $O(1)$. After calculating 
+differences and sorting capacity, we iterate through it, subtracting from additionalRocks and incrementing the count as long as we have 
+enough rocks to fill the current bag.
+
+2439. Minimize Maximum of Array                                          A
+The core intuition relies on the fact that operations can only shift excess value from Right to Left, meaning the left side of the array 
+acts as a "container" that must absorb all cumulative overflow. We treat mid as a fixed ceiling height; as we iterate, we check if the 
+total capacity available so far (mid × elements seen) is enough to hold the actual running sum. If the sum ever exceeds this capacity 
+(buffer < 0), it proves that mid is impossible because the excess value is trapped and cannot move right. We use Binary Search because 
+this property is monotonic—if a capacity works, any larger capacity also works—allowing us to efficiently "guess and verify" the minimal 
+answer in logarithmic time rather than deriving it mathematically.
+
+
+435. Non-overlapping Intervals                                       A+
+The core idea is to minimize the "damage" caused by any chosen interval to the rest of the timeline. When two intervals overlap, you are 
+forced to remove one. The greedy strategy is to always keep the one that ends earliest and delete the one that drags on longer. By 
+keeping the interval with the smaller end time, you free up the timeline sooner, maximizing the remaining empty space and increasing the 
+probability that future intervals will fit. Your code implements this by updating mini to the smaller end time 
+(min(mini, intervals[i][1])), effectively simulating the removal of the longer, more obstructive interval.
+
+
+
+
+2406. Divide Intervals Into Minimum Number of Groups                     B    
+We sort the intervals to process them chronologically and use a Min-Heap to track the end times of active groups, specifically allowing 
+us to see which group finishes soonest. For every new interval, we check the heap's top: if the soonest-ending group finishes before the 
+new interval starts, we reuse that group (pop the old end, push the new end). If not, it implies all currently active groups are busy, 
+forcing us to allocate a new group (push the new end). The final heap size represents the minimum groups needed to handle the maximum 
+overlap.
+
+621. Task Scheduler                                              A 
+The strategy treats the most frequent task ($max\_freq$) as the schedule's backbone, creating a "frame" with 
+mandatory cooling gaps. By placing all tasks with $max\_freq$ side-by-side at the start of each block, we determine the minimum number 
+of required empty slots that must be filled to satisfy the cooling constraint $n$. We then attempt to fill these slots with the remaining 
+tasks; if any slots remain empty, they become idles, and if the remaining tasks exceed the available slots, they simply extend the
+schedule without requiring extra idles.
+
+
+2449. Minimum Number of Operations to Make Arrays Similar                    A+
+
+The thought process relies on Parity Invariance and Greedy Matching. Since adding or subtracting 2 never changes a number's parity 
+(odd stays odd, even stays even), you must match the sorted odd numbers of nums to the sorted odd numbers of target, and do the same for 
+even numbers. Sorting ensures that the smallest values are transformed into the smallest targets with minimum effort. By summing the 
+absolute differences $(\frac{|nums_i - target_i|}{2})$, you calculate the total "steps" shifted; dividing by 2 at the end accounts for 
+the fact that each operation simultaneously moves two numbers closer to their targets.
+
+
+948. Bag of Tokens                                                           A+ 
+Thought Process: Greedy "Buy Low, Sell High"
+The core strategy is to maximize efficiency using a Greedy Two-Pointer approach on sorted tokens.
+
+Buy Low (Gain Score): If we have enough power, we always spend it on the smallest available token (tokens[i]) to get a point as cheaply as possible.
+
+Sell High (Gain Power): If we are out of power but have score, we sacrifice 1 point to reclaim the largest available token (tokens[j]). This maximizes the "fuel" we get 
+back to potentially buy multiple cheaper tokens later.
+
+Track Max: We update maxi after every buy because a "sell" operation lowers the current score, and the peak might have occurred before that sacrifice.
+
+
+3219. Minimum Cost for Cutting Cake II                                      A  
+The core insight is that every cut you make increases the number of pieces the other type of cut must slice through later. To minimize total cost, you must perform the 
+most expensive cuts as early as possible when the "multiplier" (the number of existing segments) is still small. By sorting both arrays and always choosing the largest 
+available cut, you ensure that high-cost cuts are multiplied by the smallest possible factor (blocks), while cheaper cuts are saved for later when the number of blocks 
+is high.
+
+
+
+1247. Minimum Swaps to Make Strings Equal                                  A+
+The strategy is to prioritize the most efficient moves first. We identify two types of mismatches: xy (s1 has 'x', s2 has 'y') and yx. Fixing two identical mismatches 
+(e.g., xy and xy) takes only 1 swap, whereas fixing two mixed mismatches (xy and yx) takes 2 swaps. Therefore, we greedily pair up all identical errors first. If we are 
+left with one single xy and one single yx, we are forced to pay the 2-swap cost. If the total number of errors is odd, equality is impossible.
+
+
+
+
+Minimum Platforms                                       B
+
+Thought Process
+We stop tracking individual trains and instead track chronological events (arrivals and departures).
+Every arrival takes a platform (+1), and every departure frees one (-1).
+By sorting both arrays independently and using two pointers, we simulate a timeline of events to find the peak number of overlapping 
+trains.
+
+Better approach O(n) O(1)                               B
+The core idea is to treat the 24-hour day as a continuous timeline rather than comparing individual train intervals. By using a fixed-size
+array to log events—adding +1 at the exact arrival minute and -1 the minute after a train departs—we map physical train movements to
+mathematical operations. Sweeping left-to-right through this timeline and calculating a running total perfectly simulates the live
+station minute-by-minute, revealing the absolute peak number of overlapping trains.
+
+
+
+
+Fractional Knapsack                                       A+
+The code calculates each item's value-to-weight ratio and stores it with its original index so the items can be sorted from most to least 
+profitable.  We then greedily fill the knapsack by fully taking items that fit. When an item is too heavy, we multiply the remaining 
+capacity by its pre-calculated ratio to take the exact fraction needed to perfectly fill the bag, ensuring maximum total value.
+
+
+
+
+
+
+330. Patching Array                                      A  
+* **Goal:** Track the smallest sum you currently *cannot* form (`miss`), starting at `1`.
+* **Match:** If the next array number is $\le$ `miss`, you use it to safely extend your reachable range by adding it to `miss`.
+* **Patch:** If the next number is too large (creating a gap), you greedily add `miss` itself to the array. This optimally doubles your 
+  reachable range (`miss += miss`) while counting as one patch.
+
+
+
+1330. Reverse Subarray To Maximize Array Value           B
+
+IF YOU ARE TRYING TO DO OPTIMAL THEN YOU SHOULD STUDY THIS PROBLEM PROPERLY 
+
+

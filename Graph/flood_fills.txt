@@ -1,0 +1,67 @@
+733. Flood Fill                                     A+
+BFS:-
+The core idea is to treat the image like a graph where each pixel is a node connected to its four neighbors. You use a queue to perform a 
+Breadth-First Search (BFS), starting from the source pixel. For every pixel you pull out of the queue, you check if it still matches the 
+starting color; if it does, you change its color to the new one and add its valid neighbors to the queue. Because you change the color 
+"in-place" before checking the neighbors' neighbors, the algorithm naturally avoids re-processing the same spot, eliminating the need for 
+an extra "visited" set.
+
+
+
+
+463. Island Perimeter                                 A+
+The core idea is that a land cell contributes to the perimeter only where it meets water or the edge of the grid. Using DFS, when you step
+from a land cell into water or out of bounds, you've found one unit of perimeter and return 1. If you step onto a land cell you've already
+visited, you return 0 (no new perimeter). Otherwise, you mark the land as visited and sum the results from its four neighbors.
+
+
+
+
+200. Number of Islands                                       A+ 
+### The Search Strategy (BFS & DFS)
+
+Both approaches treat the grid as a graph where each `'1'` is a node. When the main loop encounters an unvisited `'1'`, it signals the discovery of a **new island**. We 
+immediately trigger a traversal to find every connected piece of land belonging to this island. **BFS** uses a queue to spread outwards like a ripple, processing 
+immediate neighbors first, while **DFS** uses recursion to dive deep along one path until it hits water. Both methods achieve the same goal: visiting and marking the 
+entire connected component so the main loop doesn't count it again.
+
+### Space Optimization: The "Sinking" Technique
+
+To save  space, we can eliminate the external `visited` array entirely. Instead, we modify the input `grid` directly. Whenever we visit a cell with `'1'`, we immediately 
+overwrite it to `'0'` (or a placeholder like `'2'`). This effectively **"sinks" the island** as we traverse it, ensuring that subsequent checks in the main loop see it 
+as water and skip it, reducing auxiliary space complexity to near  (excluding recursion stack/queue).
+
+
+
+419. Battleships in a Board                                B 
+### Thought Process: "Identify, Don't Traverse"
+
+The key insight shifts from *traversing* the entire ship (which requires DFS/BFS and memory) to simply *identifying* a unique "start point" for each one. Since we 
+iterate through the grid from top-left to bottom-right, every ship has exactly one "head" cell that we encounter first—the topmost, leftmost 'X'. By counting an 'X' 
+**only** if it has no 'X' above it and no 'X' to its left, we ensure every ship is counted exactly once (at its head) while ignoring the rest of its body. This allows 
+for a single-pass solution with  space.
+
+This can be done by DFS and BFS aswell but those are not optimal approaches
+
+
+
+1905. Count Sub Islands                                      A+ 
+The problem is essentially "Conditional Traversal." We treat grid2 as the source of truth for island shapes, but grid1 as the source of truth for validity. The critical 
+realization is that finding a mismatch (land in grid2 but water in grid1) invalidates the entire island, but we cannot stop immediately. We must continue the traversal 
+to completely "sink" (mark visited) the current island in grid2. If we stop early, the remaining unvisited parts of the invalid island will be incorrectly discovered as 
+"new" islands later in the loop. The logic is: Traverse to sink, check to validate.
+
+
+200. Number of Islands                                         A+
+Thought Process: Sink and Count (DFS)
+The core idea is to treat the grid as a graph where each '1' is a node. We iterate through every cell, and when we encounter a '1', we treat it as the discovery of a 
+new island and immediately increment our count. To prevent recounting the same island, we launch a Recursive DFS (solve function) that spreads to all connected land 
+cells (up, down, left, right) and "sinks" them by changing their value from '1' to '0'. This ensures that future iterations of the main loop see these cells as water 
+and skip them.
+
+
+1992. Find All Groups of Farmland                           A+
+This approach treats each group of 1s as a connected component. When the main loop finds an unvisited 1, it identifies it as the top-left corner (r1, c1) of a new 
+farmland. It then initiates a BFS to visit every cell in that block, marking them as visited (0) to prevent recounting. Since the farmland is guaranteed to be 
+rectangular, the code relies on the property that the last node processed (popped from the queue) during the BFS traversal will effectively be the bottom-right corner 
+(r2, c2).

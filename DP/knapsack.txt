@@ -26,11 +26,135 @@ By sorting the players by age first, we ensure that we always consider players f
  we extend that team by adding the current player's score to the best total found so far.
 
 
-638. Shopping Offers                             A
+638. Shopping Offers                             B
 The code finds the minimum cost by exploring two options at every step: buying the current needs
- individually or applying a special offer. First, it calculates the cost of buying the current needs 
- directly to set a baseline min_cost. Then, it loops through every special offer; if an offer fits 
- the requirements, it creates a new state by subtracting those items and recursively finds the 
- cheapest way to buy the remainder. It compares the direct cost against this "offer price + 
- remaining cost" and returns the minimum, using a map (memo) to store results so identical states 
- aren't calculated twice
+individually or applying a special offer. First, it calculates the cost of buying the current needs 
+directly to set a baseline min_cost. Then, it loops through every special offer; if an offer fits 
+the requirements, it creates a new state by subtracting those items and recursively finds the 
+cheapest way to buy the remainder. It compares the direct cost against this "offer price + 
+remaining cost" and returns the minimum, using a map (memo) to store results so identical states 
+aren't calculated twice
+
+2944. Minimum Number of Coins for Fruits         B 
+
+
+
+1049. Last Stone Weight II                       B 
+
+1. The Direct + / - Approach (Simulation)
+Thought Process: "I want to simulate every possible game outcome." You treat the problem as assigning a sign (+ or -) to every 
+stone. At each step i, you branch into two parallel universes: one where you add the stone to your current total, and one where 
+you subtract it. When you reach the end of the array, the absolute value of your total represents the final stone weight for that 
+specific sequence of choices. You compare all these final values and return the smallest one. Since the running total can dip 
+below zero, you add an offset (like 3000) to map negative sums to valid array indices.
+
+2. The Subset Sum Approach (Mathematical Optimization)
+Thought Process: "I want to split the stones into two equal piles." You realize that minimizing the difference between Group A 
+(positive stones) and Group B (negative stones) is mathematically the same as trying to make Group A sum up to exactly half of the 
+total weight. Instead of tracking + and -, you only track Group A. You iterate through the stones and try to fill a knapsack with 
+capacity TotalSum / 2. The closer you get to this half-way mark, the smaller the resulting difference will be. This eliminates 
+negative numbers entirely and shrinks the table size.
+
+
+1105. Filling Bookcase Shelves                                           B 
+### Top-Down (Recursive) Thought Process                         
+
+Think of this as making a decision for every book relative to the **active** shelf. At each index `i`, you have two choices: either 
+**"Keep"** the book on the current shelf (if width permits) or **"Skip"** to close the current shelf (add its max height to the total) and 
+start a fresh shelf with book `i`. We use a 2D memoization table `t[index][remaining_width]` because different paths often reach the same 
+state of index and available space.
+
+### Bottom-Up (Iterative) Thought Process                                
+
+This approach solves the problem backward, from the last book to the first. `dp[i]` represents the minimum total height required for books 
+from index `i` to the end. For each book `i`, we treat it as the **start** of a new shelf and use an inner loop to try placing subsequent 
+books (`i`, `i+1`... `j`) on that same shelf until the width limit is hit. The value for `dp[i]` becomes the minimum of 
+`current_shelf_height + dp[j+1]` across all valid split points `j`.
+
+
+1024. Video Stitching                                                      A
+Think of this as a "Jump Game" or shortest-path search where you want to reach the target `time` using the fewest jumps. At your 
+`current_reach` (starting at 0), you inspect every clip that acts as a bridge—starting at or before your current position and ending 
+after it. The recursion exhaustively tests every valid bridge to extend your reach, adding 1 to the cost for each step, while the `min` 
+function ensures you ultimately choose the path with the fewest clips. Memoization optimizes this by caching the best result for every 
+specific reach point, ensuring you never solve the same sub-problem twice.
+
+
+
+
+3196. Maximize Total Cost of Alternating Subarrays                         A
+
+### 1. Recursion & Memoization (The "Explorer")         A+
+We treat the problem as a series of decisions at each index: "Do I start a new subarray here (add) or extend the 
+current one (subtract)?" The critical constraint is that subtraction is only allowed if we extend a subarray, which 
+forces the next operation to be addition. We explore every valid path recursively, but since many paths overlap 
+(reaching the same index with the same sign requirement), we store the results in a cache (`dp` table) to avoid 
+re-solving the same sub-problems.
+
+### 2. Tabulation (The "Builder")                   B
+Instead of exploring blindly, we invert the process to build the solution systematically from the start (index 0) 
+to the end. We realize that at any index `i`, we only need to know the best possible scores ending at `i-1` (both positive and negative). 
+We iterate forward, calculating `dp[i][0]` (current is +) by taking the max of the previous options, and `dp[i][1]` (current is -) by 
+extending the previous positive state. This guarantees that when we reach the end, we have the answer ready without recursion depth 
+issues.
+
+### 3. Space Optimization (The "Minimalist")
+We observe that our tabulation loop has a very short memory—to calculate index `i`, we **only** look at `i-1`. We never revisit `i-2` or 
+earlier. This means maintaining a huge array is wasteful. We replace the entire table with just two variables (`prev_pos` and `prev_neg`) 
+to hold the previous state. inside the loop, we calculate the new values, update our variables, and discard the old data, reducing space 
+complexity to .
+
+
+
+
+1388. Pizza With 3n Slices                       B  
+Here is the thought process for approaching this solution in three distinct stages:
+
+**1. Recursive Approach (Mental Model)**
+We first identify this as a variation of **House Robber II** because we cannot pick adjacent items in a circle. Since circular dependencies are hard to handle directly, we break the problem into two linear scenarios: one ranging from index `0` to `N-2` (excluding the last) and one from `1` to `N-1` (excluding the first). The answer is the maximum of these two. In the recursion, we carry two states: `index` (current slice) and `count` (slices remaining to pick). At every step, we make a choice: either **take** the current slice (adding its value and skipping to `index + 2`) or **skip** it (moving to `index + 1`).
+
+**2. Tabulation Approach (Structure)**
+We translate the recursion into an iterative table to avoid stack overflow and overhead. We define a 2D array `dp[i][j]` representing the maximum sum possible considering slices up to index `i` while picking exactly `j` slices. We iterate through every index from `0` to `M` and every count from `1` to `limit`. The transition logic remains the same but looks backward: the value at `dp[i][j]` is the maximum of `dp[i-1][j]` (skipping current) and `slices[i] + dp[i-2][j-1]` (taking current and using the result from two steps back).
+
+**3. Space Optimization (Refinement)**
+We analyze the dependency in the tabulation: to calculate the current row `i`, we *only* ever look at row `i-1` and row `i-2`. We never look back further. This realization allows us to discard the massive full grid. We replace the  matrix with just three 1D vectors: `prev2`, `prev1`, and `curr`. As we iterate through the loop, we calculate `curr`, then slide the window forward (move `prev1` to `prev2`, and `curr` to `prev1`), reducing the Space Complexity from  to .
+
+
+
+
+
+801. Minimum Swaps To Make Sequences Increasing                                     B
+1.memoization
+The intuition is to treat each index as a decision point where the validity of your choice depends entirely on the previous state. 
+Since a swap at one position changes the "previous" values for the next, you track whether a swap occurred at $i-1$ to correctly identify 
+the boundary values. By exploring both "swap" and "no-swap" options independently whenever they satisfy the strictly increasing condition,
+you allow the algorithm to look ahead and find the minimum cost for the entire sequence rather than just fixing immediate errors.
+
+2.tabulation                                              B
+Condition 1 (Parallel): If elements are already in order, you can either keep both $i$ and $i-1$ as they were (dp[i-1][0]) or swap both 
+(dp[i-1][1] + 1).
+
+Condition 2 (Interchanged): If the arrays "cross over" to be increasing, you can either swap $i$ but not $i-1$ (dp[i-1][0] + 1) or swap 
+$i-1$ but not $i$ (dp[i-1][1]).
+
+Since both conditions can be true simultaneously, min() picks the cheapest global path.
+
+
+
+
+
+
+879. Profitable Schemes                                   A  
+memoization:
+The thought process follows the 0/1 Knapsack pattern using three constraints: the crime index, members used, and profit earned. For each 
+crime, you make a binary choice: skip it (move to the next crime with current stats) or take it (subtract members and add profit, only if 
+enough members remain). To keep the state space manageable for memoization, you cap the accumulated profit at minProfit since any value 
+beyond that is functionally equivalent. The total count is the sum of all valid subsets found when all crimes have been considered.
+
+
+3154. Find Number of Ways to Reach the K-th Stair               B
+We explore all possible paths using three state variables: current location (stair), current jump exponent (jump), and a flag to prevent 
+consecutive backward steps. At each step, if stair == k, we count it (add 1) but continue recursing. From any state, we have two choices: 
+go Down by 1 (only if allowed by flag) or jump Up by $2^{jump}$ (always allowed). We stop the recursion (prune) if stair exceeds k + 1 
+because jumps grow exponentially and we can never return. Finally, we memoize using a Hash Map keyed by (stair, jump, flag) because the 
+position values are too large for a standard array.

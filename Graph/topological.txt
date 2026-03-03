@@ -1,0 +1,30 @@
+207. Course Schedule                           A
+
+BFS Code Thought Process          ---------> Typical topological approach (Kahn's algorithm)
+Build an adjacency list and count incoming prerequisites (indegree) for each course.
+Push all courses with 0 prerequisites into a queue.
+Process the queue: count the course as finished, reduce the prerequisite count for its dependent courses, and queue any that drop to 0.
+If the total finished courses equal numCourses, no cycles exist, and the schedule is possible.
+
+DFS approach finds cycles by tracking your current active traversal path.
+* Mark the current node in both a general `visited` array and an active `pathVisited` array.
+* Recursively visit its unvisited neighbors; if you encounter a neighbor that is already marked in `pathVisited`, you have hit a cycle.
+* Once a node's exploration finishes, unmark it from `pathVisited` (backtrack) to prevent false cycle detections when exploring other 
+independent paths.
+
+
+
+210. Course Schedule II                           A+
+similarily as above one but here we will store topological vector
+
+DFS :-                                            B 
+Here is the thought process broken down concisely:
+* **Cycle Detection:** Run a DFS using a `pathVis` array to track the current active route. If you ever hit a node already in `pathVis`, a
+ cycle exists, and you must return an empty array.
+* **Post-Order Stacking:** Use a standard `visited` array to avoid recalculating nodes. Crucially, only push a course onto your stack *after*
+ successfully exploring all of its dependencies.
+* **Result Generation:** Once DFS is complete, popping all elements from the stack naturally reverses the post-order traversal, giving you 
+ the perfect topological sequence.
+
+
+
