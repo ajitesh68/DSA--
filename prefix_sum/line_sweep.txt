@@ -1,0 +1,13 @@
+1854. Maximum Population Year                                     B 
+Is question ke chote constraints dekh kar sabse pehle map/array wali brute-force approach sochi. Par jab dhyan diya ki population sirf paida hone (+1) aur marne (-1) par hi badalti hai, 
+toh ye "range events" ka pattern samajh aaya. Is pattern ko pehchan kar seedha Line Sweep algorithm ka thought aaya, jisme bas start aur end points record karke prefix sum nikalne se optimal 
+answer mil jata hai. 
+
+
+
+2848. Points That Intersect With Cars                            A+ 
+same line sweep
+
+
+1094. Car Pooling                                               A+
+same line sweep 

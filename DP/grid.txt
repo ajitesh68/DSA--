@@ -32,14 +32,113 @@ INTUITION:-A negative number flips the sign, meaning a path with the minimum pro
 
         you have to take the max and min from both right and left for each cell then come to conclusion
 
+
 3148. Maximum Difference Score in a Grid                  A 
 INTUITION:- 
+
+
+
+
+3122. Minimum Number of Operations to Satisfy Conditions               B 
+Column Setup: Problem ki pehli condition kehti hai ki har column ke saare elements same hone chahiye. Matlab end mein har column 0 se 9 ke beech ka koi ek single number ban jayega.
+
+Cost Calculation: Agar aap ek column ko number X assign karte ho, toh usme operations kitne lagenge?
+Cost = (Total rows) - (Column mein X ki frequency).
+
+The Conflict: Dusri condition kehti hai ki adjacent columns same nahi ho sakte. Isliye hum hamesha har column ka sabse frequent number (Greedy) pick nahi kar sakte, kyunki adjacent column mein same number 
+ka conflict aa sakta hai.
+Why DP: Kyunki ek column ka decision uske agle column ke options limit kar deta hai. DP humein saare combinations explore karke minimum cost nikaalne me madad karti hai.
+
+
+
 
 2684. Maximum Number of Moves in a Grid                  A+(50 min)memoization      
 INTUITION(memoization):-
 
+
+
 1706. Where Will the Ball Fall                       A+(50 min)memoization      
 INTUITION(memoization):-
 
-174. Dungeon Game                                   B      
+
+
+174. Dungeon Game                                   B->A      
 INTUITION(memoization):-
+
+
+
+
+
+
+741. Cherry Pickup                                       B
+Is problem ka core intuition yeh hai ki ek raasta pakad kar wapas aane (Greedy) mein optimal path block ho sakta hai, isliye hum **2 logon ko ek saath (0,0)
+se (n-1, n-1) tak bhejte hain**. Kyunki dono hamesha ek saath 1 step chalte hain (Right ya Down), unke coordinates ka sum hamesha barabar hota hai (`r1 + c1 = r2 + c2`),
+jisse hamari 4D problem ghat kar 3D DP (`r1, c1, r2`) mein convert ho jati hai. Dimaag mein bas yeh logic rakhna hai: dono ko ek saath aage badao, agar same cell par 
+aaye toh cherry 1 baar uthao warna dono ki alag-alag add karo, aur har step par unke 4 possible moves (Right-Right, Right-Down, Down-Right, Down-Down) ka maximum calculate 
+karte jao.
+
+
+
+
+
+
+1301. Number of Paths with Max Score                           A 
+Iss problem ka main catch yeh hai ki har cell par hume ek pair `{max_score, total_paths}` maintain karna hai. Har state par bas 3 pichle valid paths (Up, Left, Diagonal)
+ko check karo aur wahan se aane wala maximum score uthao; agar ek se zyada directions exactly *same* maximum score de rahi hain (tie condition), toh un sabhi ke 
+`total_paths` ko aapas mein add kar do kyunki wahan tak pahunchne ke multiple optimal raaste mil gaye hain. Phir us max score mein current cell ki value add 
+karke, is naye pair ko DP mein store kar do taaki target tak aate-aate har subproblem efficient tarike se solve ho jaye.
+
+
+
+
+
+
+1463. Cherry Pickup II                                       A+ 
+* **Simultaneous Movement:** Dono robots hamesha ek sath ek hi row mein aage badhte hain. Isliye do alag rows track karne ke bajaye, state mein sirf ek `row` aur dono robots ke current 
+ columns `(col1, col2)` ko track karna kaafi hai.
+* **Cherry Overlap:** Agar kisi step par dono robots ek hi cell par aa jayein (`col1 == col2`), toh us cell ki cherry sirf ek baar add karni hai. Agar alag cells par hain, toh dono ki 
+ cherries add hongi.
+* **9 Transitions:** Har step par Robot 1 ke paas 3 options (left-diagonal, straight, right-diagonal) aur Robot 2 ke paas 3 options hote hain. Yeh milkar har cell se aage badhne ke total 
+ $3 \times 3 = 9$ combinations banate hain.
+* **Maximization:** Hamein in 9 possible rasto mein se us raste ko chunna hai jo maximum cherries return kare, aur usme current cell ki cherries add karke store (memoize) kar lena hai.
+
+
+
+
+1289. Minimum Falling Path Sum II                           A+ 
+* **Core Logic:** Har row mein aage badhte waqt hume pichli row ka chuna hua column skip karna hai, aur baaki sabhi valid columns par jaakar path ka minimum sum explore karna hai.
+* **Recursive Step:** Kisi bhi cell par khade hokar humara final answer hota hai: `Current Cell Value + Next row ke sabhi valid paths mein se jo sabse minimum sum ho`.
+* **Memoization Need:** Is decision tree mein hum alag-alag rasto se same `(row, col)` par baar-baar pahunchte hain. Unhi overlapping subproblems ko dobara solve na karna pade aur
+ Time Limit Exceeded (TLE) se bacha ja sake, isliye hum un results ko save kar lete hain.
+
+
+
+576. Out of Boundary Paths                               A+ 
+**Intuition / Thought Process:**
+
+* **Core Idea:** Har cell se 4 dishaon (directions) mein explore karna hai aur har step par `remaining_moves` ko ghatana hai.
+* **Success Condition:** Jaise hi aapka index grid ke bounds se bahar jata hai, matlab aapko ek successful path mil gaya (`return 1`).
+* **Dead End:** Agar aap grid ke andar ho aur `moves == 0` ho jaye, matlab woh rasta aage nahi jayega (`return 0`).
+* **Why 3D DP:** Kyunki aap same cell `(r, c)` par same `remaining_moves` ke sath alag-alag raaston se ghoom kar wapas aa sakte hain. Isliye in overlapping 
+ states ko dobara calculate karne se bachne ke liye `(row, col, moves_left)` ko memoize karte hain.
+
+
+
+
+576. Out of Boundary Paths                             A+ 
+Is approach ka core intuition **"Reverse Boundary Exploration"** hai: hum har possible direction (Up, Down, Left, Right) mein move karke
+check karte hain ki kya hum grid se bahar nikal pa rahe hain. Agar koi move grid ki boundary cross karta hai ($r < 0, c < 0$, etc.), toh woh
+ek valid "out of boundary" path count hota hai ($+1$ return). Kyunki ek hi cell par baar-baar alag-alag moves ke baad pahunchne ke chances hote
+hain, isliye hum **3D Memoization** ($r, c, moves$) ka use karte hain taaki purane calculated results ko reuse kar sakein aur redundancy khatam
+ho jaye. Seedhe shabdon mein: har step par 4 raaste hain, aur hum bas wahi raaste ginte hain jo grid ke baahar khatam ho rahe hon.
+
+
+
+
+931. Minimum Falling Path Sum                          A+  
+Is problem ka core intuition "Greedy vs Future Impact" hai: hum har cell par khade hokar ye dekhte hain ki agar hum yahan se niche jaana shuru karein, toh agle row ke teen
+options (theek niche, diagonal left, ya diagonal right) mein se sabse sasta raasta kaunsa hoga. Recursive approach mein hum Top-Down jaate hain (pehli row se base tak), jabki 
+Iterative approach mein hum Bottom-Up (aakhiri row se upar ki taraf) results ko accumulate karte hain. Har cell par decision sirf uske immediate niche wale teen padosiyon ke minimum
+value par depend karta hai, jisse ek bada problem chhote sub-problems (har row ka local minimum) mein divide ho jata hai. Revision ke waqt bas ye yaad rakhna: "Har cell ke liye best 
+path wahi hai jo uski current value aur uske niche wale best possible move ka sum ho."
+

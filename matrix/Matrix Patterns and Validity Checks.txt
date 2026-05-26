@@ -1,0 +1,30 @@
+1605. Find Valid Matrix Given Row and Column Sums                             A+
+Yeh greedy approach ka simple thought process hai:
+
+* **Greedy Choice:** Har cell `(i, j)` par sabse badi safe value `min(rowSum[i], colSum[j])` rakhein taaki limit cross na ho.
+* **Update:** Is value ko `rowSum[i]` aur `colSum[j]` dono se subtract karein. Aisa karne se hamesha kam se kam ek sum zero ho jayega.
+* **Move Forward:** Jo bhi sum (row ya column) zero ho jaye, uska pointer aage badha dein (`i++` ya `j++`). Is technique se aapko unnecessary cells check nahi karne padte aur time bachta hai.
+
+
+
+1222. Queens That Can Attack the King                                       A+ 
+* **Direction Arrays (`dx`, `dy`)**: 8 alag loops se bachne ke liye humne sabhi 8 directions ke steps ek array mein store kar liye hain.
+* **Fast Lookup (`hasQueen`)**: Queens ki positions ko 8x8 ke boolean grid mein `true` mark kiya hai taaki searching turant (O(1)) ho sake.
+* **Starting Point**: Har direction check karne se pehle hum variables `x` aur `y` ko King ki original position par set karte hain.
+* **Step-by-Step Move**: Ek loop ke andar `x += dx[i]` aur `y += dy[i]` karke King se us direction mein ek step aage badhte hain.
+* **Boundary Check**: Har step par check karte hain ki pointer 8x8 chessboard ke bahar toh nahi chala gaya. Agar bahar hai, toh loop `break` kar dete hain.
+* **Queen Hit**: Agar pointer wali jagah par queen mil jati hai (`hasQueen == true`), toh us position ko answer mein save karte hain aur us direction mein aage badhna band kar dete hain (`break`).
+
+
+807. Max Increase to Keep City Skyline                                         A+ 
+Is problem ka main thought process yeh hai ki kisi bhi building ki height hum zyada se zyada utni hi badha sakte hain jitna uski row aur column ka maximum height allow kare. Skyline maintain rakhne 
+ke liye, kisi cell `(i, j)` ki aakhiri limit `min(rowMax[i], colMax[j])` hi ho sakti hai. Isliye pehle sabhi rows aur cols ka max nikalte hain, aur phir har building ke nayi aur purani height ka 
+difference nikal kar total mein add kar lete hain.
+
+
+3127. Make a Square with the Same Color                                   A+ 
+* **Iterate subgrids:** Loop through the top-left coordinates `(i, j)` of the four possible 2x2 squares inside the 3x3 grid.
+* **Count colors:** For each 2x2 square, count the total number of 'B' and 'W' cells.
+* **Check condition:** If any 2x2 square has 3 or 4 cells of the same color, return `true` (since changing at most one cell makes it fully uniform).
+* **Default:** Return `false` if none of the four squares meet the condition.
+

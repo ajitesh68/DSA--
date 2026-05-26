@@ -1,0 +1,20 @@
+994. Rotting Oranges                                                      A 
+Rotting Oranges problem ko solve karne ke liye Multi-source BFS ka use hota hai. Sabse pehle, grid ke saare rotten oranges (value 2) ko ek queue mein daalte hain aur fresh oranges (value 1) 
+ko count karte hain. Har minute (BFS level), queue se oranges nikaal kar unke chaaro taraf ke fresh oranges ko rotten banate hain aur queue mein push karte hain. Anth mein, agar fresh 
+oranges ka count zero ho jaye, toh total minutes return karte hain, warna -1.
+
+
+
+1020. Number of Enclaves                                           A+ 
+Is problem ka main thought process **'Reverse Thinking'** par based hai. Har ek `1` se boundary dhoondhna mushkil aur time-taking hai, isliye hum seedha **boundary ke `1`s se start karke 
+andar ki taraf BFS** lagate hain. Isse humein woh saare `1`s mil jaate hain jo boundary tak pohoch sakte hain, aur unhe total `1`s mein se minus karne par sirf wahi `1`s (enclaves) bachte 
+hain jo poori tarah se `0` se ghire hue hain.
+
+
+
+
+1765. Map of Highest Peak                                         A+
+* **Initialization:** Ek `ans` matrix banaya gaya hai jismein sabhi cells ko initially `-1` (unvisited) set kiya hai.
+* **Starting Points:** Matrix ko traverse karke sabhi water cells ko queue mein push kiya gaya hai aur unki height `ans` matrix mein `0` set kardi gayi hai.
+* **Expansion (BFS):** Queue mein rakhe in water cells se level-by-level chaaron directions (up, down, left, right) mein expand karke bache hue adjacent land cells ko unke pichle cell se `+1` 
+ height assign ki jayegi.

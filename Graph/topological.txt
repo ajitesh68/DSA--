@@ -1,4 +1,4 @@
-207. Course Schedule                           A
+207. Course Schedule                           A->B->B
 
 BFS Code Thought Process          ---------> Typical topological approach (Kahn's algorithm)
 Build an adjacency list and count incoming prerequisites (indegree) for each course.
@@ -14,10 +14,10 @@ independent paths.
 
 
 
-210. Course Schedule II                           A+
+210. Course Schedule II                           A+ -> A+
 similarily as above one but here we will store topological vector
 
-DFS :-                                            B 
+DFS :-                                            B -> A
 Here is the thought process broken down concisely:
 * **Cycle Detection:** Run a DFS using a `pathVis` array to track the current active route. If you ever hit a node already in `pathVis`, a
  cycle exists, and you must return an empty array.
@@ -28,3 +28,170 @@ Here is the thought process broken down concisely:
 
 
 
+
+
+
+802. Find Eventual Safe States                                        B -> A+    
+BFS - kahn's algorithm
+Is problem ka core intuition **"reverse thinking"** hai. Kahn's algorithm hamesha un nodes se start hota hai jinki *in-degree* 0 hoti hai,
+lekin humein wo nodes chahiye jo safe end par terminate ho (yani jinki *out-degree* 0 ho). Toh agar hum graph ki saari edges ko **ulta 
+(reverse)** kar dein, toh saare terminal nodes achanak se in-degree 0 wale starting nodes ban jayenge. Ab bas inhi naye starting nodes se 
+Kahn's BFS chala do; cycle wale nodes aapas mein hi uljhe rahenge aur unki in-degree kabhi 0 nahi hogi, aur jo nodes queue mein aakar 
+process ho jayenge wahi practically aapke "safe nodes" hain.
+
+Cycle Elimination Nature: Kahn's algorithm ki sabse badi property hi ye hai ki wo cycles ko process nahi kar pata. Wo sirf cycle-free 
+nodes ko queue mein lata hai. Safe nodes ki requirement bhi exactly yahi hai: jo cycle ka hissa na ho.
+
+Dependency Chain: Question kehta hai ki "Ek node tabhi safe hai jab uske aage ke saare raste pehle se safe hon". Jab bhi aisi strict 
+dependency ho (A depends on B), wahan hamesha Topological Sort fit baithta hai.
+
+The "Reverse" Catch: Standard Kahn's in-degree (start) se chalta hai, par yahan dependency out-degree (terminal/end) par hai. Isiliye 
+dimaag mein turant click karna chahiye ki agar graph reverse kar dein, toh end points starting points ban jayenge aur Kahn's algo 
+automatically saare safe nodes ko chaant lega.
+
+DFS approach                                                          A+ -> A
+DFS approach ka core intuition sidha **"Cycle Avoidance"** hai. Ek node sirf tabhi safe mana jayega jab uske aage ka koi bhi rasta kisi 
+cycle mein na phase. Hum standard DFS (visited aur pathVisited arrays ke sath) chalate hain yeh dekhne ke liye ki rasta kahan jaata hai. 
+Agar chalte-chalte current path kisi aise node se takrata hai jo aage se wapas ghoom kar peeche aa raha hai (active `pathVisited`), toh 
+wahan cycle hai aur wo unsafe hai. Lekin agar kisi node ki saari outgoing paths bina kisi cycle se takraye successfully khatam ho jayein, 
+matlab wo pakka terminal (end) nodes par hi ruki hain, toh wahi strictly hamara "Safe State" hai.
+
+
+
+
+310. Minimum Height Trees                                              B->B
+
+**MHT Intuition & Triggers (For Quick Revision):**
+* **Highest Degree $\neq$ Center:** Sabse zyada connections wala node jaruri nahi ki tree ka center ho. (Ek lambi line ke side mein jude 
+   ek star node ko imagine karo). Minimum height tabhi milti hai jab root pure tree ke longest path ke bilkul beech mein (Centroid) ho.
+* **The "1 or 2 Centers" Fact:** Graph theory ka universal rule hai ki kisi bhi tree ke exact center mein strictly ya toh `1` single node 
+    hota hai, ya `2` adjacent nodes.
+* **Onion Peeling Strategy:** Center seedha nahi milta, isliye bahar se andar ki taraf aana padta hai. BFS use karke sirf extreme ends 
+    yani **Leaves** (jinki degree exactly `1` hoti hai) ko queue mein daalo.
+* **Layer-by-Layer Trimming:** Har step mein bahari layer (leaves) ko tree se kaat do aur unke neighbors ki degree `-1` kardo. 
+    Jaise hi kisi neighbor ki degree ghat kar `1` ho (matlab wo ab naya leaf ban gaya), use agle level ke liye queue mein daal do.
+* **The Stopping Condition:** Ye trimming tab tak karni hai jab tak total bache hue nodes `≤ 2` na reh jayein. Jo last mein queue mein 
+    bachenge, strictly wahi aapke exact tree centers honge.
+
+
+
+
+851. Loud and Rich                                          A+ 
+Is problem ka core intuition **"Top-Down Information Propagation"** hai. `Richer -> Poorer` ka ek directed graph (DAG) banao, jahan 
+information (quietness) hamesha ameer se garib ki taraf behti hai. Kahn's Algorithm use karke sabse ameer logon (In-degree = 0) se start 
+karo. Revision ke liye trigger point ye hai: jab aap ek richer node se uske poorer neighbor par jaate ho, toh bas uski minimum property 
+aage pass karni hai. Agar pichle node ka ab tak ka stored answer current neighbor ke answer se zyada quiet (chhoti value) hai, toh 
+neighbor ko update kar do. Is tarah topological order mein chalte hue, pure graph mein automatically sabse quiet person ka data richest 
+end se poorest end tak *trickle-down* (flow) ho jayega.
+
+
+
+
+
+2192. All Ancestors of a Node in a Directed Acyclic Graph                   A+
+Is problem ka core "Top-Down Ancestor Propagation" hai. Kahn's algo use karke hum guaranteed top (0 indegree) se bottom ki taraf jaate hain. 
+Jab bhi kisi node se uske neighbor par jaate hain, toh hum us neighbor ko apna current node + apne saare purane ancestors de dete hain. 
+Kyunki ek node tak aane ke multiple raste ho sakte hain (DAG property), duplicate ancestors aana tay hai, isliye pure raste mein data ko 
+directly set data structure mein store karna zaroori hai taaki automatic uniqueness aur ascending order maintain rahe, 
+jise last mein bas vector mein convert kar lenge.
+
+
+
+
+
+2115. Find All Possible Recipes from Given Supplies                         A+  -> A+
+TOPO way:-
+Is problem ka core intuition **"Bottom-Up Unlock System"** hai jahan arrays ki jagah string mapping ke liye `unordered_map` use hota hai. 
+Revision ke waqt dimaag mein ye trigger aana chahiye: hume ulta sochna hai ki "jo raw supplies (in-degree 0) mere paas pehle se hain, 
+unse main chain reaction ke through aage kya-kya unlock kar sakta hu". Queue hamesha inhi free supplies se start hogi; jab bhi queue se 
+koi ingredient pop ho, us par depend karne wali aage ki recipes ka in-degree (yaani missing ingredients ka count) ghata do. Jaise hi kisi 
+aage wali recipe ka in-degree 0 ho jaye, matlab uske saare parts jama ho gaye hain, toh use bas queue aur apne answer list mein daal lo.
+
+DFS way:-                                                                   B -> A 
+Is DFS approach ka core intuition **"Top-Down Demand Resolution aur State Tracking"** hai. Revision ke waqt ye trigger dimaag mein aana 
+chahiye ki isme hum target recipe se shuru karke recursively uske ingredients check karte hain, aur sabse bada catch isme **3-State Memoization** 
+ka hai: `1` (currently visiting), `2` (possible), aur `3` (impossible). Kyunki recipes aapas mein loop bana sakti hain (cycles), agar recursion 
+chalte hue kisi aisi recipe par wapas aaye jiska state abhi `1` hai, toh samajh lo wahan cycle hai aur seedha `false` (fail) return karna hai; 
+wahi doosri taraf, jo recipe ek baar pakka `2` ya `3` mark ho jaye, usko dubara calculate karne ke bajaye direct map se utha lena hai taaki TLE 
+(Time Limit Exceeded) se bacha ja sake.
+
+1. Identify Kaise Karein (Triggers for Topological Sort):
+Strict Dependency: Jab bhi question kahe "A tabhi banega jab B aur C pehle se hon" (Prerequisites).
+Chain Reaction / Cascading: Ek item milne se dusra item unlock ho raha hai (Supply $\to$ Ingredient $\to$ Recipe $\to$ Bigger Recipe).
+Cycle Warning: Question mein explicitly diya ho "two items may contain each other". 
+Iska matlab simple loops fail ho jayenge, graph logic (cycle detection/avoidance) zaroori hai.
+
+
+
+
+329. Longest Increasing Path in a Matrix                                 
+Indegree ka asli role: Indegree concept ensure karta hai ki ek node queue mein sirf ek baar push ho (jab uska indegree 0 ho jaye). Yeh ek synchronization barrier ki tarah kaam karta hai aur redundant 
+overlap ko rokata hai.
+Dono approaches ka core thought process simple hai:
+
+### **1. DFS + Memoization (Top-Down)**                             dfs --> A+
+
+Iska main idea hai: **"Mujhe nahi pata longest path kahan se shuru hoga, toh har cell se try karte hain."**
+
+* **Recursion:** Har cell $(i, j)$ se uske neighbors mein jaao jo strictly bade (`>`) hain.
+* **Base Case:** Agar kisi cell ke charo taraf koi bada element nahi hai, toh wahan se path length `1` hai.
+* **Memoization:** Ek baar kisi cell ka result nikal gaya, toh use `dp[i][j]` mein save karlo taaki dubara calculate na karna pade.
+* **Final Step:** Har cell ka result check karke maximum nikal lo.
+
+---
+
+### **2. BFS + Indegree (Bottom-Up)**                                bfs-> A
+
+Iska main idea hai: **"Sabse chhote elements se shuru karke bade elements ki taraf layers mein badho."**
+
+* **Indegree:** Har cell ke liye count karo ki uske kitne neighbors usse chhote (`<`) hain. Agar `indegree == 0`, matlab woh ek starting point (local minimum) ho sakta hai.
+* **Initial Queue:** Saare `indegree == 0` wale cells ko queue mein daalo (yeh Level 1 hai).
+* **Layer-by-Layer:** Queue se elements nikalo aur unke bade neighbors ki `indegree` kam karo. Jab kisi neighbor ki `indegree` zero ho jaye, use next level ke liye queue mein daal do.
+* **Final Step:** Jitne total levels traverse honge, wahi aapka longest path hoga.
+
+---
+
+
+
+
+1203. Sort Items by Groups Respecting Dependencies               B 
+* **Core Logic Trigger:** "Before/after" (dependencies) aur "ordering" dekh kar turant Topological Sort dimaag mein aana chahiye.
+* **The Dilemma:** Agar sirf items ko sort kiya, toh same group wale elements alag-alag jagah bikhar jayenge.
+* **The "Aha" Moment:** Two-level sorting karni padegi. Pehle pure Groups ka order nikalna hoga, phir har group ke andar Items ka order set karna hoga.
+* **Handling the `-1` Trap:** Agar saare `-1` (no group) walon ko ek hi entity maan liya, toh wo sab aapas mein chipak jayenge jo ki galat hai. Isliye har `-1` ko ek naya, independent dummy
+ group ID dena zaroori socha.
+* **Building Group Dependencies:** Agar item `U` ko item `V` se pehle aana hai, aur dono alag groups mein hain, iska seedha matlab hai ki `Group(U)` ko `Group(V)` se pehle aana hi padega. 
+Yahan se do alag graphs banane ka idea aaya.
+* **Final Assembly:** Groups ka ek valid order nikal lo. Phir har sorted group ko uthao, aur uske andar sirf wahi items daalo jo already sorted items wali list mein usi group ke the.
+* **Failure Check:** Agar groups ya items mein cycle ban gayi (mutually dependent), toh topo sort fail ho jayega, matlab solution possible nahi hai, return empty.
+
+
+1857. Largest Color Value in a Directed Graph                   B
+Queue mein har path ka array pass karne se memory aur time dono exceed honge (TLE/MLE aayega).
+
+Nahi, yahan bitwise ka use kaam nahi aayega.Kyun fail hoga: Bitwise (bitmasking) ka use hum tab karte hai jab sirf yeh track karna ho ki color aaya hai ya nahi (0 or 1). 
+Yahan 26 bits mein kaam ho jata.Asli requirement: Is question mein hume har color ki frequency (count) track karni hai. Graph mein $10^5$ nodes hain, toh count bhi $10^5$ tak jaa sakta hai.
+
+Sahi approach: Queue mein sirf node rakho, aur ek alag global 2D array (jaise dp[n][26]) banao jo har node par aane tak maximum color frequency track kare.
+
+
+
+
+1857. Largest Color Value in a Directed Graph                         B 
+Yahan is question ko approach karne ki step-by-step thought process hai:
+
+* **Identify the Core Problem:** Directed graph mein max color frequency nikalni hai. Agar cycle hai toh infinite path banega, isliye sabse pehle cycle detect karna zaroori hai.
+* **Choose the Algorithm:** Path traverse karne aur cycle detect karne ke liye **Topological Sort (Kahn's Algorithm BFS)** sabse best choice hai.
+* **Decide What to Track (DP State):** Har node tak aane wale sabse best path mein 26 colors ki frequency store karni hai. Iske liye `dp[N][26]` ka 2D vector banayenge.
+* **Initialize BFS:** Queue mein sirf un nodes ko daalo jinki `in-degree` exactly 0 hai (jahan se path shuru ho sakta hai).
+* **Process the Node (Update Self):** Queue se `node` nikalne ke baad:
+* Us `node` ke khud ke color ki frequency DP mein `+1` karo.
+* Ek global `max_val` variable mein maximum frequency update karo.
+
+
+* **State Transfer (Path Forwarding):** `node` ke saare neighbors (`v`) par jane se pehle:
+* 0 se 25 tak loop chala kar, parent (`node`) ki color values child (`v`) mein transfer karo: `dp[v][i] = max(dp[v][i], dp[node][i])`.
+* Neighbor ki `in-degree` kam karo aur agar 0 ho jaye toh queue mein daal do.
+
+
+* **Cycle Check (Final Step):** Ek `count` variable se track karo ki kitne nodes process huye. Agar `count != N` hai, matlab graph mein cycle hai, toh seedha `-1` return kardo.

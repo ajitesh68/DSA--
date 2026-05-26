@@ -1,4 +1,4 @@
-Directed Graph Cycle                          B
+Directed Graph Cycle                          B->A
 INTUITION:-You start exploring, adding each new tunnel to both lists. If you find a tunnel that is 
 already on your recStack list, you've found a cycle because you've arrived at a place you're already in during
 this same trip. If you find a tunnel that's only on visited (but not recStack), it's fine; you just visited it 
@@ -14,7 +14,7 @@ for all its neighbors, if a neighbor is visited and it is not our immediate pare
 neighbor is not visited, we continue the DFS from there, passing the current node as the new parent.
 
 
-1559. Detect Cycles in 2D Grid                    B(60 min)
+1559. Detect Cycles in 2D Grid                    B(60 min)->A->A+
 INTUITION:-To find a cycle in the grid, we think of it as an undirected graph where cells are nodes and adjacent, 
 matching characters are edges. We use Depth-First Search (DFS) to explore paths. The key challenge is to distinguish a true cycle from 
 just moving back to the cell we just came from. To solve this, our DFS must remember its parent's coordinates (px, py). When we move 
@@ -81,8 +81,12 @@ BFS approach:-
 INTUITION:- Same as Bipartite
 (note try to do with BFS)
 
-1042. Flower Planting With No Adjacent                  B
 
+
+
+
+
+1042. Flower Planting With No Adjacent                  B
 DFS Algorithm Flow
 Build Graph:
 Convert paths into an Adjacency List (adj) for fast neighbor lookup.

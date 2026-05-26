@@ -86,3 +86,32 @@ INTUITION:-This solution uses dynamic programming to avoid a slow, repetitive ch
         (from time to n - time). For each day i, it simply checks if non_increasing_prefix[i] >= time and non_decreasing_suffix[i] >= time. 
         If both are true, the day is valid.
 
+
+
+
+304. Range Sum Query 2D - Immutable                    B  
+Is problem ka core intuition "2D Prefix Sum aur Inclusion-Exclusion Principle" hai jisme hum har query ko $O(1)$ time mein solve karte hain. 
+Pre-computation: Constructor mein hum ek matrix banate hain jahan har cell apne top-left se lekar current position tak ke poore rectangle ka total sum store karta hai.
+Query calculation: Jab kisi specific rectangle ka sum nikalna ho, toh hum bottom-right corner wale cell se sabse bada total sum (total) uthate hain. Area subtraction:
+Phir usme se jo upar ka extra area hai (top) aur jo left ka extra area hai (left), unhe minus kar dete hain. Overlap adjustment: Aisa karne par in dono extra areas ka
+common overlapping box galti se do baar minus ho jata hai, isliye answer ko balance karne ke liye hum us topleft hisse ko aakhir mein ek baar wapas add kar dete hain.
+
+
+
+
+2536. Increment Submatrices by One                  B
+Yeh code **2D range increment queries** ko efficiently process karne ke liye **difference array technique** ka use karta hai.
+**Intuition:**
+- Har query `(row1, col1, row2, col2)` ke liye, hum directly har cell ko increment karne ki jagah (jo O(n²) time lega), ek **temporary difference array** maintain karte hain.
+- **Row-wise difference array approach:** Har row `i` (row1 se row2) ke liye, hum sirf do positions par change karte hain:
+  - `mat[i][col1]` par **+1** (isse col1 se aage wale columns pe effect milega)
+  - Agar `col2+1` exist karta hai toh wahan **-1** (isse col2 ke baad effect khatam ho jayega)
+- Saari queries process karne ke baad, har row ka **prefix sum** lete hain, jisse actual updated values mil jati hain.
+
+**Benefit:** Yeh approach O(q*n) time leti hai (q = queries count) na ki O(q*n²), kyunki har row ke liye sirf 2 updates kiye, phir ek baar prefix sum calculate kiya.
+
+
+
+
+
+

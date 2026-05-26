@@ -1,0 +1,36 @@
+743. Network Delay Time                                                   B 
+Graph Setup: times array ko adjacency list adj mein convert karein taaki har node ke connected nodes aur unka travel time asani se mil jaye.
+Time Tracking: Ek time array banayein (size n+1). Sabko INT_MAX rakhein, sirf source node k ko 0 karein.
+Min-Heap: Priority queue banayein jo hamesha sabse kam time wale node ko pehle de. Shuru mein {0, k} push karein.
+Process Queue: Queue se top element nikalein. Agar nikaala gaya time current time array ki value se bada hai, toh aage badhein (continue).
+Update Neighbors: Current node ke sabhi padosiyon ko check karein. Agar current_time + path_time padosi ke purane time se chota hai, toh time array update karein aur naya data queue mein push 
+karein.
+Result: time array ka maximum value nikaalein. Agar koi bhi node INT_MAX hai (matlab signal nahi pahuncha), toh -1 return karein. Warna maximum value return karein.
+
+
+
+787. Cheapest Flights Within K Stops                                     B 
+### 1. Aapki Galti ki Thought Process (Mixed Logic)
+* Aap sasta rasta jaldi paane ke liye **Dijkstra (`priority_queue`)** lagana chahte the aur sath mein stops ginn-ne ke liye **BFS (`size` loop aur `k--`)** use karna chahte the.
+* **Dikkat:** `priority_queue` hamesha saste node ko bahar nikalti hai, chahe wo kisi bhi "level" ka ho. Isse levels mix ho gaye aur aapka `k--` galat time par decrease ho raha tha.
+
+### 2. BFS ki Thought Process (Jo aapne abhi kiya)
+* **Focus:** Stops (`k`) ko limit mein rakhna.
+* Har stop ko ek distinct "level" ki tarah treat kiya jata hai. 
+* Normal `queue` se ek level ke saare nodes ek sath process hote hain. Agar rasta sasta padta hai, tabhi cost update karke aage push karte hain. Ye logic is problem ke liye sabse natural hai.
+
+### 3. Dijkstra ki Thought Process
+* **Focus:** Hamesha sabse saste (`cost`) raste par sabse pehle jana.
+* Isme levels ka concept nahi hota. Har path ko apni details khud yaad rakhni padti hain (`{cost, city, stops}`).
+* Kyunki sasta rasta aage chalkar zyada stops le sakta hai, isliye isme humein stops ka alag se track rakhna padta hai aur limit paar hone par path drop (prune) karna padta hai.
+
+
+
+
+1976. Number of Ways to Arrive at Destination                              B 
+Is problem ka simple thought process ye hai:
+
+* Hum Dijkstra algorithm ka use kar rahe hain kyunki shortest time (path) nikalna hai.
+* Har node ke liye hum 2 cheezein track kar rahe hain: waha tak ka sabse kam time (`dist`) aur waha tak pahunchne ke tarike (`ways`).
+* **Naya chhota rasta milne par:** Hum distance ko update karte hain aur uske ways ko pichle node ke ways ke barabar set kar dete hain.
+* **Same time ka ek aur rasta milne par:** Iska matlab humein ek aur shortest path mil gaya, toh hum bas purane ways mein naye ways ko jodd (add) dete hain.

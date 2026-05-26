@@ -191,3 +191,122 @@ function ke* ek alag se banaye gaye comparator function ko map ka data pass karn
 use external function se frequency (ascending) aur tie hone par value (descending) ke hisaab se sort kar liya. End mein bas in sorted 
 pairs par loop chala kar, har number ko uski frequency ke barabar naye array mein daal kar final answer bana liya.
 
+
+
+3174. Clear Digits                                                   A
+Is code ka **thought process** ye hai ki hum string ko **left se right traverse** karte hain, aur ek **result string** maintain karte hain. 
+
+Jab bhi **letter** aata hai, hum usse result mein **push** kar dete hain — jaise stack mein push karte ho. Jab bhi **digit** aata hai, toh hum result ka **last character hata dete hain** (pop_back) — kyunki
+digit apne **immediate left wale character** ko remove karta hai.
+
+Tu **stack lene ki galti** isliye kar raha tha kyunki tu soch raha tha ki "yeh stack wala pattern hai" — jo ki **sahi soch hai actually!** Lekin tu ye miss kar raha tha ki **string bhi stack ki tarah behave
+kar sakti hai** agar hum sirf `push_back()` aur `pop_back()` use karein. String ka ye advantage hai ki end mein humein **stack ko wapas string mein convert** nahi karna padta — result already string form
+mein hota hai. Isliye ye approach **simple aur efficient** hai. Is technique ko "**string-as-stack**" bolte hain.
+
+
+
+
+
+1410. HTML Entity Parser                                           A 
+Is question ka main funda string ko left se right scan karna hai. Jaise hi **`&`** mile, usko ek `temp` string mein ikhatta karna shuru karo jab tak **`;`** na mil jaye. `;` milne par us 
+`temp` ko apne **map** mein check karo: agar valid entity hai toh decoded character output mein dalo, warna poora `temp` waise hi daal do. Baaki saare normal characters 
+(jo `&` aur `;` ke beech nahi hain) unhe seedha output mein append karte jao.
+
+
+map mein key find kaise karte hai bhul gaya tha 
+aur example bhi dhang se nhi padha 
+code bhi likhna itna aasan nhi hai Iska
+
+
+
+
+
+1624. Largest Substring Between Two Equal Characters                          A+ 
+Iska main intuition yeh hai ki sabse lamba gap nikalne ke liye humein har character ka **sabse pehla** aur **sabse aakhri** index pata hona chahiye.
+
+* Ek 26-size ka tracker rakho. Jab koi character *pehli baar* mile, uska index lock kar do.
+* Jab bhi wahi character dobara aaye, toh bas usko *last index* maan kar update karte raho.
+* Aakhir mein saare characters ke beech ka gap `(last_index - first_index - 1)` check karke sabse maximum value return kar do.
+
+
+
+
+2423. Remove Letter To Equalize Frequency                             A+
+Is logic ka main funda character frequencies ka pattern pakadna hai. Ek character delete karne par sabki frequency tabhi equal hogi jab maximum **do alag-alag frequencies** exist karein. 
+Yahan sirf do main valid conditions banti hain: ya toh kisi ek character ki frequency exactly 1 ho (taaki usko pura delete karte hi baaki sab equal bachein), ya phir badi frequency, 
+choti frequency se exactly 1 zyada ho aur aisi badi frequency wala sirf **ek hi character** ho (taaki uska ek count kam karte hi woh baaki sabke barabar ho jaye). Code pehle "aaaa" (sab same) 
+ya "abcd" (sab 1 baar) jaise edge cases ko pass karta hai, aur phir bachi hui string mein inhi do frequency conditions ko verify karta hai.
+
+
+
+575. Distribute Candies                                           A+ and B 
+2 tarikon se toh karliya tha sawaal lekin sabse optimal aur bitset ka tareeka unique hai aur woh nhi aata tha sekkho bahut acha rahega 
+
+BITSET WAY:- Iska core intuition bas itna hai ki tum maximum `N / 2` candies hi kha sakte ho. Toh do hi possibility banti hain: ya toh tum saari alag-alag types ki candies kha loge (agar 
+total unique candies `N / 2` se kam hain), ya phir tum exactly `N / 2` alag types ki candies khaoge (agar unique candies `N / 2` se zyada hain). Isliye sirf array mein total unique candies 
+count karni hain aur seedha **`min(unique_candies, N / 2)`** return karna hai. 
+
+Bitset array ka use yahan sirf elements ko track karne ka ek fast aur memory-efficient tarika hai, jisme `+100000` karke negative numbers ko positive index mein map kiya gaya hai.
+
+
+
+1496. Path Crossing                                   A
+Aapke [Path Crossing](https://leetcode.com/) C++ code mein ek `set` ka upyog kiya gaya hai jo pehle se visit kiye gaye `(x, y)` coordinates ko track karta hai. Code `{0, 0}` se start hokar 
+path ki har direction (N, S, E, W) ke anusar current position ko update karta hai aur check karta hai ki kya wo naya coordinate already `set` mein maujood hai. Agar coordinate pehle se 
+`set` mein mil jata hai, toh iska matlab path cross ho gaya hai aur program `true` return karta hai; warna naye coordinate ko save karke aage badhta hai, aur bina cross kiye loop khatam 
+hone par `false` return karta hai.
+
+Yahan `set` ko chunne ke mukhya kaaran ye hain:
+
+* **Vector kyu nahi:** Vector mein purane coordinates ko dhoondhne (search) mein $O(N)$ time lagta hai, jisse code slow ho jayega. Set fast lookup ($O(\log N)$) provide karta hai.
+* **Unordered_set kyu nahi:** `unordered_set` lookup ke liye aur bhi fast ($O(1)$) hai, lekin C++ mein `pair<int, int>` ke liye koi inbuilt hash function nahi hota. Ise use karne ke liye 
+   ek alag se custom hash function likhna padta, jabki `set` inbuilt `<` operator ki madad se bina kisi extra code ke seedha kaam kar deta hai.
+
+
+859. Buddy Strings                                   A+ 
+Is code mein hum poori string ko sirf ek hi baar (single loop) mein check karte hain. Jo characters match hote hain unka count ek array mein note kar lete hain, 
+aur jo mismatch hote hain unhe do chhoti list (`v1`, `v2`) mein daal lete hain (agar 2 se zyada mismatch mile toh wahi `false` kar dete hain). Pura loop chalne ke baad, agar 
+**0 mismatch** hain, toh array se check karte hain ki koi duplicate character hai ya nahi jise aapas mein swap kiya ja sake. Agar **exactly 2 mismatch** hain, toh bas un dono 
+ko cross-check kar lete hain ki swap karne par strings same banengi ya nahi.
+
+
+
+290. Word Pattern                                  A 
+Is code ka thought process yeh hai: Sabse pehle string `s` ko spaces ke basis par tod kar uske words ek array mein nikalte hain aur check karte hain ki unki total ginti pattern ki 
+length ke barabar ho. Uske baad, do hash maps ka use karke ek strict 1-to-1 mapping (bijection) ensure karte hain—pehla map (`char -> string`) yeh dekhta hai ki ek letter hamesha ek 
+hi word ko point kare, aur doosra map (`string -> char`) yeh confirm karta hai ki koi word pehle se kisi doosre letter ko assign na hua ho; agar dono rules pass hote hain toh 
+`true` return hota hai.
+
+
+
+2273. Find Resultant Array After Removing Anagrams                    A+ 
+
+**1. Sorting Approach ki Thought Process (Normalization Concept)**
+Iska basic idea yeh hai ki har anagram ka ek 'standard form' hota hai. Hum sochte hain ki anagrams mein characters toh same hi hote hain, bas aage-peeche hote hain. Toh agar hum unhe 
+alphabetically arrange (sort) kar dein, toh saare anagrams bilkul identical strings ban jayenge. Isliye direct letters compare karne ke bajaye, hum unhe sort karke unki sorted values 
+ko match karte hain. 
+
+**2. Frequency Map Approach ki Thought Process (Optimization via Counting)**
+Iska idea yeh hai ki "sorting mein extra time waste kyun karein jab sirf letters ka count hi matter karta hai?". Hum jante hain ki strings mein sirf 26 a-z characters hain. Toh hum 
+simply ek 26-size ki array banakar har character ki occurrence ginte hain. Agar dono words ka frequency array exactly match karta hai, toh woh anagrams hain. Ye approach strictly 
+optimally perform karne ke liye sochi jati hai.
+
+
+
+
+
+
+49. Group Anagrams                          A+ 
+Is code mein hum array ke har word ko alphabetically sort karte hain taaki sabhi anagrams ek jaisi 'key' ban jayein (jaise "eat" aur "tea", dono sort hone par "aet" banenge). 
+Phir ek Hash Map (`unordered_map`) ka use karke is sorted key ke samne unke original words ko group karte jaate hain, aur aakhir mein map mein ikhatte hue in sabhi groups ko 
+nikal kar return kar dete hain.
+
+Sabse Optimal Approach (Frequency Array): Time Complexity $O(N.K)$ hoti hai. Isme hum word ko sort karne ki jagah ek 26-size ka array banate hain jo har character 
+(a-z) ka count rakhta hai, aur usi frequency count ko map ki 'key' bana dete hain.
+
+
+169. Majority Element                       A
+Boyer-Moore algorithm mein hum array ke elements ko ek-doosre ke saath cancel out karte hain; ek candidate chun kar same element milne par count +1 aur alag milne par -1 karte hain. 
+Count 0 hone par current element naya candidate ban jata hai, aur kyunki majority element n / 2  se zyada baar aata hai, sab cancel hone ke baad bhi aakhiri 
+mein wahi bachta hai.
+

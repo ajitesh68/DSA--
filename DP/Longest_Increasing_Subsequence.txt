@@ -1,0 +1,48 @@
+300. Longest Increasing Subsequence                                A+ 
+* **Memoization (Top-Down):** Hum aage se shuru karte hain (`curr = 0`). Har element par condition check karke decide karte hain ki usko "Take" karein ya "Skip". Same calculation baar-baar na karni pade, 
+isliye result ko `dp` table mein save (memoize) kar lete hain.
+* **Tabulation (Bottom-Up):** Isme hum theek ulta sochte hain. Hum base case (array ke end) se shuru karke piche aate hain. Recursion ki jagah loops use karte hain aur pehle se calculate kiye hue aage ke 
+results (`curr + 1`) ko use karke piche ka answer (`dp[0][0]`) build karte hain.
+
+
+
+Print Longest Increasing Subsequence                                B 
+* **Storage:** `dp[i]` current index tak ki max LIS length store karta hai aur `prev[i]` us sequence ke pichle element ka index.
+* **Building DP:** Har `arr[i]` ke liye usse pehle ke elements (`arr[j]`) check karte hain. Agar `arr[i] > arr[j]` hai aur length badh rahi hai, toh `dp[i]` aur `prev[i]` update karte hain.
+* **Finding End:** Pura DP banne ke baad, sabse badi `dp` value wala index humari sequence ka aakhri element hota hai.
+* **Tracing:** Us aakhri index se `prev` array ki madad se peeche chalte hue elements ikkathe karte hain.
+* **Result:** Kyuki elements peeche se ikkathe kiye, sequence ko end mein `reverse` kar dete hain.
+
+
+
+673. Number of Longest Increasing Subsequence                      B
+* **Do Arrays ka Use:** Hum `dp` array use kar rahe hain LIS (Longest Increasing Subsequence) ki maximum length store karne ke liye, aur `cnt` array use kar rahe hain us specific length tak 
+pohochne ke total raasto (count) ko store karne ke liye. Start mein sabhi ki length aur count 1 hoti hai.
+* **Previous Elements ko Check Karna:**
+* **Naya Max Length Milna:** Agar pichle element se sequence badhane par humein pehle se badi length milti hai (`dp[j] + 1 > dp[i]`), toh hum `dp[i]` ko update karte hain aur us naye raste ka 
+count copy kar lete hain (`cnt[i] = cnt[j]`).
+* **Same Max Length Milna:** Agar sequence badhane par length current max ke barabar hi aati hai (`dp[j] + 1 == dp[i]`), toh iska matlab humein us length tak pohochne ka ek aur valid raasta 
+mil gaya. Isliye hum purane count mein naya count add kar dete hain (`cnt[i] += cnt[j]`).
+* **Final Step (Code mein aage):** Ek baar dono loops khatam hone ke baad, hum sabhi `cnt[i]` ko add kar lenge jinki length overall `maxi` (maximum LIS length) ke barabar aayi hai. Wahi apka 
+final answer hoga.
+
+
+
+
+368. Largest Divisible Subset                                     A
+* **Sort Karein:** Sabse pehle array ko sort karte hain, taaki divisibility check sirf ek direction (chhoti se badi value) mein karni pade aur logic simple rahe.
+* **Chain Banayein (DP):** Har naye number ke liye pichle sabhi numbers ko check karte hain. Agar woh divide hota hai, toh uski chain ki length (`dp` array) badha dete hain aur pichle number 
+ka index (`prev` array) save kar lete hain.
+* **Trace Back:** Sabse lambi chain ke aakhri number ko pakadte hain aur `prev` array ki madad se peeche jaate hue poora subset (answer) nikal lete hain.
+
+
+
+
+2901. Longest Unequal Adjacent Groups Subsequence II                      A 
+* **Initialization:** `dp` array lengths store karta hai (sab 1 se start), aur `prev` array pichla index track karta hai (sab -1 se start).
+* **Main Loops:** Outer loop `i` har word par jata hai, inner loop `j` uske pehle ke saare words check karta hai.
+* **Base Conditions:** Pehle check hota hai ki `groups[i] != groups[j]` ho aur dono words ki size same ho.
+* **Hamming Distance:** Loop lagakar characters compare karte hain, `diff` exactly 1 aana chahiye.
+* **DP Update:** Agar saari conditions satisfy hon aur naya path lamba ho (`dp[j] + 1 > dp[i]`), toh `dp[i]` aur `prev[i] = j` update karte hain.
+* **Track Max:** Ek variable `maxIdx` sabse lambi chain ka aakhiri index humesha store karke rakhta hai.
+* **Backtracking:** End mein `maxIdx` se shuru karke `prev` array ke through peeche jate hain, words extract karke reverse karte hain aur return kar dete hain.

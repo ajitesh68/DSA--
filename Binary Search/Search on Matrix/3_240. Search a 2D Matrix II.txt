@@ -1,41 +1,39 @@
 A+
 
+Dono approaches ko simple terms mein samajhte hain:
 
-better and optimal approach:-
+### 1. Staircase Search (Optimal)
+Is approach ka core idea hai matrix ke **Top-Right** ya **Bottom-Left** corner se start karna, kyunki wahan se move karne par direction clear hoti hai.
 
-class Solution {
-public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int r = matrix.size(), c = matrix[0].size();
-        int i = 0, j = c-1;
-        while(i<r&&j>=0){
-            if(matrix[i][j]==target) return true;
-            else if(matrix[i][j]<target) i++;
-            else j--;
-        }
-        return false;
-    }
-};
+* **Thought Process:** Agar hum Top-Right $(0, n-1)$ se start karein:
+    * Left jaane par values hamesha **kam** hongi (row sorted hai).
+    * Down jaane par values hamesha **badhengi** (column sorted hai).
+* **Steps:**
+    * Agar `matrix[r][c] == target`: Mil gaya!
+    * Agar `matrix[r][c] > target`: Target chota hai, toh poora column skip kar do (**Move Left**).
+    * Agar `matrix[r][c] < target`: Target bada hai, toh poora row skip kar do (**Move Down**).
+* **Complexity:** $O(m + n)$ — maximum ek baar har row aur column ko traverse karenge.
 
+---
 
+### 2. Binary Search Approach
+Ismein hum matrix ki sorted property ka use karke search space ko har baar aadha karte hain.
 
-my approach:-
-class Solution {
-public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int m = matrix.size();
-        for(int i=0;i<m;i++){
-        int left=0,right=matrix[0].size()-1;
-        while (left <= right) {
-            int mid_col = (left + right) / 2;
-            if (matrix[i][mid_col] == target)
-                return true;
-            else if (matrix[i][mid_col] < target)
-                left = mid_col + 1;
-            else
-                right = mid_col - 1;
-        }
-    }
-        return false;
-    }
-};
+* **Thought Process:** 2D matrix ko multiple 1D sorted arrays ki tarah treat karo.
+* **Steps:**
+    * Har ek **Row** par loop lagao.
+    * Har row ke andar standard **Binary Search** ($Low, Mid, High$) apply karo.
+    * Alternately, agar square matrix hai toh diagonal ke according divide-and-conquer bhi kar sakte hain.
+* **Complexity:** $O(m \log n)$ — $m$ rows hain aur har row mein search karne ka time $\log n$ hai.
+
+---
+
+### Comparison Summary
+
+| Feature | Staircase Search | Binary Search |
+| :--- | :--- | :--- |
+| **Time Complexity** | $O(m + n)$ | $O(m \log n)$ |
+| **Best For** | Jab $m$ aur $n$ bade hon. | Jab rows bahut kam aur columns bahut zyada hon. |
+| **Logic** | Row/Column elimination. | Range halving. |
+
+Kaunsa approach code karke dikhaun?

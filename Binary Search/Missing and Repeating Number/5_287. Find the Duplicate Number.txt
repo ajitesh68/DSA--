@@ -27,3 +27,12 @@ This problem has at least two brilliant, completely different solutions that bot
 Binary Search on the Answer: A solution based on pure logic and counting (the Pigeonhole Principle).
 
 Floyd's Cycle Detection: A solution that creatively re-imagines the array as a linked list and uses a graph theory approach.
+
+
+
+Yeh Binary Search on Answer wala approach ekdum correct hai.Range [1, n] par binary search apply karenge (array elements par, indices par nahi).
+
+Har mid ke liye, pure array mein un numbers ka count nikalenge jo $\le mid$ hain.Agar count > mid aata hai, toh Pigeonhole Principle ke hisaab se duplicate [low, mid] range mein pakka hoga.
+
+Agar count <= mid aata hai, toh duplicate pakka [mid + 1, high] range mein hoga.Time Complexity: $O(N \log N)$ (Kyunki binary search $O(\log N)$ leta hai aur har baar count nikalne ke liye 
+$O(N)$ lagta hai).Space Complexity: $O(1)$.

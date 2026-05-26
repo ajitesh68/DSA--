@@ -1,4 +1,4 @@
-1143. Longest Common Subsequence                     A+ 
+1143. Longest Common Subsequence                     A+ -> A+
 memoization:-
 * We start comparing characters from the beginning of both strings.
 * If they match, we add 1 to our sequence, advance both indices, and save this result.
@@ -7,7 +7,8 @@ memoization:-
 * By storing these outcomes in `memo`, we instantly return the answer if those same indices meet again, turning an exponential time limit 
   into a fast lookup.
 
-tabulation                                              B 
+
+tabulation                                              B -> A
 * We build a 2D grid where each cell `dp[i][j]` holds the maximum sequence length for the prefixes of `text1` (up to index `i`) and `text2`
  (up to index `j`).
 * An initial row and column of zeros are used as the base case, representing comparisons against an empty string.
@@ -16,6 +17,25 @@ tabulation                                              B
 * If the characters mismatch, we carry forward the longest sequence found so far by taking the maximum value from either excluding the 
  current character of `text1` (the cell above) or `text2` (the cell to the left).
 * By solving these smaller overlapping prefix problems first, the absolute maximum length naturally accumulates in the bottom-right cell.
+
+
+
+ 
+Print all LCS sequences                                 B 
+**Short & Simple Thought Process:**
+
+* **Step 1 (DP Table):** Sabse pehle DP se LCS ki max length calculate karte hain.
+* **Step 2 (Backtrack):** Matrix me `(0,0)` se start karte hain actual string banane ke liye.
+* **Step 3 (Match & Mismatch):**
+* **Agar characters same hain:** Use string me daalo aur diagonally aage badho.
+* **Agar characters alag hain:** DP matrix me check karo. Jidhar (down ya right) max value hai, udhar jao. Agar dono barabar hain, toh dono raasto pe jao.
+
+
+* **Step 4 (Unique Answers):** Ek hi string 2 alag raasto se ban sakti hai, isliye last me `set` use karte hain taaki duplicates remove ho jayein.
+
+
+
+
 
 
 
@@ -78,3 +98,45 @@ cell), or **Replace** (the **diagonal** cell).
 
 
 
+97. Interleaving String                                      A+
+Memoization:
+Is problem ka core intuition **choice aur branching** par based hai. Hum `s1` aur `s2` par pointers rakhte hain, aur `s3` ka 
+current character (`index1 + index2`) jisse bhi match karta hai, hum us string ke pointer ko aage badha kar aage ki string check
+karte hain. Asli catch tab aata hai jab `s3` ka character `s1` aur `s2` **dono** ke current characters se match kar jaye; aisi 
+situation mein humein dono possible raste explore karne padte hain (`a || b`), jisse ek recursive decision tree banta hai. Kyunki is tree 
+mein hum same pointer positions `(index1, index2)` par alag-alag string combinations se baar-baar pohoch sakte hain, isliye hum in overlap
+ping calculations se bachne ke liye har state ko ek 2D array mein memoize kar lete hain taaki result instantly reuse ho sake.
+Tabulation:
+
+
+
+
+
+
+10. Regular Expression Matching                             B-> B 
+memoization
+Is problem ka core intuition **"Lookahead" aur "Branching"** par based hai. Normal character ya `.` milne par hum simply match karke dono
+pointers aage badhate hain, par asli game `*` ka hai. Kyunki `*` "zero occurrence" bhi ho sakta hai (jaise string "aab" mein pattern "c*"
+ka poori tarah gayab ho jana), humein hamesha current character par khade hokar check karna padta hai ki kya theek agla character `*` 
+hai. Agar haan, toh recursion do alag rasto mein split hota hai: pehla rasta us `char+*` ke block ko poori tarah ignore kar deta hai 
+(zero match maan kar pattern ko +2 aage badhana); aur doosra rasta check karta hai ki agar current character match ho raha hai, toh sirf
+string ka pointer aage badhao par pattern ko wahi roke rakho taaki `*` aage aur bhi same characters ko greedy way mein consume kar sake.
+
+
+
+
+
+44. Wildcard Matching                                       A+  ->    A
+memoization:
+Is problem ka core intuition sirf `*` ke behaviour par tika hai. Normal characters aur `?` par toh dono pointers simply aage badhte hain, 
+par jab pattern mein `*` aata hai, tab humein ek decision tree (branching) banani padti hai: ya toh yeh `*` current character ko "kha 
+jayega" aur apni jagah par ruka rahega taaki future mein aur characters bhi kha sake (`i+1, j`), ya phir hum is `*` ko "empty" 
+(zero match) maan kar chhod denge aur pattern pointer ko aage badha denge (`i, j+1`). Inhi do raaston (`OR` condition) ko explore karte 
+waqt hum same string indices par baar-baar aate hain, jisse overlapping subproblems banti hain aur memoization ki zaroorat padti hai. 
+Saath hi ek sabse crucial edge case jo yaad rakhna hai: agar string pehle khatam ho jaye, toh valid hone ke liye pattern ke bache hue 
+hisse mein sirf aur sirf `*` hone chahiye, warna seedha false return hoga.
+
+
+
+
+1092. Shortest Common Supersequence                   

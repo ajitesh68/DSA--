@@ -1,0 +1,103 @@
+
+* Negative numbers hone ki wajah se sum randomly badh ya ghat sakta hai.
+* Sliding window ke liye sum ka strictly increasing/decreasing (monotonic) hona zaroori hai taaki shrink/expand ka decision liya ja sake.
+* Inn problem mein **Prefix Sum + Hash Map** ka use hoga.
+
+
+
+
+560. Subarray Sum Equals K                                         B 
+Ekdum point-to-point details:
+
+* **Math Equation:** Kisi bhi subarray ka sum nikalne ka formula hota hai: `Current Sum - Past Sum = k`.
+* **Map ka Target:** Upar wali equation ko rearrange karein toh milta hai: `Past Sum = Current Sum - k`. Hum Map mein bas isi `Past Sum` ko dhoondhte hain.
+* **Frequency Count kyu?:** Array mein negative numbers hone ki wajah se, ek hi `Past Sum` multiple alag-alag indices par ban sakta hai. Isliye hum frequency (kitni baar aaya) add karte hain, sirf +1 nahi.
+* **`mpp[0] = 1` kyu zaroori hai?:** Agar array ki shuruwat se current index tak ka exact sum hi $k$ ho jaye, toh `pre_sum - k = 0` hoga. Is valid subarray ko count karne ke liye zero ki frequency pehle se 
+1 set karni padti hai.
+
+
+974. Subarray Sums Divisible by K                                 A 
+* Har number add karke `prefixSum` nikalo aur uska positive remainder `(sum % k + k) % k` check karo.
+* Agar same remainder pehle aa chuka hai, toh iska matlab purane index se naye index tak ke subarray ka sum $K$ se perfectly divisible hai.
+* Bas us purane remainder ki total frequency ko apne `count` mein jodo aur current remainder ki frequency vector mein badha do.
+
+
+1590. Make Sum Divisible by P                                   B 
+**Thought Process:**
+* Sabse pehle `total_sum % p` (target) nikalte hain. Agar 0 hai, toh kuch remove nahi karna.
+* Humara goal exact target remainder wala smallest subarray dhoondhna aur hatana hai.
+* Sliding window yahan fail hoti hai kyunki remainders (`% p`) randomly badhte ya ghatte hain, isliye pointers ko move karne ka logic nahi ban pata.
+
+**Approach & Math:**
+* Prefix sum ka concept lagate hain: `(curr_prefix - prev_prefix) % p = target`.
+* Isko search karne ke liye formula banaya: `needed = (curr_prefix - target + p) % p`.
+* Har index par current sum ka remainder nikalte hain aur map mein `needed` remainder ka latest index dhoondh kar answer update karte hain.
+
+**Key Learnings:**
+* Remainder aur subarray ki problems mein **Prefix Sum + Hash Map** sabse solid approach hai.
+* C++ mein negative modulo ko positive banane ke liye hamesha `+ p` add karna chahiye.
+* Map mein large total sum store karne ke bajaye sirf `% p` store karne se Memory (MLE) aur Time Limit Exceeded (TLE) dono bach jaate hain.
+
+
+
+
+2364. Count Number of Bad Pairs                             A 
+Equation Transformation: Problem ki equation j - i != nums[j] - nums[i] ko rearrange karke nums[i] - i == nums[j] - j (Good Pairs) mein badla.
+Reverse Strategy: Direct "bad pairs" count karna O(n²) leta, isliye Total Pairs - Good Pairs wali approach sochi.
+Total Pairs: Math formula n * (n - 1) / 2 use karke total possible pairs nikaale.
+Frequency Tracking: Hash map ka use karke nums[i] - i ki frequency store ki aur sath-sath good pairs count kiye.
+Final Calculation: Total pairs mein se count kiye gaye good pairs ko subtract kar diya.
+
+
+
+
+
+
+523. Continuous Subarray Sum                             A 
+**Core Logic:** Prefix Sum + Modulo Property.
+* **Prefix Sum & Modulo:** Har step par array elements ka sum karo aur `k` se remainder nikaalo (`pre_sum % k`).
+* **Math Trick:** Agar 2 alag indices par remainder *same* aata hai, toh unke beech ka subarray sum $k$ ka exact multiple hota hai.
+* **HashMap ka Use:** Map mein `(remainder, index)` store karte hain.
+* **Checking Condition:** Agar current remainder map mein pehle se hai, toh bus check karo ki subarray ki length >= 2 hai ya nahi (`i - map[remainder] > 1`). Agar hai, toh return `true`.
+* **Map Update:** Agar remainder pehli baar aaya hai, toh use map mein daal do taaki aage use ho sake.
+* **Base Case (`map[0] = -1`):** Yeh zaroori hai taaki agar array ke start se hi koi valid subarray ban raha ho, toh uski length sahi calculate ho sake.
+
+* **The Math Rule:** Agar do numbers ka difference kisi number k se fully divisible hai, toh un dono numbers ko k se divide karne par remainder bilkul same aayega.
+    * *Example:* Maan lo k = 6. Index i par sum 8 hai (remainder 2). Index j par sum 14 hai (remainder 2). Unka difference (14 - 8 = 6) exact k ka multiple nikla!
+* **Prefix Sum ki jagah Remainder kyu?**
+    * Agar hum sirf Prefix Sum store karte, toh har nayi value ke aane par humein purani saari values se difference nikal kar check karna padta ki woh $k, 2k, 3k...$ ka multiple hai ya nahi (jo $O(n^2)$ time leta).
+    * Remainder store karne se problem sirf ek lookup mein badal gayi: *"Kya maine yeh remainder pehle dekha hai?"* Agar haan, toh beech ka subarray $k$ ka multiple hai. Yeh HashMap se $O(1)$ mein ho jata hai.
+
+
+
+2845. Count of Interesting Subarrays                            A 
+Bhai, iska core thought process yeh hai:
+
+* **Prefix Sum as 0/1:** Agar `nums[i] % modulo == k` hai, toh usko `1` maano, warna `0`. Iska running sum (`curr_cnt`) maintain karo.
+* **Constant Modulo:** Range ko limit karne aur cycle track karne ke liye har sum ke baad `% modulo` karte jao.
+* **Target Equation:** Humein ek aisi purani state chahiye jahan `(curr_cnt - previous) % modulo == k` ho. Isko formula mein convert karke `target = (curr_cnt - k + modulo) % modulo` nikalte hain.
+* **Map Lookup:** Hash map mein check karo ki yeh `target` past mein kitni baar aaya hai. Jitni baar aaya, utne hi valid subarrays banenge, unhe final answer mein add kardo aur apne current sum ko map mein
+ save karlo.
+
+
+
+1248. Count Number of Nice Subarrays                         A+
+(Prefix Sum + Hash Map)
+* **Odd Count Tracking:** Loop array ko traverse karta hai aur odd number milne par `curr_sum_odd` ko +1 karta hai.
+* **Target Calculation:** Har step par `target = curr_sum_odd - k` calculate karta hai. Yeh check karta hai ki kya pehle itne odd numbers nikaal dene par exactly `k` odd numbers bachenge.
+* **Hash Map Lookup:** `unordered_map` check karta hai ki yeh `target` (purana odd count) pehle kitni baar aa chuka hai.
+* **Answer Update:** Agar `target` map mein mil jata hai, toh uski frequency ko total `ans` mein jodd deta hai. 
+* **Map Storage:** Current `curr_sum_odd` ki frequency ko map mein update (`mpp[curr_sum_odd]++`) karta chalta hai.
+* **Base Case:** `mpp[0] = 1` shuru mein set kiya hai taaki agar bilkul shuruwat se current index tak hi exactly `k` odds ban rahe ho, toh wo miss na ho.
+
+
+
+2949. Count Beautiful Substrings II                       B 
+Bilkul, chaliye is logic ko step-by-step break karte hain:
+
+* **Mukhya Shart:** Question ke mutabiq ek valid substring ke liye `vowels == consonants` aur `(vowels * consonants) % k == 0` hona chahiye.
+* **Variable L:** Agar `vowels` aur `consonants` dono barabar hain, toh dono ko `L` maan lijiye. Ab equation banegi `(L * L) % k == 0`.
+* **Number x:** Hum ek sabse chota number `x` nikalte hain jiske liye `(x * x) % k == 0` true ho. Yeh `x` humein bata dega ki mod cycle kab repeat hoga.
+* **Target Condition:** Ek valid substring tabhi banegi jab uske andar ke total vowels `L`, humare is `x` ke multiple hon (`L % x == 0`).
+* **Prefix Check:** Prefix approach mein, sirf `curr_vowel - curr_conso` ka purane index se match hona yeh batata hai ki `vowels == consonants` hai.
+* **Final Pair:** Modulo shart ko bhi poora karne ke liye, `curr_vowel % x` ka purane index wale `vowel % x` se match hona zaroori hai. Isliye hum map mein `{difference, curr_vowel % x}` ka pair check karte hain.

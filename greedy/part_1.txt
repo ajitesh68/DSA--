@@ -200,3 +200,25 @@ capacity by its pre-calculated ratio to take the exact fraction needed to perfec
 IF YOU ARE TRYING TO DO OPTIMAL THEN YOU SHOULD STUDY THIS PROBLEM PROPERLY 
 
 
+
+
+517. Super Washing Machines                           B 
+REALLY COMPLEX PROBLEM SHOULD WATCH VIDEO 
+Is problem ka core intuition **"Bottlenecks" (sabse badi rukawat)** identify karna hai, na ki actual dresses move karna. Target set karne 
+ke baad, bas do main situations total moves decide karti hain:
+
+* **Partition Gap (`abs(running_sum)`):** Agar array ko kahin se bhi 2 hisso (Left/Right) mein baantein, aur Left side ke paas overall 'X' 
+dresses extra ya kam hain, toh dresses ko uss boundary ke aar-paar ek-ek karke hi bhejna padega (minimum 'X' moves).
+* **Single Machine Load (`balance`):** Agar kisi akeli machine ke paas target se 'Y' extra dresses hain, toh woh har move mein strictly 1 
+hi dress bahar nikal sakti hai. Usko set hone mein minimum 'Y' moves lagenge.
+
+In dono situations mein se jo sabse bada bottleneck (maximum value) create karega, wahi required total minimum moves honge!
+
+**Kya hum Greedy topic ke kisi aur pattern (jaise Interval Scheduling) par move karein?**
+
+
+
+
+
+3139. Minimum Cost to Equalize Array                       B 
+--> WATCH VIDEO explaination this is really tough problem (not for prepration)   Time waste 

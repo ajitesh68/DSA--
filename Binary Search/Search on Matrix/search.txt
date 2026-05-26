@@ -1,0 +1,16 @@
+
+
+
+Median in a row-wise sorted Matrix                   B
+      
+* **Search Space:** Answer matrix ke sabse chote (`mini`) aur sabse bade (`maxi`) number ke beech hi hoga. Hum is range par Binary Search lagate hain.
+* **Target:** Median ke piche matrix ke exactly aadhe elements hote hain. Humne aadha count nikala: `req = (n * m) / 2`.
+* **Checking Guess:** Ek guess (`mid`) liya aur check kiya ki matrix mein kitne numbers us guess se chote ya uske barabar hain.
+* **Updating Range:** Agar count aadhe se kam hai, toh hamara guess chota hai, median bada hoga (`low = mid + 1`). Agar count zyada ya barabar hai, toh `high = mid - 1` karte hain.
+
+**Jo Tumhe Nahi Aata Tha (Custom Count Logic):**
+
+* **Fast Counting:** Har row mein ek-ek karke elements count karne mein time zyada lagta. Row sorted hai, isliye wahan ek aur Binary Search lagaya.
+* **Row Check:** Hum row ka middle element dekhte hain. Agar wo hamare guess (`mid`) se chota ya barabar hai, toh uske left wale saare elements bhi chote honge.
+* **Moving Pointers:** Is condition mein hum left pointer aage badhate hain (`l = md + 1`). Warna right pointer piche laate hain.
+* **Final Result:** Jab loop khatam hota hai, toh `l` pointer ka jo index hota hai, wo direct bata deta hai ki us row mein kitne numbers guess se chote ya barabar hain.
