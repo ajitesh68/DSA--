@@ -1,4 +1,4 @@
-743. Network Delay Time                                                   B 
+743. Network Delay Time                                                   B -> B 
 Graph Setup: times array ko adjacency list adj mein convert karein taaki har node ke connected nodes aur unka travel time asani se mil jaye.
 Time Tracking: Ek time array banayein (size n+1). Sabko INT_MAX rakhein, sirf source node k ko 0 karein.
 Min-Heap: Priority queue banayein jo hamesha sabse kam time wale node ko pehle de. Shuru mein {0, k} push karein.
@@ -27,10 +27,75 @@ Result: time array ka maximum value nikaalein. Agar koi bhi node INT_MAX hai (ma
 
 
 
-1976. Number of Ways to Arrive at Destination                              B 
+1976. Number of Ways to Arrive at Destination                              B -> B 
 Is problem ka simple thought process ye hai:
 
 * Hum Dijkstra algorithm ka use kar rahe hain kyunki shortest time (path) nikalna hai.
 * Har node ke liye hum 2 cheezein track kar rahe hain: waha tak ka sabse kam time (`dist`) aur waha tak pahunchne ke tarike (`ways`).
 * **Naya chhota rasta milne par:** Hum distance ko update karte hain aur uske ways ko pichle node ke ways ke barabar set kar dete hain.
 * **Same time ka ek aur rasta milne par:** Iska matlab humein ek aur shortest path mil gaya, toh hum bas purane ways mein naye ways ko jodd (add) dete hain.
+
+
+
+
+1514. Path with Maximum Probability                                         A+ 
+* **Problem ka Nature:** Humein source se destination tak maximum probability (product) wala path nikalna tha.
+* **Dijkstra ka Idea:** Probabilities 0 se 1 ke beech hoti hain. Jab raste aage badhte hain toh multiply hokar total probability hamesha kam hoti hai. Yeh exactly "Shortest Path" jaisa behave karta hai.
+* **Max-Heap (Priority Queue) ka Use:** Taki hum hamesha us node ko pehle chunein jiski probability us waqt sabse zyada ho. Isse raste baar-baar calculate nahi karne padte.
+* **Step-by-Step Update:** Har node se uske neighbors ko check kiya. Agar naye raste ki probability (`curr_prob * edge_prob`) purane stored raste se zyada mili, toh usko update karke queue mein push kar diya.
+* **Final Result:** Jaise hi queue khali hui (saare best paths explore ho gaye), destination node par rakhi hui probability return kar di.
+
+1631. Path With Minimum Effort                                             A+ 
+**Thought Process (Path With Minimum Effort)**
+
+* **Main Goal:** Top-left se bottom-right jana hai aur aise raste se jana hai jisme lagatar cells ke beech ka maximum height difference kam se kam ho.
+* **Dijkstra Kyun?:** Min-Heap hamesha sabse chote effort wale raste ko pehle explore karta hai, jisse faaltu lambe raste check nahi karne padte.
+* **`max_abs` Array:** Yeh har cell tak pahunchne ke liye lagne wale minimum effort ko store karta hai taaki hum bar-bar kharab raste par na jayein.
+
+**Step-by-Step Logic:**
+
+1. **Start:** `(0,0)` ko `0` effort ke sath priority queue mein dalo.
+2. **Pop:** Queue se woh cell nikalo jiska effort ab tak sabse kam hai.
+3. **Explore:** Us cell ke 4 padosi (up, down, left, right) check karo.
+4. **Calculate:** Naya effort nikalne ke liye dekho ki purana effort bada tha ya in dono cells ka height difference: `max(current_effort, abs(height_diff))`
+5. **Update & Push:** Agar yeh naya effort padosi cell ke purane stored effort se chhota hai, toh usko update karo aur queue mein nayi value ke sath push kardo.
+6. **Finish:** Jaise hi destination `(rows-1, cols-1)` queue se pop ho, wahi final answer hai.
+
+
+1786. Number of Restricted Paths From First to Last Node                          B 
+**Problem ka Goal:** Node 1 se $n$ tak aise paths nikalne hain jahan har step par target ($n$) se actual doori strictly ghatt rahi ho.
+
+**Algorithm & Thought Process:**
+
+* **Step 1: Dijkstra (Distance nikalne ke liye)**
+* Target node $n$ se Dijkstra chalakar har node ka shortest distance nikala.
+* Isse hume `dist` array mil gayi, jo aage condition check karne mein kaam aayegi.
+
+
+* **Step 2: DFS + DP (Paths count karne ke liye)**
+* Node 1 se DFS shuru kiya.
+* **Rule:** Neighbor par tabhi gaye jab `dist[current_node] > dist[next_node]` ho.
+* **Memoization (DP):** Ek graph mein paths repeat ho sakte hain (TLE bachane ke liye), isliye paths ka count `dp` array mein save karte chale.
+* **Base Case:** Agar DFS karte hue node $n$ pe pahunch gaye, toh 1 valid path mil gaya (`return 1`).
+
+
+
+882. Reachable Nodes In Subdivided Graph                               A      
+### Thought Process
+
+* Graph traversal ka problem hai jisme maximum allowed moves fixed hain.
+* Simple BFS kaam nahi karega kyunki har edge par alag-alag intermediate nodes hain.
+* **Dijkstra's Algorithm** optimal hai kyunki humein har node par **maximum remaining moves** ke sath pahuchna hai.
+* Ek undirected edge par dono side se nodes cover ho sakti hain, isliye double-counting (overlap) rokna sabse zaroori hai.
+
+---
+
+### Algorithm Structure
+
+* **Adjacency List:** Graph banate waqt edge weight ko `intermediate nodes + 1` set karein.
+* **Priority Queue (Max-Heap):** Queue mein `{remaining_moves, current_node}` push karein taaki max moves wale raste pehle explore hon.
+* **Tracking Array (`max_moves`):** Ek array banayein jo store karega ki kisi node par aate waqt max moves kitne bache the.
+* **Edge Map (`used`):** Ek map use karein jo track karega ki node `u` se `v` ki taraf exactly kitni intermediate nodes cover hui.
+* **Traversal Logic:** Queue se node nikal kar uske neighbors par jayen. Agar naya rasta better remaining moves de raha hai, toh array update karke queue mein push karein.
+* **Final Calculation:** Total answer nikalne ke liye saari reachable original nodes ko add karein. Phir har edge ke liye overlap hata kar covered intermediate nodes add karein: `min(total_intermediate, 
+used[{u,v}] + used[{v,u}])`.

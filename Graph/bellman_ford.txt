@@ -1,0 +1,109 @@
+Haan, yahan is **Bellman-Ford Algorithm** video (take U forward) ke complete aur concise notes hain:
+
+**1. Basic Use & Purpose**
+
+* Yeh ek **Single Source Shortest Path** algorithm hai.
+* Iska kaam source node se baaki sabhi nodes ki shortest distance nikalna hai.
+
+**2. Dijkstra vs Bellman-Ford**
+
+* **Dijkstra Failures:** Dijkstra negative edges par fail hota hai aur negative cycle aane par infinite loop (TLE) mein chala jata hai.
+* **Bellman-Ford Power:** Yeh negative edge weights ko handle kar leta hai aur **Negative Cycle detect** kar sakta hai.
+
+**3. Graph Condition**
+
+* Yeh sirf **Directed Graphs** ke liye kaam karta hai.
+* Agar **Undirected Graph** diya ho, toh har undirected edge ko 2 directed edges (same weight) mein convert karna padta hai tabhi 
+ Bellman-Ford lagega.
+
+**4. The Core Algorithm (Relaxation)**
+
+* Isme sabhi edges ko kisi bhi order mein **$N-1$ times** sequentially relax karna hota hai ($N$ = total nodes/vertices).
+* **Relaxation Condition:** `if (dist[u] + wt < dist[v]) { dist[v] = dist[u] + wt }`
+* Initial Setup: Source node ka distance 0 rakho aur baaki sabhi ka Infinity ($1e8$).
+
+**5. Why exactly N-1 iterations?**
+
+* Worst-case scenario mein graph ek seedhi line/skewed ho sakta hai.
+* Kisi bhi source se aakhri node tak pohochne ka sabse lamba valid path maximum $N-1$ edges ka hi ho sakta hai.
+* Isliye $N-1$ relaxations ke baad har node ka pakka shortest path mil jata hai.
+
+**6. Negative Cycle Detection**
+
+* $N-1$ iterations complete hone ke baad ek **Nth iteration (1 extra time)** sabhi edges par dobara lagao.
+* Agar is extra iteration mein bhi kisi node ki distance aur kam (reduce) hoti hai, toh iska matlab graph mein **Negative Cycle** exist 
+ karti hai.
+
+**7. Complexities**
+
+* **Time Complexity:** $O(V * E)$ (Jahan $V$ vertices aur $E$ edges hain). Yeh Dijkstra se slow hota hai.
+* **Space Complexity:** $O(V)$ (Sirf ek distance array banane ke liye).
+
+
+
+**1. Intuition (Kyon N-1 baar loop chalana hai?)**
+
+* Kisi bhi graph mein ek node se dusre node tak seedha rasta (bina cycle ke) maximum **$V-1$ edges** ka ho sakta hai.
+* Har iteration mein kam se kam ek nayi edge ka shortest path "fix" (relax) hota hai.
+* Isliye $V-1$ iterations ke baad sabhi nodes ka shortest path mil jaana guarantee hota hai.
+
+**2. Dry Run Example**
+
+* **Graph (V=3):** * Edge 1: 0 -> 1 (Weight: 4)
+* Edge 2: 0 -> 2 (Weight: 5)
+* Edge 3: 1 -> 2 (Weight: -2)
+
+
+* **Initial Setup:** `dist = [0, INF, INF]`
+* **Iteration 1:**
+* 0->1: `dist[1] = min(INF, 0 + 4) = 4` $\rightarrow$ `[0, 4, INF]`
+* 0->2: `dist[2] = min(INF, 0 + 5) = 5` $\rightarrow$ `[0, 4, 5]`
+* 1->2: `dist[2] = min(5, 4 - 2) = 2` $\rightarrow$ `[0, 4, 2]`
+
+
+* **Iteration 2 (V-1 thi isliye aakhri):**
+* 0->1: `dist[1] = min(4, 0 + 4) = 4` (No change)
+* 0->2: `dist[2] = min(2, 0 + 5) = 2` (No change)
+* 1->2: `dist[2] = min(2, 4 - 2) = 2` (No change)
+
+
+* **Final Result:** `[0, 4, 2]`
+
+**3. C++ Code**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
+    vector<int> dist(V, 1e8);
+    dist[S] = 0;
+
+    for (int i = 0; i < V - 1; i++) {
+        for (auto it : edges) {
+            int u = it[0];
+            int v = it[1];
+            int wt = it[2];
+            
+            if (dist[u] != 1e8 && dist[u] + wt < dist[v]) {
+                dist[v] = dist[u] + wt;
+            }
+        }
+    }
+
+    for (auto it : edges) {
+        int u = it[0];
+        int v = it[1];
+        int wt = it[2];
+        
+        if (dist[u] != 1e8 && dist[u] + wt < dist[v]) {
+            return {-1}; 
+        }
+    }
+
+    return dist;
+}
+
+```
