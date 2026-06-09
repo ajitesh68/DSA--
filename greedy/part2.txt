@@ -19,6 +19,62 @@
 
 
 
-1400. Construct K Palindrome Strings                                 A+  
+1400. Construct K Palindrome Strings                                 A
 
                                   
+
+
+
+
+
+767. Reorganize String                                              A 
+* **Goal:** Adjacent characters same nahi hone chahiye.
+* **Sabse bada khatra:** Jo character sabse jyada baar hai, woh last mein ikattha bach sakta hai.
+* **Soch (Greedy Approach):** Sabse jyada frequency wale character ko sabse pehle place karke jaldi niptao.
+* **Clash handling:** Agar max frequency wala character just abhi use kiya tha (`prev`), toh majboori mein second max frequency wala use karo.
+* **Data Structure selection:** Kyunki har step ke baad frequencies change hongi aur hume hamesha updated max/second-max chahiye, isliye **Max-Heap (Priority Queue)** dimaag mein aana chahiye.
+* **Failure condition (Impossible case):** Agar `prev` se match ho raha hai aur usko avoid karne ke liye heap mein koi second option bacha hi nahi hai, matlab characters khatam ho gaye aur 
+rearrangement impossible hai.
+
+
+
+984. String Without AAA or BBB                                     A+ 
+* **Greedy Choice:** Hamesha us character ('a' ya 'b') ko priority do jiski frequency zyada bachi hai.
+* **Condition Check:** Naya character add karne se pehle current string ke last 2 characters check karo.
+* **Rule 1 (Streak Breaker):** Agar last 2 characters ekdum same hain, toh strictly dusra wala character add karo (taaki 3 same na ban jayein).
+* **Rule 2 (Normal Case):** Agar last 2 characters same nahi hain, toh wahi max frequency wala character add karo.
+* **Decrement:** Jo bhi character add kiya, uski count (`a` ya `b`) minus kar do.
+* **Loop:** Jab tak dono `a > 0` ya `b > 0` hain, yahi steps repeat karte raho.
+
+
+
+
+1433. Check If a String Can Break Another String                           A+ 
+Yeh raha is "Check If a String Can Break Another String" problem ka thought process:
+
+* **Core Idea (Sorting):** Problem mein kisi bhi permutation ko use karne ki chhoot hai. Isliye sabse logical step dono strings ko characters ke ascending order mein sort karna hai.
+* **Step 1 (Frequency Count):** Direct sort function use karne ke bajaye, `count1` aur `count2` array banakar frequency nikali (O(N) time ke liye).
+* **Step 2 (Reconstruction):** Un frequencies ka use karke nayi sorted strings `sorted_s1` aur `sorted_s2` generate kar li.
+* **Step 3 (Simultaneous Check):** Do boolean variables `check1` aur `check2` ko `true` assume karke aage badhe.
+* `check1`: Kya s1 hamesha s2 se bada/barabar hai?
+* `check2`: Kya s2 hamesha s1 se bada/barabar hai?
+
+
+* **Step 4 (Comparison):** Dono sorted strings ko ek hi loop mein compare kiya.
+* Agar kisi index par `s1` ka character chhota nikla, toh `check1 = false`.
+* Agar kisi index par `s2` ka character chhota nikla, toh `check2 = false`.
+
+
+* **Step 5 (Final Answer):** Pura loop chalne ke baad, agar ek bhi condition true bachi hai (`check1 || check2`), matlab ek string dusri ko completely break kar sakti hai.
+
+
+
+
+316. Remove Duplicate Letters                      B 
+* **Pre-processing:** Har character ka aakhri index `lastIndex` array mein save karo.
+* **Tracking:** Ek `visited` array use karo ye track karne ke liye ki character abhi result mein mojood hai ya nahi.
+* **Traversal:** Original string par left se right loop chalao.
+* **Skip:** Agar current character already `visited` hai, toh seedha `continue` karo.
+* **Pop (Greedy Logic):** Jab tak result ka aakhri character current character se **bada** hai **AUR** woh aakhri character aage string mein phir se aane wala hai (`lastIndex > i`), tab tak 
+use result se nikalte raho aur `visited = false` kardo.
+* **Push:** Current character ko result mein daal do aur `visited = true` mark kardo.

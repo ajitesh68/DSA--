@@ -80,7 +80,7 @@ Is problem ka simple thought process ye hai:
 
 
 
-882. Reachable Nodes In Subdivided Graph                               A      
+882. Reachable Nodes In Subdivided Graph                               B  
 ### Thought Process
 
 * Graph traversal ka problem hai jisme maximum allowed moves fixed hain.
@@ -99,3 +99,56 @@ Is problem ka simple thought process ye hai:
 * **Traversal Logic:** Queue se node nikal kar uske neighbors par jayen. Agar naya rasta better remaining moves de raha hai, toh array update karke queue mein push karein.
 * **Final Calculation:** Total answer nikalne ke liye saari reachable original nodes ko add karein. Phir har edge ke liye overlap hata kar covered intermediate nodes add karein: `min(total_intermediate, 
 used[{u,v}] + used[{v,u}])`.
+
+
+
+
+
+1091. Shortest Path in Binary Matrix                                 A+ 
+**Thought Process:**
+
+* Is problem mein unweighted graph tha (har step ki cost exactly 1).
+* Jab bhi cost uniform (same) hoti hai, normal BFS (`queue`) hamesha pehli baar mein shortest path deta hai.
+
+* Swaal mein ek unweighted grid tha jahan har step ki cost exactly 1 thi aur shortest path nikalna tha.
+* Aise cases mein Dijkstra (priority queue) overkill hota hai; normal BFS (queue) sabse best hai kyuki woh level-by-level expand karta hai aur pehli baar target par pahunchte hi hamesha shortest distance 
+  hi deta hai.
+
+**Galtiyan aur Dhyan Dene Wali Cheezein:**
+
+* **Overkill Data Structure:** `priority_queue` (Dijkstra) tab use karte hain jab weights alag-alag hon. Yahan iska use karne se time complexity faltu mein $O(N \log N)$ ho gayi, jabki `queue` se $O(N)$ 
+mein ho jata.
+* **Memory Limit Exceeded (MLE) ka karan:** Queue mein element push karte hi usko visited mark karna zaroori hota hai (`grid[newr][newc] = 1`). Agar aisa nahi kiya, toh ek hi cell alag-alag raaston se 
+baar-baar queue mein push hota rahega aur memory bhar jayegi.
+* **In-place Modification:** Extra visited array banane ki jagah same `grid` ko hi update karna optimal approach hai, isse space complexity bach jati hai.
+
+
+
+1926. Nearest Exit from Entrance in Maze                      A+
+
+* **Shortest Path = BFS:** Jab bhi "shortest path" aur har step ka cost barabar (1) ho, hamesha BFS socho. Yeh paani ki tarah level-by-level failta hai.
+* **First Match is Best Match:** Kyunki hum level-by-level jaa rahe hain, jo bhi boundary cell sabse *pehle* milega, wahi nearest hoga. Aage dhoondhne ki zaroorat hi nahi.
+* **The "Entrance" Trap:** Entrance boundary pe ho sakta hai, par wo exit nahi hai. Agar hum cell par khade hokar check karenge toh galat ho jayega. Toh solution kya hai? Check hamesha **agle kadam 
+(new cell)** par lagao.
+* **TLE se bachna:** Queue mein daalte hi cell ko turant wall (`+`) bana dena chahiye. Socho, agar pop hone ka wait kiya, toh ek hi cell kitni baar queue mein ghus jayega?
+
+
+
+
+1368. Minimum Cost to Make at Least One Valid Path in a Grid                       A 
+**Dimaag me Thought Process (Thoda aur detail ke sath):**
+
+* **Grid mapping:** Grid ke har cell ko ek 'node' maano aur 4 dishaon me chalne ko unke beech ki 'edges'.
+* **Cost distribution:** Jo direction grid ke arrow me di hai waha jaane ki cost `0` hai, aur baaki 3 directions me mudne par cost `1` lagegi.
+* **Algorithm choice:** Normal BFS sabhi edges ko barabar (equal) maanta hai, isliye wo fail hoga. Yaha weights sirf `0` aur `1` hain, isliye Priority Queue ka use zaroori hai taaki `0` cost wale 
+raaste humesha pehle explore ho aur minimum total cost nikle.
+
+
+Galtiyan jo aapse hui (Missouts):
+Galti 1: Sirf visited array ka sochna
+Boolean visited array tab kaam karta hai jab sabhi paths ki cost same ho.
+Yaha agar mehenge raste (cost=1) se pehle aakar cell ko visited mark kar diya, toh baad me aane wala sasta rasta (cost=0) block ho jayega.
+
+Galti 2: dist array ko zaruri na manna
+Bina dist compare kiye, ek hi cell alag-alag raaston se baar-baar Queue me push hota rahega.
+Isse infinite loop banega aur Time Limit Exceeded (TLE) ya Memory Limit Exceeded (MLE) error aayega. dist array mehenge raaston ko filter karta hai.

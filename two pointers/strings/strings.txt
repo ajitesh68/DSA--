@@ -64,3 +64,29 @@ manually. If I have a group of three `0`s followed by two `1`s, I strictly know 
 " Instead of managing a window, it simply remembers the *length* of the previous group and compares it to the *length* of the current 
 group; every time the current group grows, if it's still smaller than or equal to the previous group, you automatically have a new valid 
 substring.
+
+
+
+1750. Minimum Length of String After Deleting Similar Ends               A+ 
+
+
+
+
+
+443. String Compression                             A+ 
+
+
+
+
+
+
+2938. Separate Black and White Balls               B  
+
+* **Target:** Saare `0` left mein aur `1` right mein lane hain.
+* **Main Soch (Core Logic):** Ek `0` ko left aane mein utne hi adjacent swaps lagenge, jitne `1` uske thik pehle (left side) khade hain.
+* **Swap ka Matlab:** Ek `0` ko ek `1` ke aage nikalne mein exactly 1 swap lagta hai.
+* **Kaise Karein (Steps):**
+1. String ko left se right padhna shuru karo.
+2. Ek variable rakho (`ones`) jo ab tak mile hue saare `1` ko ginega.
+3. **Agar `1` mile:** Sirf usko gino (`ones++`). Yeh raste ki rukawat hai.
+4. **Agar `0` mile:** Is `0` ko un saare `1` ke aage koodna hai. Toh `steps` mein sidha `ones` ki value add kar do (`steps += ones`).

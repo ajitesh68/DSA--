@@ -1,0 +1,123 @@
+684. Redundant Connection                              B->A
+
+
+Bhai, yeh raha is sawaal ka seedha aur simple thought process future revision ke liye:
+
+* **Main Problem:** Ek valid tree me ek extra edge daal di gayi hai jisse cycle ban gayi hai. Humein woh extra edge dhundhni hai.
+* **Kyu DSU?** Jab bhi edges ek-ek karke di ho aur hume components ko jodte hue cycle detect karni ho, DSU sabse fast aur best tool hai.
+* **Step 1 (Blank State):** Shuru me maano graph me koi edge nahi hai, har node apna khud ka baap (parent) hai.
+* **Step 2 (Traverse):** Input array ki edges ko sequence me ek-ek karke uthao.
+* **Step 3 (Check Roots):** Edge ke dono nodes ka ultimate root `find()` function se nikalo.
+* **Step 4 (Connect):** Agar roots alag hain, matlab dono nodes alag-alag components ka hissa hain. Inhe `unite()` karke jod do.
+* **Step 5 (Cycle Detect - The Answer):** Agar dono nodes ka root **same** nikal aaye, iska matlab woh pehle se hi indirectly connected the. Yeh current edge hi cycle close kar rahi hai. Isko turant 
+    return kar do.
+* **Last Edge Logic:** Kyunki hum loop array ke start se chala rahe hain, jo edge pehli baar cycle detect karegi, wahi input sequence me cycle banane wali aakhri edge hogi.
+
+
+
+IMPORTANT :------
+Maan lo tumhare paas ek cycle ban rahi hai 4 nodes ki, aur input yeh hai: `edges = [[1,2], [2,3], [3,4], [1,4], [1,5]]`
+
+Cycle todne ke liye hum `[1,2]`, `[2,3]`, `[3,4]`, ya `[1,4]` me se **koi bhi ek** edge hata sakte hain. Sawaal kehta hai ki inme se jo edge input list me **sabse aakhri (last)** me aayi hai, usko return karo.
+
+DSU me humara loop exactly yahi kaam naturally kar deta hai:
+
+* **Edge `[1,2]`:** DSU me gaye, parent alag hain, connect kar diya.
+* **Edge `[2,3]`:** Parent alag hain, connect kar diya.
+* **Edge `[3,4]`:** Parent alag hain, connect kar diya.
+* **Edge `[1,4]` (Main Edge):** Yahan DSU dekhega ki 1 aur 4 ka parent pehle se same hai. Cycle mil gayi!
+
+**Core Concept:**
+
+* Cycle tabhi banti hai jab us cycle ki saari edges graph me daal di jayein.
+* Kyunki hum array ko `index 0` se padh rahe hain, cycle ko **close (complete)** karne wali edge hamesha wahi hogi jo us cycle ke edges me sabse **aakhri** me likhi hogi.
+* Jo edge sabse aakhri me ayegi, wahi cycle trigger karegi (`find(u) == find(v)`).
+* Isiliye DSU me jo edge **pehli baar** pakdi jati hai, wahi actually cycle banane wali edges ki list me **sabse last** wali hoti hai.
+
+
+
+
+
+990. Satisfiability of Equality Equations                               B 
+Bhai, aise sawaalon ko approach karne ka step-by-step thought process yeh hai:
+
+* **1. Pehchan (Identification):** Jab bhi "groups" banane ho aur usme "relation ya contradiction" check karna ho, toh DSU sabse best tool hai.
+* **2. Build Phase (Jodna):** Hamesha pehle un conditions ko pakdo jo dosti ya connection bana rahi hain. Yahan `==` wali equations ko loop mein daalkar `unite` kardo. Isse saare valid networks ban jayenge.
+* **3. Check Phase (Todna/Verify karna):** Ab un conditions ko uthao jo contradiction paida kar sakti hain (`!=` wali equations).
+* **4. Contradiction Pakadna:** In `!=` wale characters ka `find` (parent) check karo. Agar inka parent same nikal aaya, toh iska matlab graph bol raha hai "equal" aur equation bol rahi hai "not equal". 
+  Seedha `return false`.
+* **5. Result:** Agar saari `!=` conditions bina kisi contradiction ke pass ho gayi, toh end mein `return true`.
+
+**Rule of Thumb:** DSU problems mein hamesha pehle "Jodo" (Union phase), aur fir "Check karo" (Find phase).
+
+
+
+
+1202. Smallest String With Swaps                         A 
+Agar yeh sawaal randomly kisi contest ya interview mein aaye, toh dimag aise chalna chahiye:
+
+1. **"Unlimited" Swaps = Connectivity:** Sabse pehla hint. Agar `0` aur `1` swap ho sakte hain, aur `1` aur `2` swap ho sakte hain, toh iska matlab `0, 1, 2` aapas mein apni positions exchange kar sakte 
+hain. Yeh ek "Group" ya "Network" ban gaya.
+2. **Groups Banane Ka Best Tool:** Jab bhi elements aapas mein jud kar group banate hain, toh sabse fast aur clean tool **DSU (Disjoint Set Union)** hota hai. (DFS/BFS bhi chalega, par DSU zyada intuitive 
+hai jab pairs diye hon).
+3. **Target Kya Hai? (Lexicographical Smallest):** Iska matlab hai ki har ek connected group ke sabse chote index pe, us group ka sabse chota character aana chahiye.
+4. **Data Structure Kya Use Karein?** Hamein har group (parent) ke saare characters ek jagah chahiye, woh bhi sorted order mein. Dimag mein turant `multiset` aana chahiye, kyunki yeh insert karte hi 
+auto-sort kar deta hai. So, `map<int, multiset<char>>` banayenge.
+5. **Final Output Kaise Banayein?** Wapas string ke 0 se n-1 indices pe jayenge. Har index ka group (parent) nikalenge, us group ke `multiset` se sabse chota character uthayenge, wahan place karenge, aur us
+ character ko `multiset` se uda denge.
+
+
+
+721. Accounts Merge                                       B 
+Bhai, is sawaal ko sochne ka process ekdum straight-forward step-by-step aise hona chahiye:
+
+**1. Pattern Pehchano (Key Hint)**
+
+* Sawaal padhte hi ek line hit karni chahiye: *"Agar common link hai, toh merge kardo"*.
+* Jab bhi groups ko aapas mein jodne (merge karne) ki baat ho, toh dimaag mein seedha **DSU (Disjoint Set Union)** ya **Connected Components (Graph)** aana chahiye.
+
+**2. Nodes aur Edges fix karo**
+
+* **Nodes:** Har account ka index (`0, 1, 2...`) ek node hai.
+* **Edges:** Emails link ka kaam kar rahe hain. Agar do nodes (accounts) mein same email hai, matlab unke beech edge hai.
+
+**3. Execution ka Flow (Kya aur Kaise karna hai)**
+
+* **Step 1: Pehli baari ya Repeat? (Mapping)** Hum ek-ek email check karenge. Agar email pehli baar dekha, toh map mein likh lo ki yeh kis index ka hai.
+* **Step 2: Link mila toh Jod do (Union)** Agar email map mein pehle se hai, iska matlab current index aur map wala index ek hi insaan ke hain. Dono ko `ds.unite()` se jod do.
+* **Step 3: Asli Malik dhoondo (Ultimate Parent)** Sab judne ke baad, har index ka ek "boss" (ultimate parent) ban chuka hoga. Har email ko uske boss ke account (index) wale dabbe mein daal do.
+* **Step 4: Saja kar return karo (Formatting)** Akhir mein boss wale dabbon se emails uthao, sort karo, sabse aage naam chipkao, aur answer mein daal do.
+
+**Golden Rule:** Jab bhi "dynamic merging" ho rahi ho (ek-ek element traverse karke group banana), wahan DSU lagana sabse best aur clean thought process hota hai.
+
+
+
+
+947. Most Stones Removed with Same Row or Column                  A+ 
+Ye raha is problem ko sochne ka step-by-step thought process:
+
+* **1. Graph Visualization:** Stones ko 'Nodes' maano aur "same row/col" hone ko unke beech ka 'Edge' (connection) maano.
+* **2. Grouping (Chain Reaction):** Jo stones aapas mein connected hain, wo ek group banate hain. Is group mein aap chain reaction ki tarah stones hata sakte ho.
+* **3. The "Aha!" Moment:** Kisi bhi connected group mein se aap saare stones hata sakte ho, bas aakhiri **1 stone** hamesha bach jayega.
+* **4. Formula Deduction:** * Har group se exactly 1 stone bachega.
+* Total bache hue stones = Total Groups (yaani DSU ke unique parents).
+* Max Removed = `Total Stones - Total Groups`.
+
+
+* **5. Tool Selection:** Kyunki humein graph ke "connected groups" (components) count karne the, isliye **DSU** sabse fast aur simple tool hit kiya.
+
+
+DFS Approach & Code
+Approach:
+Har stone ko ek node maano.
+Ek visited array lo track rakhne ke liye.
+Ek loop chalao saare stones par. Agar stone visited nahi hai, toh wahan se DFS start karo aur components count badhao.
+DFS mein un sabhi stones ko visit mark kardo jo current stone ke saath same row ya column share karte hain.
+End mein Total Stones - Components return kardo.
+
+BFS Approach & CodeApproach:
+Logic same hai, bas traversal ka tareeka iterative (Queue) hoga.
+Saare stones par loop chalao. 
+Agar unvisited hai, toh use Queue mein daalo aur components count badhao.
+Queue se node nikalo aur uske saare unvisited neighbors (same row/col wale) ko Queue mein push karke visited mark kardo.
+Jab Queue empty ho jaye, agle unvisited node se naya component start karo.End mein Total Stones - Components return kardo.
