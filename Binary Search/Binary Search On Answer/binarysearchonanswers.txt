@@ -1,0 +1,37 @@
+826. Most Profit Assigning Work                                A+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1802. Maximum Value at a Given Index in a Bounded Array                      A+ 
+Is problem ko sochne ka simple thought process yeh hai:
+* **Goal:** `nums[index]` ko sabse bada banana hai.
+* **Greedy Logic:** Ek value ko maximum karne ke liye, baaki saari values ko sabse chota (minimum) rakhna padega.
+* **Shape (Pattern):** `index` par ek "peak" (pahad ki choti) banegi. Wahan se left aur right dono taraf elements ki value 1-1 kam hoti jayegi jab tak 1 na aa jaye.
+* **Binary Search Kyun?:** Answer ki range fix hai (`1` se `maxSum`). Aap check kar sakte ho ki agar peak `X` hai, toh minimum sum kitna banega.
+* **Condition Check:** Agar sum `<=` `maxSum` hai, toh answer possible hai, aur bada check karo (`low = mid + 1`). Agar sum bada ho gaya, toh peak choti karni padegi (`high = mid - 1`).
+
+
+
+2594. Minimum Time to Repair Cars               A+ 
+Is problem ke liye thought process yeh rahega:
+
+* **Goal:** Saari cars ko repair karne ka sabse kam (minimum) time nikalna hai.
+* **Pattern (Monotonicity):** Agar ek specific time $T$ mein saari cars repair ho sakti hain, toh $T+1$ mein definitely hongi. Agar $T$ mein nahi ho rahi, toh $T-1$ mein bhi nahi hongi. Yeh seedha ishara
+ hai "Binary Search on Answer" ka.
+* **Greedy Logic:** Har mechanic apna kaam akele (independently) kar raha hai. Ek fix time (`mid`) mein har mechanic maximum kitni cars repair kar sakta hai? 
+Formula: $\lfloor\sqrt{\text{mid} / \text{rank}}\rfloor$.
+* **Condition Check:** Saare mechanics ki banayi hui cars ko add karo.
+* Agar total $\ge$ target `cars` hai: Answer mil gaya, par hume *minimum* chahiye, toh left mein aur chota time dhundho (`high = mid - 1`).
+* Agar total $<$ target `cars` hai: Time kam pad gaya, right mein jaakar time badhao (`low = mid + 1`).

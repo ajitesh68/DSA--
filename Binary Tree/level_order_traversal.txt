@@ -1,0 +1,115 @@
+Binary Tree Level Order Traversal                        A 
+Binary Tree Level Order Traversal ka thought process step-by-step:
+
+Main Goal: Tree ko level-by-level traverse karna hai (top se bottom, left se right).
+Core Concept: Breadth-First Search (BFS).
+Data Structure: Queue ka use hoga kyunki ye FIFO (First In First Out) follow karti hai, jo pehle level ke nodes ko pehle process karne mein help karegi.
+
+
+
+
+107. Binary Tree Level Order Traversal II                             A+
+Is sawal (**Level Order Traversal II**) ko dekh kar dimaag mein aane wali intuition:
+
+* **"Level" Word Dekhte Hi:** Tree mein jab bhi "level" ki baat ho, seedha **BFS (Breadth-First Search) aur Queue** dimaag mein aana chahiye.
+* **The "Bottom-Up" Twist:** Sawal mein neeche se upar ka level order maanga hai, par Tree ka traversal hamesha Top (root) se hi shuru ho sakta hai.
+* **The Approach (Smart Work):** * Direct bottom se traverse karne ka koi faida/tareeqa nahi hai.
+* Chup chap normal **Top-to-Bottom BFS** lagao jaise normally karte hain.
+* Har level ke elements ko apne 2D `result` vector mein daalte jao.
+
+
+* **The Final Trick:** Poora normal BFS hone ke baad, jo final `result` vector aaya hai, usko bas **reverse** kar do (`reverse(result.begin(), result.end())`).
+**Short mein:** Normal Top-Down BFS karo $\rightarrow$ 2D Array banao $\rightarrow$ Us array ko reverse kar do.
+
+
+993. Cousins in Binary Tree                                           A+
+Optimized BFS Approach (Bina Parent Array):
+Sibling Check On The Fly: Jab tum kisi current node par ho, wahin check kar lo ki kya iska left bacha x aur right bacha y (ya vice-versa) hai. Agar haan, 
+toh wo siblings hain, wahin se false return kar do
+**BFS (Level-Order) Thought Process:**
+
+* **Trigger:** Sawal mein "same depth" ya "level" dekhte hi sabse pehle Queue aur BFS dimaag mein aana chahiye.
+* **Main Goal:** Ek hi level mein `x` aur `y` dono ko dhoondhna hai.
+* **The Sibling Trap:** Cousins hone ke liye parent alag hone chahiye. Toh jab kisi node se uske left aur right bacchon ko queue mein push kar rahe ho, wahin check kar lo. Agar dono bacche `x` aur `y` nikle,
+ matlab wo siblings hain, seedha `false` return kardo.
+* **Level End Check:** Agar upar wala sibling check fail ho gaya (matlab alag parents hain) aur level ke end mein tumhare pass `x` aur `y` dono mil gaye hain, toh bas `true` return kardo.
+
+**DFS (Recursive) Thought Process:**
+
+* **Trigger:** Agar BFS/Queue nahi use karni, toh recursion stack ka fayda uthao. Depth-first jao aur path details track karo.
+* **Tracking Data:** Har recursive call mein 3 cheezein aage bhejo: current `node`, uska `parent`, aur uska `level` (depth).
+* **Save State:** Tree mein ghumte hue jaise hi `x` ya `y` mile, unka `level` aur `parent` kisi variable mein chup-chap save kar lo.
+* **Final Validation:** DFS ek line (branch) mein neeche jata hai, toh `x` aur `y` ek sath nahi milenge. Jab dono mil jayein (ya pura traverse ho jaye), tab aakhir mein check karo ki kya dono ka level barabar
+ hai aur parent alag hai.
+
+
+
+
+
+
+2471. Minimum Number of Operations to Sort a Binary Tree by Level                                 A 
+Is sawal ka simple aur straight-forward thought process:
+
+* **Trigger:** "By Level" likha hai, toh seedha **BFS (Queue)** lagega.
+* **Step 1:** Har level ke elements ko line se ek 1D array mein daal lo.
+* **Step 2:** Us array par "Minimum Swaps to Sort an Array" wala logic lagao aur swaps count karo.
+* **Step 3:** Har level ke swaps ko ek `totalSwaps` variable mein add karte jao. Yahi final answer hoga.
+
+Sawal bas ek array sorting problem hai, jise Tree ke andar chupa diya gaya hai.
+
+
+
+
+
+199. Binary Tree Right Side View                                                   
+### **Binary Tree Right Side View - Thought Process**
+
+**BFS (Level-Order) Thought Process:**           A+
+
+* **Trigger:** "Right side view" ka seedha matlab hai har level ka sabse aakhri (rightmost) node nikalna. "Level" word sochte hi Queue/BFS click karna chahiye.
+* **Level Traversal:** Normal BFS ki tarah ek queue banao aur level-by-level traverse karo.
+* **The Catch:** Har level ke saare nodes ko process karo (left se right).
+* **Save Output:** Jab current level ka `for` loop apni aakhri iteration par ho (`i == size - 1`), sirf tabhi us node ki value ko apne answer array mein daal do.
+
+**DFS (Recursive) Thought Process:**            B
+
+* **Trigger:** Tree ke right side ko dekhna hai, toh DFS ko force karo ki pehle right side mein deep jaye.
+* **Modified Traversal:** Normal DFS (Root $\rightarrow$ Left $\rightarrow$ Right) ki jagah **Root $\rightarrow$ Right $\rightarrow$ Left** lagao.
+* **Level Tracking:** Har recursive call ke sath `level` (depth) bhejte jao (root ka level 0).
+* **The Magic Condition:** Agar current `level` tumhare answer array ki size ke barabar hai (`level == ans.size()`), iska matlab tum is level par pehli baar aaye ho. Kyunki DFS 
+pehle right jaa raha hai, ye node definitely level ka rightmost node hoga. Isko answer mein push kar lo.
+
+
+
+
+ 
+Left View of Binary Tree
+                          
+**BFS (Level-Order):**                    A+
+
+* **Trigger:** "Left view" ka matlab har level ka sabse pehla node $\rightarrow$ Queue (BFS) use karo.
+* **Traversal:** Normal level-by-level traverse karo.
+* **Save Output:** Loop mein bas yeh check karo ki kya yeh level ka pehla node hai (`i == 0`). Agar haan, toh usko answer mein push kardo.
+
+**DFS (Recursive):**                      A+ 
+
+* **Trigger:** Left side pehle dekhni hai $\rightarrow$ DFS ko pehle left bhejo.
+* **Traversal:** Standard traversal lagao: **Root $\rightarrow$ Left $\rightarrow$ Right**.
+* **Tracking:** Har call ke paas apna `level` hoga aur ek `maxLevel` variable track karega ki kahan tak pahuch chuke hain.
+* **The Magic Condition:** Agar `level > maxLevel` hai, matlab is level par pehli baar aaye ho. Kyunki DFS hamesha pehle
+left jaa raha hai, toh yeh pakka leftmost node hi hoga. Ise answer mein daalo aur `maxLevel` ko update kar do.
+
+
+
+
+Top View of Binary Tree                                            A+ 
+Bhai, isko ekdum short aur to-the-point rakhte hain:
+
+* **Trigger:** "Top View" = Upar se dekhna = Level-by-Level = **BFS (Queue)** + **Horizontal Distance (HD)**.
+* **Rule:** Root ka HD `0` hai. Left node = `HD - 1`, Right node = `HD + 1`.
+* **Logic:** Hum bas boundaries track karenge (`min_left` aur `max_right`). Beech ke nodes over-write honge, toh unhe ignore karo.
+* **Action:** * Agar `hd < min_left` -> Naya leftmost node mila -> `ans_left` mein daalo aur `min_left` update karo.
+* Agar `hd > max_right` $\rightarrow$ Naya rightmost node mila $\rightarrow$ `ans_right` mein daalo aur `max_right` update karo.
+
+
+* **Final Step:** `ans_left` ulta store hota hai, toh usko `reverse` karo aur teeno ko jod do: `ans_left` + `root` + `ans_right`.

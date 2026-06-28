@@ -1,0 +1,77 @@
+257. Binary Tree Paths                                               A+ 
+Is problem ko approach karne ka step-by-step thought process yahan hai, jisse aage aisi problems directly click karengi:
+
+* **Keyword Pakdo:** Question mein "Root to Leaf paths" saare nikalne ko kaha hai. Jab bhi saare raste ya combinations track karne hon, dimag mein sidha aana chahiye ki ek-ek karke end tak jana padega.
+* **Algorithm Choice:** Top se start karke ek branch ke end (depth) tak jana hai. Yeh seedha ishara hai ki **DFS (Depth First Search)** use hoga.
+* **State Tracking:** Har raste ko apna safar yaad rakhna hai. Isliye `path` string ko globally nahi rakh sakte, usko DFS function ke parameter mein pass karna padega taaki har branch ke paas apni copy ho.
+* **Stopping Point (Base Case):** Kab rukna hai? Jab aakhri node (leaf) aa jaye. Kaise pata chalega? Jab node ka left aur right dono `null` hon.
+* **Action at Stop:** Jaise hi leaf pe pahuche, ab tak ka jo rasta (string) bana hai, usko seedha result (global array) mein daal do.
+* **Formatting Check:** "->" aakhri node ke baad nahi chahiye. Isliye pehle value add karo, check karo leaf hai ya nahi. Agar leaf nahi hai, tabhi string mein "->" jod kar left aur right ke liye aage badho.
+
+Is tarah chote-chote tukdon mein todne se logic khud banne lagta hai.
+
+
+
+112. Path Sum                           A+ 
+Is problem ke logic tak pahuchne ke liye is direction mein sochna hai:
+
+* **Traversal Choice:** Top se bottom end tak jana hai, isliye **DFS** sabse natural aur aasaan choice hai.
+* **Reverse Logic:** Niche jaate hue sum calculate karne se behtar hai, `targetSum` me se current node ki value minus karte jao.
+* **End Goal Check:** Jab leaf node (jiska left aur right child dono `null` ho) par pahucho, toh bas check karo ki kya bacha hua `targetSum` 0 ho gaya hai.
+* **Decision Splitting:** Kyuki humein koi *ek* valid rasta chahiye, isliye Left branch **YA** Right branch ka result check karna hai. Yahan Logical OR (`||`) ka istemal hoga.
+* **Null Handling:** Agar shuruwat me hi tree khali hai ya galat raste (null node) par aa gaye, toh wahan se seedha `false` return kardo.
+
+
+
+Children Sum in a Binary Tree                A+ 
+**Thought Process (Kaise Sochna Hai):**
+
+* **Recursion:** Problem tree ki hai aur har node par same rule apply karna hai, isliye recursion sabse best approach hai.
+* **Current Node Check:** Sabse pehle current node par dekho ki kya uski value uske left aur right children ke sum ke barabar hai.
+* **Subtree Check:** Phir check karo ki kya yahi same condition left aur right subtrees ke andar bhi satisfy ho rahi hai ya nahi.
+
+**Dhyan Dene Wali Baatein (Key Considerations):**
+
+* **Base Cases:** `NULL` node aur Leaf nodes hamesha by default `true` return karenge.
+* **Missing Child Handle Karna:** Agar left ya right mein se koi ek child exist nahi karta (`NULL` hai), toh addition ke time uski value `0` treat karni hai.
+* **Null Pointer Safety:** Kabhi bhi direct `root->left->data` access mat karo. Hamesha pehle check karo ki `root->left != NULL` hai, warna program crash ho jayega.
+
+
+
+
+124. Binary Tree Maximum Path Sum                             A  
+Is problem ko approach karne ke liye apna dimaag is direction mein chalana hai:
+
+* **Path ka Shape Socho:** Path hamesha ya toh ek seedhi line (straight down) hoga, ya kisi node par "Inverted-U" (left se aakar right mein jana) banayega.
+* **Recursion ki Limit Samjho:** Tumhara recursive function parent node ko ek Inverted-U path return *nahi* kar sakta. Wo sirf ek single branch (straight path) return kar sakta hai.
+* **U-Turn wahi Handle Karo:** Kyunki Inverted-U path upar return nahi ho sakta, isliye har node par locally check karo ki `Node + Left + Right` milkar kitna sum de rahe hain, aur usko ek global `maxi` 
+mein update kar lo.
+* **Negative Baggage Chhod Do:** Agar kisi sub-tree se negative sum aa raha hai, toh use jodne se total sum kam hi hoga. Aisi branches ko seedha ignore karo (take as `0`).
+* **Parent ko kya bhejna hai:** Parent ko sirf ek best option do. Return karo `Node ki value + max(Left, Right)`.
+* **Sabse Bura Case:** Agar tree mein sab kuch negative hai, toh maximum path sabse chota negative number hoga. Isliye global variable humesha `INT_MIN` se shuru karo, `0` se nahi.
+
+
+
+437. Path Sum III                                B      
+### Thought Process
+
+* Sawaal ki sabse badi condition yeh hai ki path kahin se bhi shuru ho sakta hai aur kahin bhi khatam ho sakta hai (bas downward jana chahiye).
+* Isko 2 alag problems mein tod kar socho:
+* **Part 1:** Tree ke har ek node tak pohochna, taaki usko ek naye path ka starting point banaya ja sake.
+* **Part 2:** Ek baar jab starting point mil jaye, toh wahan se sirf neeche ki taraf travel karke check karna ki sum target ke barabar hua ya nahi.
+
+
+* Pehle part ke liye ek main recursion chahiye jo pure tree par ghoome.
+* Dusre part ke liye ek helper recursion chahiye jo sirf current path ka sum track kare.
+
+### Tumhari Galtiyan aur Unka Solution
+
+* **Galti 1:** Ek hi helper function mein naya path (0 sum ke sath) aur purana path (current sum ke sath) dono call karna.
+* **Solution 1:** Isse paths exponentially duplicate hote hain. Ise theek karne ke liye logic ko 2 functions mein split karo. Main function sirf naye paths start karega, helper function sirf unhe aage 
+badhayega.
+* **Galti 2:** Test cases mein values negative aur bohot badi (jaise 10^9) ho sakti hain. Integers add/subtract karne par overflow ho jayega.
+* **Solution 2:** Helper function mein target ya sum track karne ke liye `long long` data type ka use karo.
+
+
+
+236. Lowest Common Ancestor of a Binary Tree               

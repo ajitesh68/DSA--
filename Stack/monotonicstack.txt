@@ -1,0 +1,86 @@
+1475. Final Prices With a Special Discount in a Shop                    A+ 
+**Optimally Sochne Ka Thought Process:**
+
+* **Pattern Pehchano:** Sawaal mein har item ke right side mein *pehla chota ya barabar* price dhundhna hai. Ise **Next Smaller/Equal Element** problem kehte hain.
+* **Tool Select Karo:** Jab bhi "Next Smaller" ya "Next Greater" nikalna ho, hamesha **Monotonic Stack** ka use sabse optimal ($O(N)$) hota hai.
+* **Step-by-Step Logic:**
+1. Ek stack lo jo sirf array ke **indices** store karega.
+2. Array ko left se right traverse karo.
+3. Agar current price stack ke top wale index ki price se chota ya barabar hai, matlab top wale item ko uska discount mil gaya.
+4. Stack se top index `pop()` karo aur uski original price mein se current price (discount) minus kar do.
+5. Har current index ko stack mein `push()` karo, taaki aage chal kar uske liye bhi discount dhundha ja sake.
+
+
+
+
+
+
+Next Greater Element I                                A+ 
+
+
+503. Next Greater Element II                                            A+ 
+Iss sawaal ko dekh kar aisi thought process honi chahiye:
+
+* **Keyword Trigger:** "Next Greater Element" padhte hi seedha **Monotonic Stack** dimaag mein aana chahiye.
+* **Identify the Twist:** Array **circular** hai. Iska matlab jo elements array ke end mein hain aur bade hain, unka "Next Greater" array ke starting indices mein milega.
+* **Phase 1 (Normal Pass):** Pehle ek normal left-to-right pass lagao using stack. Jinka next greater aage hi mil gaya, unhe record kar lo aur array mein set kar do.
+* **Phase 2 (Identify Leftovers):** Jo elements stack mein bach gaye (yani jinka answer `INT_MIN` reh gaya), sirf unke liye ab array ke starting se search karna hai.
+* **Phase 3 (Optimization):** Yeh bache hue elements inherently decreasing order mein hote hain. Isliye starting se ek **global pointer** lagao jo sirf aage badhega (wapas peeche nahi aayega), 
+jisse $O(N)$ time complexity maintain rahegi.
+
+
+
+2454. Next Greater Element IV                              B 
+Bhai, thought process ekdum simple points mein:
+
+* **Do Stacks ka Role:** `s1` mein wo elements hain jinhe apna **first greater** chahiye. `s2` mein wo hain jinhe **second greater** chahiye.
+* **S2 check karo:** Jab naya element `nums[i]` aaye, pehle `s2` check karo. Agar yeh `s2.top()` se bada hai, toh yahi unka **second greater** hai. Answer store karo aur pop kar do.
+* **S1 check karo:** Phir `s1` dekho. Agar yeh naya element `s1.top()` se bada hai, matlab unhe apna **first greater** mil gaya. Ab inhe `s1` se nikal kar `s2` mein bhejna hai.
+* **Temp ka use kyu?:** `s1` se pop karke direct `s2` mein daalne se elements ka order ulta ho jayega (chhota element top se hat jayega). Monotonic order maintain rakhne ke liye pehle `s1` se `temp` mein 
+daalte hain, phir `temp` se `s2` mein. Isse order sahi rehta hai.
+* **Naya Element:** Last mein `nums[i]` ko `s1` mein push kar do taaki wo apne first greater ka wait kare.
+
+
+
+
+739. Daily Temperatures                                 A+ 
+Ekdum short aur complete summary:
+
+* **Trigger:** "Next warmer day" = Next Greater Element $\rightarrow$ **Monotonic Stack**.
+* **Store:** Stack mein temperatures nahi, sirf **indices** dalo (kyunki output mein din ka gap chahiye).
+* **Order:** Stack hamesha **strictly decreasing** order mein rahega.
+* **Action:** Jaise hi naya temperature stack ke top wale se bada mile:
+* Answer nikalo: `ans[top index] = aaj ka index - top index`.
+* Us element ko stack se **pop** kardo.
+
+
+* **Default Case:** Array shuru se `0` initialized hai. Jo end tak stack mein bachenge (kabhi garmi nahi aayi), unka answer apne aap `0` ho jayega.
+
+
+
+853. Car Fleet                                       B 
+Sawaal padh ke seedha yeh thought process chalni chahiye:
+
+* **Kya "Hit" karna chahiye:** "Catch up" word dekhte hi dimaag mein aana chahiye ki khel position ya speed ka nahi, **"Time to reach target"** ka hai. Formula dimaag mein click karna chahiye
+: $Time = \frac{Target - Position}{Speed}$.
+* **Logic kahan se pakda (Real-life observation):** Traffic mein aage wali car peeche wali ka rasta block karti hai. Peeche wali fast car aage wali slow car ko cross nahi kar sakti.
+* **Starting Point kaise socha:** Kyunki aage wali car boss hai, toh sabse pehle **jo car target ke sabse paas hai** usko dekho. Iska matlab cars ko target ke distance ke hisaab se (position descending) 
+dekhna shuru karna hoga.
+* **The "Aha!" Moment (Fleet banne ki condition):**
+Aage wali car ka target tak pahunchne ka time fix karo. Ab uske theek peeche wali car ko dekho:
+* Agar peeche wali car ko **kam time** lag raha hai $\rightarrow$ Woh definitely aage wali ko catch kar legi $\rightarrow$ **Same Fleet**.
+* Agar peeche wali car ko **zyada time** lag raha hai $\rightarrow$ Woh kabhi catch nahi kar payegi $\rightarrow$ **Nayi Fleet**.
+
+
+
+1776. Car Fleet II                          B 
+Is sawaal ko sochne ka thought process ekdum seedha hai:
+
+* **Direction of Traversal (Right to Left):** Ek car ka takrana sirf uske aage (right) wali cars par depend karta hai. Peeche wali cars usko affect nahi karengi. Isliye array ko peeche se 
+traverse karna logical hai.
+* **Potential Targets (Stack ka use):** Jaise-jaise peeche se aayenge, humein ek record rakhna hoga un cars ka jinse pichli cars takra sakti hain. Iske liye stack best hai.
+* **Speed Filtering (Useless cars hatao):** Agar stack ke top pe aisi car hai jiski speed humari car se zyada ya barabar hai, toh hum use kabhi nahi pakad sakte. Usko stack se nikal (pop) do.
+* **Time Filtering (Ghost cars hatao):** Agar humari car kisi car ko 5 sec mein pakad rahi hai, par wo car pehle hi 3 sec mein kisi aur se takra chuki hai, toh wo exist hi nahi karti (ghost 
+ban chuki hai). Usko bhi pop kar do.
+* **Valid Target:** Jo car in dono conditions ko pass kar le, wahi humara target hai. Time calculate karke answer mein daalo aur apni car ko stack mein push kardo taaki peeche aane wali cars
+ humse takra sakein.
