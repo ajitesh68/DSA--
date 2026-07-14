@@ -1,3 +1,5 @@
+Geek's Training               A+
+
 62. Unique Paths            A+
 INTUITION:-The Dynamic Programming intuition builds the solution by solving for each cell.
         There is only **one** way to reach any cell in the top row (all "right" moves) and **one** way to
@@ -15,7 +17,7 @@ INTUITION:- This problem uses the same Dynamic Programming intuition as the firs
         used this obstacle cell is now nullified. This rule also applies to the first row and column: if an obstacle is hit, 
         all cells after it in that line become $0$ because the single path to them is blocked.
 
-64. Minimum Path Sum        A
+64. Minimum Path Sum        A->A+
 INTUITION:- This problem is solved using Dynamic Programming by finding the minimum path sum to reach *each* cell. 
             The minimum sum to reach the start cell `(0, 0)` is just its own value. For any cell in the first row, the minimum sum
             is a running total from the left, and for the first column, it's a running total from above. For any other cell `(i, j)`,
@@ -23,7 +25,7 @@ INTUITION:- This problem is solved using Dynamic Programming by finding the mini
             Therefore, the minimum sum to reach `(i, j)` is its own value `grid[i][j]` **plus** the **minimum** of the path sums from 
             those two preceding cells. By filling the grid this way, the value in the bottom-right corner will be the overall minimum path sum.
 
-1594. Maximum Non Negative Product in a Matrix           A
+1594. Maximum Non Negative Product in a Matrix           A -> A+
 INTUITION:-A negative number flips the sign, meaning a path with the minimum product (a large negative number) could suddenly become the maximum product
         if it's multiplied by another negative.
         

@@ -15,10 +15,10 @@
 
 
 
-Next Greater Element I                                A+ 
+Next Greater Element I                                A+ -> A+ 
 
 
-503. Next Greater Element II                                            A+ 
+503. Next Greater Element II                                            A+ -> A+
 Iss sawaal ko dekh kar aisi thought process honi chahiye:
 
 * **Keyword Trigger:** "Next Greater Element" padhte hi seedha **Monotonic Stack** dimaag mein aana chahiye.
@@ -30,7 +30,7 @@ jisse $O(N)$ time complexity maintain rahegi.
 
 
 
-2454. Next Greater Element IV                              B 
+2454. Next Greater Element IV                              B -> A+ 
 Bhai, thought process ekdum simple points mein:
 
 * **Do Stacks ka Role:** `s1` mein wo elements hain jinhe apna **first greater** chahiye. `s2` mein wo hain jinhe **second greater** chahiye.
@@ -43,7 +43,7 @@ daalte hain, phir `temp` se `s2` mein. Isse order sahi rehta hai.
 
 
 
-739. Daily Temperatures                                 A+ 
+739. Daily Temperatures                                 A+ -> A+
 Ekdum short aur complete summary:
 
 * **Trigger:** "Next warmer day" = Next Greater Element $\rightarrow$ **Monotonic Stack**.
@@ -58,7 +58,7 @@ Ekdum short aur complete summary:
 
 
 
-853. Car Fleet                                       B 
+853. Car Fleet                                       B -> A+ 
 Sawaal padh ke seedha yeh thought process chalni chahiye:
 
 * **Kya "Hit" karna chahiye:** "Catch up" word dekhte hi dimaag mein aana chahiye ki khel position ya speed ka nahi, **"Time to reach target"** ka hai. Formula dimaag mein click karna chahiye
@@ -84,3 +84,8 @@ traverse karna logical hai.
 ban chuki hai). Usko bhi pop kar do.
 * **Valid Target:** Jo car in dono conditions ko pass kar le, wahi humara target hai. Time calculate karke answer mein daalo aur apni car ko stack mein push kardo taaki peeche aane wali cars
  humse takra sakein.
+
+
+
+
+132 Pattern              B  

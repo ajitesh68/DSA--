@@ -310,3 +310,13 @@ Boyer-Moore algorithm mein hum array ke elements ko ek-doosre ke saath cancel ou
 Count 0 hone par current element naya candidate ban jata hai, aur kyunki majority element n / 2  se zyada baar aata hai, sab cancel hone ke baad bhi aakhiri 
 mein wahi bachta hai.
 
+
+
+229. Majority Element II           B 
+   boyer moore approach
+
+
+
+
+2150. Find All Lonely Numbers in the Array     A+ 
+

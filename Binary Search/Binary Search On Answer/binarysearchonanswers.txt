@@ -35,3 +35,51 @@ Formula: $\lfloor\sqrt{\text{mid} / \text{rank}}\rfloor$.
 * **Condition Check:** Saare mechanics ki banayi hui cars ko add karo.
 * Agar total $\ge$ target `cars` hai: Answer mil gaya, par hume *minimum* chahiye, toh left mein aur chota time dhundho (`high = mid - 1`).
 * Agar total $<$ target `cars` hai: Time kam pad gaya, right mein jaakar time badhao (`low = mid + 1`).
+
+
+
+
+
+1898. Maximum Number of Removable Characters                    A+ 
+Aise sawaal solve karte waqt yeh 4 steps mein socha karo:
+
+* **Range (Search Space) decide karo:** Socho answer kahan se kahan tak ho sakta hai. Yahan minimum 0 remove ho sakte hain aur maximum `removable.length`. Toh answer `0` se `length` ke beech hi hoga.
+* **Pattern (Monotonicity) dhundho:** Sabse zaroori step! Socho ki agar tum 3 character safely hata sakte ho, toh 1 ya 2 bhi hata paoge. Agar 4 hatane par invalid ho jata hai, toh 5 ya 6 par bhi invalid hi
+ hoga.
+* **Binary Search ka Hint pakdo:** Kyunki pattern hamesha `True, True, True, False, False` jaisa ban raha hai, iska matlab yahan Binary Search lag sakta hai. Line se (1, 2, 3...) check karna time waste hai.
+* **Ek simple Checker banao:** Ek logic socho jo sirf yeh bataye ki agar `mid` elements hata diye, toh baaki string valid hai ya nahi (jaise 2-pointer).
+
+**Rule of thumb:** Jab bhi answer ek range mein ho aur `True/False` ka pattern ek point ke baad change ho raha ho, toh "Binary Search on Answer" lagana hai.
+
+
+
+475. Heaters                                                     A 
+Is problem ko sochne ki direction aur thought process yeh honi chahiye:
+
+* **1. Pattern Recognition (Binary Search):** Jab bhi sawaal mein "Minimum of Maximum" ya "Minimum valid value" nikalna ho, aur condition monotonic ho (agar $R$ true hai toh $R+1$ bhi true hoga), 
+toh dimaag mein sabse pehle **Binary Search on Answer** aana chahiye.
+* **2. Search Space Setup:** Radius minimum 0 ho sakta hai (agar house aur heater same jagah hon) aur maximum $10^9$ (constraints ke hisaab se max distance). Yeh apka `low` aur `high` banega.
+* **3. Validation Function Logic:** Ab ek arbitrary radius (mid) ko check karne ka logic sochna hai. "Kya is radius se saare houses cover honge?" Yeh check karne ke liye dono arrays ka order mein 
+hona zaroori hai, isliye **Sorting** karni padegi.
+* **4. Optimization (Two Pointers):** Sorting ke baad $O(N^2)$ lagane ki jagah **Two Pointers** socho. Ek pointer house pe (`i`) aur ek heater pe (`j`).
+* **5. Relative Positioning (Pointer Movement):** Sirf 3 cases bante hain:
+* **Coverage:** House range mein hai -> `i++` (agla house dekho).
+* **Heater peeche reh gaya:** House right mein hai -> `j++` (agla heater dekho).
+* **House peeche chhoot gaya:** House left mein hai -> Yahan catch pakadna hai ki ab yeh house aage ke heaters se kabhi cover nahi ho sakta, toh direct `false` return karo.
+
+
+3048. Earliest Second to Mark Indices I
+Is sawaal ko sochne ka simple aur straightforward thought process yeh hona chahiye:
+
+* **1. Catch the Keyword ("Earliest/Minimum"):** Jab bhi "Minimum time" nikalna ho aur condition continuous ho (agar 8 sec mein possible hai, toh 9 sec mein bhi hoga), wahan sidha **Binary Search on 
+Answer** socho. (Search space: `1` se `changeIndices.size()`).
+* **2. The Greedy Strategy (Sabse late mark karo):** Kisi bhi index ko kab mark karna sabse sahi rahega? **Last possible second par (Last Occurrence)**. Kyunki agar usey aakhiri mauke par mark karenge,
+ toh usse pehle ke saare seconds humein values kam (decrement) karne ke liye free mil jayenge.
+* **3. Simulation (Free Time Tracking):** Ab check karna hai ki kya `mid` seconds mein kaam hoga:
+* 1 se `mid` tak chalo.
+* Agar aaj kisi element ka aakhiri din **nahi** hai -> Toh yeh humara **Free Time** hai. Count badha lo.
+* Agar aaj aakhiri din **hai** -> Toh check karo kya pichle ikattha kiye hue free time se iski value ko `0` kiya ja sakta hai? Agar haan, toh free time kam kardo aur mark kardo. Agar free time kam pad gaya, 
+toh seedha `false` return kardo.
+
+
+* **4. Edge Case (Missing Index):** Agar diye gaye `mid` seconds mein koi index ek baar bhi array mein nahi aaya, toh woh mark ho hi nahi sakta, wahan direct `false` return karna hai.

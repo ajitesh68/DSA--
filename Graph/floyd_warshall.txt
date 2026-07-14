@@ -1,0 +1,22 @@
+Shortest Routes II                       B 
+
+
+
+
+
+1462. Course Schedule IV 
+TOPOLOGICAL SORT               A
+FLOYD WARSHALL                 A+
+
+1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance           A+ 
+
+
+3015. Count the Number of Houses at a Certain Distance I                     
+BFS                        A 
+FLOYD WARSHALL             A+
+
+
+Minimum Cost to Convert String I                                   
+Dijikstra                  B
+FLOYD WARSHALL             A+
+

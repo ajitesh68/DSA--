@@ -44,3 +44,10 @@ makes "right" become "down," you first simulate gravity by using a two-pointer t
 of each row, treating obstacles (*) as reset points for your "empty slot" pointer (k). Once stones are settled, you simply copy 
 the grid into a new matrix using the standard rotation formula (newGrid[j][m-1-i] = boxGrid[i][j]) to flip the rows into 
 columns.
+
+
+
+
+Subrectangle Queries                     A 
+upar waali cheez mein kya hoga constructor mein woh nhi samajh paya 
+

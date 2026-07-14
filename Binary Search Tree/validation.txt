@@ -1,0 +1,65 @@
+501. Find Mode in Binary Search Tree                        B 
+Aise problems ko dekh kar direction pakadne ka thought process bilkul straightforward hai:
+
+* **Key "BST" pakdo:** BST (Binary Search Tree) ka naam sunte hi sabse pehla thought **In-order Traversal** aana chahiye, kyunki ye data ko hamesha **sorted order** mein deta hai.
+* **Key "Frequency/Mode" pakdo:** Sorted data ka sabse bada fayda hai ki saare duplicates hamesha **ek saath (adjacent)** aayenge (jaise `1, 1, 2, 2, 3`).
+* **Key "Space Optimization" pakdo:** Jab pata hai ki same elements ek ke baad ek aayenge, toh poora Frequency Map (Hashmap) banane ki zaroorat hi nahi hai.
+* **Final Action:** Map hatane ke liye sirf ek `prevVal` variable track karo. Agar naya node `prevVal` jaisa hai toh count badhao, warna count reset karke nayi value ka count shuru kardo. 
+Saath mein `maxCount` update karte raho.
+
+
+938. Range Sum of BST                  A+ 
+Is problem (Range Sum of BST) ke liye thought process ekdum simple aur conditions par based hai:
+
+* **Key "BST Property" pakdo:** BST ka rule (Left < Root < Right) use karke humein poora tree traverse karne ki zaroorat nahi hai. Hum unnecessary branches ko skip kar sakte hain.
+* **Condition 1 (Too Small):** Agar `root->val < low`, toh iska matlab left subtree ki saari values aur bhi chhoti hongi. Isliye left side jaana bekaar hai, sirf **Right** side jao.
+* **Condition 2 (Too Big):** Agar `root->val > high`, toh iska matlab right subtree ki saari values aur bhi badi hongi. Isliye right side jaana bekaar hai, sirf **Left** side jao.
+* **Condition 3 (In Range):** Agar `root->val` dono ke beech mein hai (`low <= val <= high`), tab humein iski value ko sum mein add karna hai aur aur aage ki valid values dhoondhne ke liye
+ **Left aur Right dono** 
+side jana hai.
+
+
+
+98. Validate Binary Search Tree                              A          
+Is problem (Validate Binary Search Tree) ke liye thought process aisi honi chahiye:
+* **Key "Deep Validation" pakdo:** Sirf immediate parent aur child ko compare karna kaafi nahi hai. Ek node ko apne saare ancestors (grandparents) ke strict rules follow karne padte hain.
+* **Key "Min/Max Boundary" pakdo:** Har node ki ek valid range (threshold) hoti hai. Left side jate waqt maximum limit (upper bound) update hoti hai, aur right side jate waqt minimum limit 
+(lower bound) update hoti hai.
+* **Key "Top-Down Approach" pakdo:** Root se shuru karo infinity limits ke saath `(LLONG_MIN, LLONG_MAX)`. Har naye level par limits ko tight karte jao aur check karo ki current node apni
+ designated range ke beech mein hai ya nahi.
+* **Key "Data Type Edge Case" pakdo:** Problem ke constraints mein values extreme ho sakti hain ($-2^{31}$ se $2^{31} - 1$). Isliye threshold variables ko hamesha `long long` lo, warna `int`
+ ki limits exact node values ke saath clash kar jayengi aur test cases fail honge.
+
+
+783. Minimum Distance Between BST Nodes                          A+ 
+* **Key "BST" pakdo:** BST dekhte hi **In-order Traversal** dimaag mein aana chahiye kyunki ye tree ko ek sorted (ascending) list mein convert kar deta hai.
+* **Key "Minimum Difference" pakdo:** Kisi bhi sorted sequence mein, minimum difference hamesha do lagataar (adjacent) elements ke beech hi hota hai. Door ke elements ka difference hamesha bada hoga.
+* **Key "Space Optimization" pakdo:** Array banakar O(N) space waste karne ki zaroorat nahi hai. Sirf ek `prev` variable track karo jo pichli visited node ki value yaad rakhe.
+* **Final Action:** In-order traverse karo. Jab bhi nayi node par aao, uski value aur `prev` ka difference nikalo. Agar ye difference pichle `mini` se chhota hai, toh `mini` ko update kar do. Phir aage 
+badhne se pehle `prev = root->val` set kar do.
+
+230. Kth Smallest Element in a BST                        A+ 
+Aisi problem ko approach karne ka thought process yeh hona chahiye:
+
+* **Keyword pakdo:** Question mein "BST" aur "Smallest/Largest" dekhte hi sabse pehle **Inorder Traversal** dimaag mein aana chahiye. (Kyunki BST ka inorder hamesha elements ko sorted ascending order mein 
+deta hai).
+* **Basic Structure:** Inorder ka skeleton socho: `Left -> Node process -> Right`.
+* **Track the target:** Humein k-th value chahiye, toh ek `count` variable chahiye jo track kare ki ab tak kitne nodes visit ho chuke hain.
+* **Condition lagao:** Node processing waali jagah par `count++` karo.
+* **Answer catch karo:** Check karo `if (count == k)`. Agar true hai, toh wahi current node tumhara answer hai, usko store karke return kardo.
+
+
+897. Increasing Order Search Tree                  B 
+Is problem ([Increasing Order Search Tree](https://leetcode.com/problems/increasing-order-search-tree/description/)) ke liye thought process aisi honi chahiye:
+
+* **Key "Increasing Order" pakdo:** BST ko chote se bade (ascending) order mein arrange karna hai, iska seedha matlab hai **In-order Traversal** (Left $\rightarrow$ Root $\rightarrow$ Right) 
+lagana hai.
+* **Key "Right-Skewed / Flatten" pakdo:** Har node ka sirf right child hona chahiye aur left child null. Iska matlab humein essentially tree ko traverse karte hue ek "linked list" mein badalna 
+hai.
+* **Key "Dummy Node" pakdo:** Naye rearranged tree ki starting (root) node ko safely track karne ke liye ek `dummy` node banana sabse aasan approach hai. Ek `curr` pointer rakho jo hamesha 
+naye tree ki aakhri node par khada ho.
+* **Final Action:** In-order traversal chalao. Jab bhi root/node process hone aaye:
+1. Us node ko `curr->right` par attach kar do.
+2. Us node ka `left` pointer `nullptr` kar do (bohot zaroori hai, warna infinite cycle ban jayegi).
+3. `curr` pointer ko aage badha do (`curr = node`).
+Last mein `dummy->right` return kar do, yahi aapke naye tree ki actual root hogi.
